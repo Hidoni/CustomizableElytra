@@ -11,7 +11,7 @@ loaderVersion="[35,)" #mandatory This is typically bumped every Minecraft versio
 # Review your options at https://choosealicense.com/. All rights reserved is the default copyright stance, and is thus the default here.
 license="All rights reserved"
 # A URL to refer people to when problems occur with this mod
-issueTrackerURL="http://my.issue.tracker/" #optional
+issueTrackerURL="https://github.com/Hidoni/CustomizableElytra/issues" #optional
 # A list of mods - how many allowed here is determined by the individual mod loader
 [[mods]] #mandatory
 # The modid of the mod
@@ -48,3 +48,8 @@ Allows elytra to be dyed like leather armor and have banners placed on them like
     versionRange="[1.16.4,1.17)"
     ordering="NONE"
     side="BOTH"
+[[dependencies.customizableelytra]]
+    modId="caelus"
+    mandatory=false
+    ordering="AFTER"
+    side="CLIENT"

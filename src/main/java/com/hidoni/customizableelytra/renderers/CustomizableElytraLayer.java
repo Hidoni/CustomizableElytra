@@ -17,7 +17,6 @@ import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.RenderMaterial;
 import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerModelPart;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -46,9 +45,9 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
     public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch)
     {
         ItemStack elytra = entitylivingbaseIn.getItemStackFromSlot(EquipmentSlotType.CHEST);
-        CompoundNBT blockEntityTag = elytra.getChildTag("BlockEntityTag");
         if (shouldRender(elytra, entitylivingbaseIn))
         {
+            CompoundNBT blockEntityTag = elytra.getChildTag("BlockEntityTag");
             if (blockEntityTag == null)
             {
                 renderDyed(matrixStackIn, bufferIn, packedLightIn, entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, elytra);
@@ -56,6 +55,22 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
             else
             {
                 renderBanner(matrixStackIn, bufferIn, packedLightIn, entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, elytra);
+            }
+        }
+        else if (CustomizableElytra.caelusLoaded)
+        {
+            elytra = getColytraSubItem(elytra, entitylivingbaseIn);
+            if (elytra != ItemStack.EMPTY)
+            {
+                CompoundNBT blockEntityTag = elytra.getChildTag("BlockEntityTag");
+                if (blockEntityTag == null)
+                {
+                    renderDyed(matrixStackIn, bufferIn, packedLightIn, entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, elytra);
+                }
+                else
+                {
+                    renderBanner(matrixStackIn, bufferIn, packedLightIn, entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, elytra);
+                }
             }
         }
     }
@@ -151,5 +166,19 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
             return colorOut;
         }
         return null;
+    }
+
+    public ItemStack getColytraSubItem(ItemStack stack, LivingEntity entity)
+    {
+        CompoundNBT colytraChestTag = stack.getChildTag("colytra:ElytraUpgrade");
+        if (colytraChestTag != null)
+        {
+            ItemStack elytraStack = ItemStack.read(colytraChestTag);
+            if (elytraStack.getItem() == ModItems.CUSTOMIZABLE_ELYTRA.get())
+            {
+                return elytraStack;
+            }
+        }
+        return ItemStack.EMPTY;
     }
 }
