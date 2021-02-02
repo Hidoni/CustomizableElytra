@@ -14,6 +14,7 @@ import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import javax.annotation.Nullable;
@@ -27,10 +28,6 @@ public class ClientEventHandler
         playerRenderer.addLayer(new CustomizableElytraLayer<>(playerRenderer));
         playerRenderer = minecraft.getRenderManager().getSkinMap().get("default");
         playerRenderer.addLayer(new CustomizableElytraLayer<>(playerRenderer));
-        ArmorStandEntity armorStandEntity = EntityType.ARMOR_STAND.create(Minecraft.getInstance().world);
-        LivingRenderer livingRenderer = (LivingRenderer) minecraft.getRenderManager().getRenderer(armorStandEntity);
-        livingRenderer.addLayer(new CustomizableElytraLayer<>(livingRenderer));
-        armorStandEntity.remove();
 
         ItemModelsProperties.registerProperty(ModItems.CUSTOMIZABLE_ELYTRA.get(), new ResourceLocation("broken_elytra"), new IItemPropertyGetter()
         {

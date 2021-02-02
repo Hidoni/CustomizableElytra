@@ -3,6 +3,7 @@ package com.hidoni.customizableelytra;
 import com.hidoni.customizableelytra.config.Config;
 import com.hidoni.customizableelytra.events.ClientEventHandler;
 import com.hidoni.customizableelytra.events.ElytraRenderHandler;
+import com.hidoni.customizableelytra.events.EntityConstructingHandler;
 import com.hidoni.customizableelytra.setup.Registration;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModList;
@@ -34,5 +35,6 @@ public class CustomizableElytra
             caelusLoaded = true;
             MinecraftForge.EVENT_BUS.register(new ElytraRenderHandler());
         }
+        MinecraftForge.EVENT_BUS.register(new EntityConstructingHandler());
     }
 }
