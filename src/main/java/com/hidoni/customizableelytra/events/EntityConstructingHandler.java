@@ -13,15 +13,17 @@ import net.minecraftforge.fml.common.Mod;
 
 public class EntityConstructingHandler
 {
+    private static boolean addedYet = false;
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public static void onEntityConstruct(EntityEvent.EntityConstructing event)
+    public void onEntityConstruct(EntityEvent.EntityConstructing event)
     {
-        if (event.getEntity() instanceof ArmorStandEntity) // Add custom elytra to armor stands.
+        if (!addedYet && event.getEntity() instanceof ArmorStandEntity) // Add custom elytra to armor stands.
         {
             ArmorStandEntity entity = (ArmorStandEntity) event.getEntity();
             ArmorStandRenderer renderer = (ArmorStandRenderer) Minecraft.getInstance().getRenderManager().getRenderer(entity);
             renderer.addLayer(new CustomizableElytraLayer<>(renderer));
+            addedYet = true;
         }
     }
 }

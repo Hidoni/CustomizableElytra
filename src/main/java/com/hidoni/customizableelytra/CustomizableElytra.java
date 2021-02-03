@@ -8,6 +8,7 @@ import com.hidoni.customizableelytra.setup.Registration;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,11 +21,11 @@ public class CustomizableElytra
     public static final Logger LOGGER = LogManager.getLogger();
     public static boolean caelusLoaded = false;
 
-    public CustomizableElytra() {
+    public CustomizableElytra()
+    {
         Registration.register();
 
-        // Register the doClientStuff method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(ClientEventHandler::handleClientLoading);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientLoadingEvent);
 
         Config.init();
 
@@ -36,5 +37,11 @@ public class CustomizableElytra
             MinecraftForge.EVENT_BUS.register(new ElytraRenderHandler());
         }
         MinecraftForge.EVENT_BUS.register(new EntityConstructingHandler());
+
+    }
+
+    private void clientLoadingEvent(final FMLClientSetupEvent event)
+    {
+        ClientEventHandler.handleClientLoading(event);
     }
 }
