@@ -37,6 +37,7 @@ minecraft {
     runs {
         client {
             workingDirectory project.file('run')
+            jvmArg "-Dmixin.env.disableRefMap=true"
 
             // Recommended logging data for a userdev environment
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
@@ -53,6 +54,7 @@ minecraft {
 
         server {
             workingDirectory project.file('run')
+            jvmArg "-Dmixin.env.disableRefMap=true"
 
             // Recommended logging data for a userdev environment
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
@@ -69,6 +71,7 @@ minecraft {
 
         data {
             workingDirectory project.file('run')
+            jvmArg "-Dmixin.env.disableRefMap=true"
 
             // Recommended logging data for a userdev environment
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
@@ -158,6 +161,6 @@ repositories {
 }
 
 dependencies {
-    //runtimeOnly fg.deobf("top.theillusivec4.caelus:caelus-forge:${caelus_version}")
+    runtimeOnly fg.deobf("top.theillusivec4.caelus:caelus-forge:${caelus_version}")
     compileOnly fg.deobf("top.theillusivec4.caelus:caelus-forge:${caelus_version}:api")
 }

@@ -26,6 +26,9 @@ public class DataGenerators
         generator.addProvider(new ModItemModelProvider(generator, fileHelper));
         generator.addProvider(new ModLanguageProvider(generator));
         generator.addProvider(new ModRecipeProvider(generator));
+        ModBlockTagsProvider modBlockTagsProvider = new ModBlockTagsProvider(generator, fileHelper); // Dummy for Item Tag Provider
+        generator.addProvider(modBlockTagsProvider);
+        generator.addProvider(new ModItemTagsProvider(generator, modBlockTagsProvider, fileHelper));
         CustomizableElytra.LOGGER.info("Finished Data Generation Registration!");
     }
 }
