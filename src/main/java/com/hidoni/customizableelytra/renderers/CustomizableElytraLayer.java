@@ -27,9 +27,12 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.BannerPattern;
 import net.minecraft.tileentity.BannerTileEntity;
 import net.minecraft.util.ResourceLocation;
+import org.apache.commons.lang3.tuple.ImmutableTriple;
+import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityModel<T>> extends ElytraLayer<T, M>
 {
@@ -59,7 +62,7 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
         }
         else if (CustomizableElytra.caelusLoaded)
         {
-            elytra = getColytraSubItem(elytra, entitylivingbaseIn);
+            elytra = getColytraSubItem(elytra);
             if (elytra != ItemStack.EMPTY)
             {
                 CompoundNBT blockEntityTag = elytra.getChildTag("BlockEntityTag");
@@ -70,6 +73,22 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
                 else
                 {
                     renderBanner(matrixStackIn, bufferIn, packedLightIn, entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, elytra);
+                }
+            }
+            else if (CustomizableElytra.curiosLoaded)
+            {
+                elytra = getCurioElytra(entitylivingbaseIn);
+                if (elytra != ItemStack.EMPTY)
+                {
+                    CompoundNBT blockEntityTag = elytra.getChildTag("BlockEntityTag");
+                    if (blockEntityTag == null)
+                    {
+                        renderDyed(matrixStackIn, bufferIn, packedLightIn, entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, elytra);
+                    }
+                    else
+                    {
+                        renderBanner(matrixStackIn, bufferIn, packedLightIn, entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, elytra);
+                    }
                 }
             }
         }
@@ -168,7 +187,7 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
         return null;
     }
 
-    public ItemStack getColytraSubItem(ItemStack stack, LivingEntity entity)
+    public ItemStack getColytraSubItem(ItemStack stack)
     {
         CompoundNBT colytraChestTag = stack.getChildTag("colytra:ElytraUpgrade");
         if (colytraChestTag != null)
@@ -178,6 +197,16 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
             {
                 return elytraStack;
             }
+        }
+        return ItemStack.EMPTY;
+    }
+
+    public ItemStack getCurioElytra(LivingEntity entity)
+    {
+        Optional<ImmutableTriple<String, Integer, ItemStack>> curio = CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.CUSTOMIZABLE_ELYTRA.get(), entity);
+        if (curio.isPresent())
+        {
+            return curio.get().getRight();
         }
         return ItemStack.EMPTY;
     }

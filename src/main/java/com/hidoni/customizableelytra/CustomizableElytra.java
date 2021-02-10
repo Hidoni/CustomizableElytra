@@ -20,6 +20,7 @@ public class CustomizableElytra
     // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger();
     public static boolean caelusLoaded = false;
+    public static boolean curiosLoaded = false;
 
     public CustomizableElytra()
     {
@@ -36,6 +37,7 @@ public class CustomizableElytra
             caelusLoaded = true;
             MinecraftForge.EVENT_BUS.register(new ElytraRenderHandler());
         }
+        curiosLoaded = ModList.get().isLoaded("curios");
         MinecraftForge.EVENT_BUS.register(new EntityConstructingHandler());
 
     }

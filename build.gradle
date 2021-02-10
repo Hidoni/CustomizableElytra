@@ -17,6 +17,7 @@ version = '1.0.2'
 group = 'com.hidoni.customizableelytra' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'customizableelytra'
 def caelus_version = '1.16.5-2.1.2.2'
+def curios_version = '1.16.5-4.0.4.0'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
@@ -158,9 +159,17 @@ repositories {
     maven {
         url = "https://maven.theillusivec4.top"
     }
+
+    maven {
+        name = "CurseMaven"
+        url = "https://www.cursemaven.com"
+    }
 }
 
 dependencies {
     runtimeOnly fg.deobf("top.theillusivec4.caelus:caelus-forge:${caelus_version}")
     compileOnly fg.deobf("top.theillusivec4.caelus:caelus-forge:${caelus_version}:api")
+
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
+    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}:api")
 }

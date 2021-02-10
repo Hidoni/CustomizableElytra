@@ -7,9 +7,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.apache.commons.lang3.tuple.ImmutableTriple;
+import top.theillusivec4.caelus.api.CaelusApi;
 import top.theillusivec4.caelus.api.RenderElytraEvent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.common.Mod;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.type.capability.ICurio;
+
+import java.util.Optional;
 
 public class ElytraRenderHandler
 {
@@ -27,6 +33,14 @@ public class ElytraRenderHandler
                 if (elytraStack.getItem() == ModItems.CUSTOMIZABLE_ELYTRA.get())
                 {
                     event.setRender(false); // disable the rendering set by Colytra, custom layer will handle it from here.
+                }
+            }
+            else if (CustomizableElytra.curiosLoaded)
+            {
+                Optional<ImmutableTriple<String, Integer, ItemStack>> curio = CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.CUSTOMIZABLE_ELYTRA.get(), event.getPlayer());
+                if (curio.isPresent())
+                {
+                    event.setRender(false);
                 }
             }
         }
