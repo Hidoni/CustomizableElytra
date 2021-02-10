@@ -20,7 +20,7 @@ build
 # other
 eclipse
 run
-src/generated/
+src/generated/resources/.cache/
 logs/
 
 # Files from Forge MDK

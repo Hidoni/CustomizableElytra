@@ -1,0 +1,11 @@
+{
+  "parent": "minecraft:item/elytra",
+  "overrides": [
+    {
+      "predicate": {
+        "minecraft:broken_elytra": 1.0
+      },
+      "model": "minecraft:item/broken_elytra"
+    }
+  ]
+}
