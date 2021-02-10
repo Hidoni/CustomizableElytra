@@ -27,17 +27,24 @@ public class ElytraDyeRecipe extends SpecialRecipe
         ItemStack elytraItem = ItemStack.EMPTY;
         List<ItemStack> list = Lists.newArrayList();
 
-        for(int i = 0; i < inv.getSizeInventory(); ++i) {
+        for (int i = 0; i < inv.getSizeInventory(); ++i)
+        {
             ItemStack inventoryItem = inv.getStackInSlot(i);
-            if (!inventoryItem.isEmpty()) {
-                if (inventoryItem.getItem() == Items.ELYTRA) {
-                    if (!elytraItem.isEmpty()) {
+            if (!inventoryItem.isEmpty())
+            {
+                if (inventoryItem.getItem() == Items.ELYTRA)
+                {
+                    if (!elytraItem.isEmpty())
+                    {
                         return false;
                     }
 
                     elytraItem = inventoryItem;
-                } else {
-                    if (!(inventoryItem.getItem() instanceof DyeItem)) {
+                }
+                else
+                {
+                    if (!(inventoryItem.getItem() instanceof DyeItem))
+                    {
                         return false;
                     }
 
@@ -55,22 +62,29 @@ public class ElytraDyeRecipe extends SpecialRecipe
         List<DyeItem> list = Lists.newArrayList();
         ItemStack elytraItem = ItemStack.EMPTY;
 
-        for(int i = 0; i < inv.getSizeInventory(); ++i) {
+        for (int i = 0; i < inv.getSizeInventory(); ++i)
+        {
             ItemStack inventoryItem = inv.getStackInSlot(i);
-            if (!inventoryItem.isEmpty()) {
+            if (!inventoryItem.isEmpty())
+            {
                 Item item = inventoryItem.getItem();
-                if (item == Items.ELYTRA) {
-                    if (!elytraItem.isEmpty()) {
+                if (item == Items.ELYTRA)
+                {
+                    if (!elytraItem.isEmpty())
+                    {
                         return ItemStack.EMPTY;
                     }
 
                     elytraItem = inventoryItem.copy();
-                } else {
-                    if (!(item instanceof DyeItem)) {
+                }
+                else
+                {
+                    if (!(item instanceof DyeItem))
+                    {
                         return ItemStack.EMPTY;
                     }
 
-                    list.add((DyeItem)item);
+                    list.add((DyeItem) item);
                 }
             }
         }

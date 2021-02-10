@@ -8,12 +8,8 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
-import top.theillusivec4.caelus.api.CaelusApi;
 import top.theillusivec4.caelus.api.RenderElytraEvent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.common.Mod;
 import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.type.capability.ICurio;
 
 import java.util.Optional;
 

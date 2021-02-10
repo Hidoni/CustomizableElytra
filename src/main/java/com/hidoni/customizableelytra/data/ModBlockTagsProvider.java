@@ -16,5 +16,6 @@ public class ModBlockTagsProvider extends BlockTagsProvider
 
     @Override
     protected void registerTags()
-    {}
+    {
+    }
 }

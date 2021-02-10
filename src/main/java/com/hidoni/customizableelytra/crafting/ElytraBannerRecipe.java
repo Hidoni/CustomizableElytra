@@ -28,25 +28,34 @@ public class ElytraBannerRecipe extends SpecialRecipe
         ItemStack elytraItem = ItemStack.EMPTY;
         ItemStack bannerItem = ItemStack.EMPTY;
 
-        for(int i = 0; i < inv.getSizeInventory(); ++i) {
+        for (int i = 0; i < inv.getSizeInventory(); ++i)
+        {
             ItemStack inventoryItem = inv.getStackInSlot(i);
-            if (!inventoryItem.isEmpty()) {
-                if (inventoryItem.getItem() instanceof BannerItem) {
-                    if (!bannerItem.isEmpty()) {
+            if (!inventoryItem.isEmpty())
+            {
+                if (inventoryItem.getItem() instanceof BannerItem)
+                {
+                    if (!bannerItem.isEmpty())
+                    {
                         return false;
                     }
 
                     bannerItem = inventoryItem;
-                } else {
-                    if (inventoryItem.getItem() != Items.ELYTRA && inventoryItem.getItem() != ModItems.CUSTOMIZABLE_ELYTRA.get()) {
+                }
+                else
+                {
+                    if (inventoryItem.getItem() != Items.ELYTRA && inventoryItem.getItem() != ModItems.CUSTOMIZABLE_ELYTRA.get())
+                    {
                         return false;
                     }
 
-                    if (!elytraItem.isEmpty()) {
+                    if (!elytraItem.isEmpty())
+                    {
                         return false;
                     }
 
-                    if (inventoryItem.getChildTag("BlockEntityTag") != null) {
+                    if (inventoryItem.getChildTag("BlockEntityTag") != null)
+                    {
                         return false;
                     }
 
@@ -64,12 +73,17 @@ public class ElytraBannerRecipe extends SpecialRecipe
         ItemStack bannerItem = ItemStack.EMPTY;
         ItemStack elytraItem = ItemStack.EMPTY;
 
-        for(int i = 0; i < inv.getSizeInventory(); ++i) {
+        for (int i = 0; i < inv.getSizeInventory(); ++i)
+        {
             ItemStack inventoryItem = inv.getStackInSlot(i);
-            if (!inventoryItem.isEmpty()) {
-                if (inventoryItem.getItem() instanceof BannerItem) {
+            if (!inventoryItem.isEmpty())
+            {
+                if (inventoryItem.getItem() instanceof BannerItem)
+                {
                     bannerItem = inventoryItem;
-                } else if (inventoryItem.getItem() == Items.ELYTRA) {
+                }
+                else if (inventoryItem.getItem() == Items.ELYTRA)
+                {
                     ItemStack customizableElytraItem = new ItemStack(ModItems.CUSTOMIZABLE_ELYTRA.get(), inventoryItem.getCount());
                     EnchantmentHelper.setEnchantments(EnchantmentHelper.getEnchantments(inventoryItem), customizableElytraItem);
                     if (!inventoryItem.getDisplayName().equals(new TranslationTextComponent(Items.ELYTRA.getTranslationKey())))
