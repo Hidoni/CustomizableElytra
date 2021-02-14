@@ -15,6 +15,6 @@ public class ModLanguageProvider extends LanguageProvider
     @Override
     protected void addTranslations()
     {
-        add(ModItems.CUSTOMIZABLE_ELYTRA.get(), "Elytra");
+        // add(ModItems.CUSTOMIZABLE_ELYTRA.get(), "Elytra");
     }
 }

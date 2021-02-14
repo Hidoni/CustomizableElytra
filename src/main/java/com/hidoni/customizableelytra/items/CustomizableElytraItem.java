@@ -79,4 +79,10 @@ public class CustomizableElytraItem extends ElytraItem implements IDyeableArmorI
         }
         return new ResourceLocation(CustomizableElytra.MOD_ID, "entity/elytra_banner/" + bannerIn.getFileName());
     }
+
+    @Override
+    public String getTranslationKey()
+    {
+        return Items.ELYTRA.getTranslationKey();
+    }
 }
