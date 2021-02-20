@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.entity.model.ElytraModel;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.RenderMaterial;
 import net.minecraft.client.renderer.texture.AtlasTexture;
+import net.minecraft.client.renderer.texture.MissingTextureSprite;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerModelPart;
@@ -117,7 +118,10 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
             Pair<BannerPattern, DyeColor> pair = list.get(i);
             float[] afloat = pair.getSecond().getColorComponentValues();
             RenderMaterial rendermaterial = new RenderMaterial(AtlasTexture.LOCATION_BLOCKS_TEXTURE, CustomizableElytraItem.getTextureLocation(pair.getFirst()));
-            this.modelElytra.render(matrixStackIn, rendermaterial.getBuffer(bufferIn, RenderType::getArmorCutoutNoCull), packedLightIn, OverlayTexture.NO_OVERLAY, afloat[0], afloat[1], afloat[2], 1.0F);
+            if (rendermaterial.getSprite().getName() != MissingTextureSprite.getLocation()) // Don't render this banner pattern if it's missing, silently hide the pattern
+            {
+                this.modelElytra.render(matrixStackIn, rendermaterial.getBuffer(bufferIn, RenderType::getArmorCutoutNoCull), packedLightIn, OverlayTexture.NO_OVERLAY, afloat[0], afloat[1], afloat[2], 1.0F);
+            }
         }
         matrixStackIn.pop();
     }
