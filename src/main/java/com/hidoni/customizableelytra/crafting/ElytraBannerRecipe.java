@@ -44,7 +44,7 @@ public class ElytraBannerRecipe extends SpecialRecipe
                 }
                 else
                 {
-                    if (inventoryItem.getItem() != Items.ELYTRA && inventoryItem.getItem() != ModItems.CUSTOMIZABLE_ELYTRA.get())
+                    if (inventoryItem.getItem() != Items.ELYTRA && inventoryItem.getItem() != ModItems.CUSTOMIZABLE_ELYTRA.get() && inventoryItem.getItem() != ModItems.ELYTRA_WING.get())
                     {
                         return false;
                     }
@@ -84,7 +84,7 @@ public class ElytraBannerRecipe extends SpecialRecipe
                 }
                 else if (inventoryItem.getItem() == Items.ELYTRA)
                 {
-                    ItemStack customizableElytraItem = new ItemStack(ModItems.CUSTOMIZABLE_ELYTRA.get(), inventoryItem.getCount());
+                    ItemStack customizableElytraItem = new ItemStack(ModItems.CUSTOMIZABLE_ELYTRA.get());
                     EnchantmentHelper.setEnchantments(EnchantmentHelper.getEnchantments(inventoryItem), customizableElytraItem);
                     if (!inventoryItem.getDisplayName().equals(new TranslationTextComponent(Items.ELYTRA.getTranslationKey())))
                     {
@@ -94,9 +94,10 @@ public class ElytraBannerRecipe extends SpecialRecipe
                     customizableElytraItem.setRepairCost(inventoryItem.getRepairCost());
                     elytraItem = customizableElytraItem;
                 }
-                else if (inventoryItem.getItem() == ModItems.CUSTOMIZABLE_ELYTRA.get())
+                else if (inventoryItem.getItem() == ModItems.CUSTOMIZABLE_ELYTRA.get() || inventoryItem.getItem() == ModItems.ELYTRA_WING.get())
                 {
                     elytraItem = inventoryItem.copy();
+                    elytraItem.setCount(1);
                 }
             }
         }

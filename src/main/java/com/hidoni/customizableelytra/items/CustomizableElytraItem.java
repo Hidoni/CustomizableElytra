@@ -6,9 +6,12 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.tileentity.BannerPattern;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -18,6 +21,10 @@ import java.util.List;
 
 public class CustomizableElytraItem extends ElytraItem implements IDyeableArmorItem
 {
+
+    public final static String LEFT_WING_TRANSLATION_KEY = "item.customizable_elytra.left_wing";
+    public final static String RIGHT_WING_TRANSLATION_KEY = "item.customizable_elytra.right_wing";
+
     public CustomizableElytraItem(Properties builder)
     {
         super(builder);
@@ -68,6 +75,22 @@ public class CustomizableElytraItem extends ElytraItem implements IDyeableArmorI
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn)
     {
         BannerItem.appendHoverTextFromTileEntityTag(stack, tooltip);
+        CompoundNBT wingInfo = stack.getChildTag("WingInfo");
+        if (wingInfo != null)
+        {
+            if (wingInfo.contains("left"))
+            {
+                tooltip.add(new TranslationTextComponent(LEFT_WING_TRANSLATION_KEY).mergeStyle(TextFormatting.GRAY));
+                CompoundNBT leftWing = wingInfo.getCompound("left");
+                applyWingTooltip(tooltip, flagIn, leftWing);
+            }
+            if (wingInfo.contains("right"))
+            {
+                tooltip.add(new TranslationTextComponent(RIGHT_WING_TRANSLATION_KEY).mergeStyle(TextFormatting.GRAY));
+                CompoundNBT leftWing = wingInfo.getCompound("right");
+                applyWingTooltip(tooltip, flagIn, leftWing);
+            }
+        }
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -84,5 +107,35 @@ public class CustomizableElytraItem extends ElytraItem implements IDyeableArmorI
     public String getTranslationKey()
     {
         return Items.ELYTRA.getTranslationKey();
+    }
+
+    private void applyWingTooltip(List<ITextComponent> tooltip, ITooltipFlag flagIn, CompoundNBT wingIn)
+    {
+        if (wingIn.contains("color"))
+        {
+            if (flagIn.isAdvanced())
+            {
+                tooltip.add((new TranslationTextComponent("item.color", String.format("#%06X", wingIn.getInt("color")))).mergeStyle(TextFormatting.GRAY));
+            }
+            else
+            {
+                tooltip.add((new TranslationTextComponent("item.dyed")).mergeStyle(TextFormatting.GRAY, TextFormatting.ITALIC));
+            }
+        }
+        else if (wingIn.contains("Patterns"))
+        {
+            ListNBT listnbt = wingIn.getList("Patterns", 10);
+
+            for (int i = 0; i < listnbt.size() && i < 6; ++i)
+            {
+                CompoundNBT patternNBT = listnbt.getCompound(i);
+                DyeColor dyecolor = DyeColor.byId(patternNBT.getInt("Color"));
+                BannerPattern bannerpattern = BannerPattern.byHash(patternNBT.getString("Pattern"));
+                if (bannerpattern != null)
+                {
+                    tooltip.add((new TranslationTextComponent("block.minecraft.banner." + bannerpattern.getFileName() + '.' + dyecolor.getTranslationKey())).mergeStyle(TextFormatting.GRAY));
+                }
+            }
+        }
     }
 }

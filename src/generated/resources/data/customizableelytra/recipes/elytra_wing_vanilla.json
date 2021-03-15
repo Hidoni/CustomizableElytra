@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "elytra_wing_recipes",
+  "ingredients": [
+    {
+      "item": "minecraft:elytra"
+    }
+  ],
+  "result": {
+    "item": "customizableelytra:elytra_wing",
+    "count": 2
+  }
+}

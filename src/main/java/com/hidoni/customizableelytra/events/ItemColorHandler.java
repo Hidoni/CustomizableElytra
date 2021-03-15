@@ -14,8 +14,9 @@ public class ItemColorHandler
     public static void registerItemColor(ColorHandlerEvent.Item event)
     {
         event.getItemColors().register((stack, color) ->
-        {
-            return color > 0 ? -1 : ((IDyeableArmorItem) stack.getItem()).getColor(stack);
-        }, ModItems.CUSTOMIZABLE_ELYTRA.get());
+                color > 0 ? -1 : ((IDyeableArmorItem) stack.getItem()).getColor(stack), ModItems.CUSTOMIZABLE_ELYTRA.get());
+
+        event.getItemColors().register((stack, color) ->
+                color > 0 ? -1 : ((IDyeableArmorItem) stack.getItem()).getColor(stack), ModItems.ELYTRA_WING.get());
     }
 }
