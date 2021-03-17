@@ -54,7 +54,7 @@ public class ElytraBannerRecipe extends SpecialRecipe
                         return false;
                     }
 
-                    if (inventoryItem.getChildTag("BlockEntityTag") != null)
+                    if (inventoryItem.getChildTag("BlockEntityTag") != null || inventoryItem.getChildTag("WingInfo") != null)
                     {
                         return false;
                     }

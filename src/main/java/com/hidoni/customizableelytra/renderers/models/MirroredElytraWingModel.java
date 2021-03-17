@@ -9,7 +9,7 @@ public class MirroredElytraWingModel<T extends LivingEntity> extends ElytraWingM
     {
         wing = new ModelRenderer(this, 22, 0);
         this.wing.mirror = true;
-        this.wing.addBox(-0.0F, 0.0F, 0.0F, 10.0F, 20.0F, 2.0F, 1.0F);
+        this.wing.addBox(0.0F, 0.0F, 0.0F, 10.0F, 20.0F, 2.0F, 1.0F);
     }
 
     @Override

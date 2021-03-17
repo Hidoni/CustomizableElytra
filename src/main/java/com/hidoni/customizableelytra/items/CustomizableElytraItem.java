@@ -49,19 +49,17 @@ public class CustomizableElytraItem extends ElytraItem implements IDyeableArmorI
     @Override
     public boolean hasColor(ItemStack stack)
     {
-        CompoundNBT compoundnbt = stack.getChildTag("BlockEntityTag");
-        return IDyeableArmorItem.super.hasColor(stack) || compoundnbt != null;
+        CompoundNBT bannerTag = stack.getChildTag("BlockEntityTag");
+        CompoundNBT wingTag = stack.getChildTag("WingInfo");
+        return IDyeableArmorItem.super.hasColor(stack) || bannerTag != null || wingTag != null;
     }
 
     @Override
     public void removeColor(ItemStack stack)
     {
         IDyeableArmorItem.super.removeColor(stack);
-        CompoundNBT compoundnbt = stack.getChildTag("BlockEntityTag");
-        if (compoundnbt != null)
-        {
-            stack.removeChildTag("BlockEntityTag");
-        }
+        stack.removeChildTag("BlockEntityTag");
+        stack.removeChildTag("WingInfo");
     }
 
     @Nullable
