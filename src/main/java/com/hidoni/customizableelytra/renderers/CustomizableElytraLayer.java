@@ -103,10 +103,7 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
         {
             renderSplitFallback(matrixStackIn, bufferIn, packedLightIn, entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, elytra, leftElytraWing);
         }
-        matrixStackIn.pop();
         // And now, same thing with the right wing
-        matrixStackIn.push();
-        matrixStackIn.translate(0.0D, 0.0D, 0.125D);
         if (wingInfo.contains("right"))
         {
             CompoundNBT wing = wingInfo.getCompound("right");
@@ -169,13 +166,10 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
 
     public void renderBanner(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, ItemStack elytra)
     {
-        ResourceLocation elytraTexture = getElytraTexture(elytra, entitylivingbaseIn);
         matrixStackIn.push();
         matrixStackIn.translate(0.0D, 0.0D, 0.125D);
         this.getEntityModel().copyModelAttributesTo(this.modelElytra);
         this.modelElytra.setRotationAngles(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-        IVertexBuilder ivertexbuilder = ItemRenderer.getArmorVertexBuilder(bufferIn, RenderType.getArmorCutoutNoCull(elytraTexture), false, elytra.hasEffect());
-        this.modelElytra.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
 
         List<Pair<BannerPattern, DyeColor>> list = BannerTileEntity.getPatternColorData(ShieldItem.getColor(elytra), BannerTileEntity.getPatternData(elytra));
 
@@ -186,7 +180,7 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
             RenderMaterial rendermaterial = new RenderMaterial(AtlasTexture.LOCATION_BLOCKS_TEXTURE, CustomizableElytraItem.getTextureLocation(pair.getFirst()));
             if (rendermaterial.getSprite().getName() != MissingTextureSprite.getLocation()) // Don't render this banner pattern if it's missing, silently hide the pattern
             {
-                this.modelElytra.render(matrixStackIn, rendermaterial.getBuffer(bufferIn, RenderType::getArmorCutoutNoCull), packedLightIn, OverlayTexture.NO_OVERLAY, afloat[0], afloat[1], afloat[2], 1.0F);
+                this.modelElytra.render(matrixStackIn, rendermaterial.getBuffer(bufferIn, RenderType::getEntityTranslucent), packedLightIn, OverlayTexture.NO_OVERLAY, afloat[0], afloat[1], afloat[2], 1.0F);
             }
         }
         matrixStackIn.pop();
@@ -254,11 +248,8 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
 
     public void renderSplitBanner(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, ItemStack elytra, ElytraWingModel<T> wingModel, DyeColor color, ListNBT patterns)
     {
-        ResourceLocation elytraTexture = getElytraTexture(elytra, entitylivingbaseIn);
         this.getEntityModel().copyModelAttributesTo(wingModel);
         wingModel.setRotationAngles(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-        IVertexBuilder ivertexbuilder = ItemRenderer.getArmorVertexBuilder(bufferIn, RenderType.getArmorCutoutNoCull(elytraTexture), false, elytra.hasEffect());
-        wingModel.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
 
         List<Pair<BannerPattern, DyeColor>> list = BannerTileEntity.getPatternColorData(color, patterns);
 
@@ -269,7 +260,7 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
             RenderMaterial rendermaterial = new RenderMaterial(AtlasTexture.LOCATION_BLOCKS_TEXTURE, CustomizableElytraItem.getTextureLocation(pair.getFirst()));
             if (rendermaterial.getSprite().getName() != MissingTextureSprite.getLocation()) // Don't render this banner pattern if it's missing, silently hide the pattern
             {
-                wingModel.render(matrixStackIn, rendermaterial.getBuffer(bufferIn, RenderType::getArmorCutoutNoCull), packedLightIn, OverlayTexture.NO_OVERLAY, afloat[0], afloat[1], afloat[2], 1.0F);
+                wingModel.render(matrixStackIn, rendermaterial.getBuffer(bufferIn, RenderType::getEntityTranslucent), packedLightIn, OverlayTexture.NO_OVERLAY, afloat[0], afloat[1], afloat[2], 1.0F);
             }
         }
     }

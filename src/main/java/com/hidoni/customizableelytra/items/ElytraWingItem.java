@@ -54,6 +54,5 @@ public class ElytraWingItem extends Item implements IDyeableArmorItem
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn)
     {
         BannerItem.appendHoverTextFromTileEntityTag(stack, tooltip);
-
     }
 }
