@@ -26,7 +26,7 @@ displayName="Customizable Elytra" #mandatory
 authors="Hidoni" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-Allows elytra to be dyed like leather armor and have banners placed on them like shields
+Allows elytra to be dyed like leather armor and have banners placed on them like shields.
 '''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.customizableelytra]] #optional
@@ -48,8 +48,3 @@ Allows elytra to be dyed like leather armor and have banners placed on them like
     versionRange="[1.16.4,1.17)"
     ordering="NONE"
     side="BOTH"
-[[dependencies.customizableelytra]]
-    modId="caelus"
-    mandatory=false
-    ordering="AFTER"
-    side="CLIENT"
