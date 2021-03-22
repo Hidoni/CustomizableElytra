@@ -166,11 +166,13 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
 
     public void renderBanner(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, ItemStack elytra)
     {
+        ResourceLocation elytraTexture = getElytraTexture(elytra, entitylivingbaseIn);
         matrixStackIn.push();
         matrixStackIn.translate(0.0D, 0.0D, 0.125D);
         this.getEntityModel().copyModelAttributesTo(this.modelElytra);
         this.modelElytra.setRotationAngles(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-
+        IVertexBuilder ivertexbuilder = ItemRenderer.getEntityGlintVertexBuilder(bufferIn, RenderType.getEntityNoOutline(elytraTexture), false, elytra.hasEffect());
+        this.modelElytra.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         List<Pair<BannerPattern, DyeColor>> list = BannerTileEntity.getPatternColorData(ShieldItem.getColor(elytra), BannerTileEntity.getPatternData(elytra));
 
         for (int i = 0; i < 17 && i < list.size(); ++i)
@@ -248,9 +250,11 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
 
     public void renderSplitBanner(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, ItemStack elytra, ElytraWingModel<T> wingModel, DyeColor color, ListNBT patterns)
     {
+        ResourceLocation elytraTexture = getElytraTexture(elytra, entitylivingbaseIn);
         this.getEntityModel().copyModelAttributesTo(wingModel);
         wingModel.setRotationAngles(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-
+        IVertexBuilder ivertexbuilder = ItemRenderer.getEntityGlintVertexBuilder(bufferIn, RenderType.getEntityNoOutline(elytraTexture), false, elytra.hasEffect());
+        wingModel.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         List<Pair<BannerPattern, DyeColor>> list = BannerTileEntity.getPatternColorData(color, patterns);
 
         for (int i = 0; i < 17 && i < list.size(); ++i)
