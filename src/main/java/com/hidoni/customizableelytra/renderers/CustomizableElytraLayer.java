@@ -58,6 +58,8 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
         ItemStack elytra = tryFindElytra(entitylivingbaseIn);
         if (elytra != ItemStack.EMPTY)
         {
+            matrixStackIn.push();
+            matrixStackIn.translate(0.0D, 0.0D, 0.125D);
             if (elytra.getChildTag("WingInfo") != null)
             {
                 renderSplit(matrixStackIn, bufferIn, packedLightIn, entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, elytra);
@@ -74,6 +76,7 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
                     renderBanner(matrixStackIn, bufferIn, packedLightIn, entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, elytra);
                 }
             }
+            matrixStackIn.pop();
         }
     }
 
@@ -81,8 +84,6 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
     {
         CompoundNBT wingInfo = elytra.getChildTag("WingInfo");
         // First up, left wing.
-        matrixStackIn.push();
-        matrixStackIn.translate(0.0D, 0.0D, 0.125D);
         if (wingInfo.contains("left"))
         {
             CompoundNBT wing = wingInfo.getCompound("left");
@@ -124,7 +125,6 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
         {
             renderSplitFallback(matrixStackIn, bufferIn, packedLightIn, entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, elytra, rightElytraWing);
         }
-        matrixStackIn.pop();
     }
 
     public void renderDyed(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, ItemStack elytra)
@@ -153,22 +153,16 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
             {
                 elytraTexture = getElytraTexture(elytra, entitylivingbaseIn);
             }
-
-            matrixStackIn.push();
-            matrixStackIn.translate(0.0D, 0.0D, 0.125D);
             this.getEntityModel().copyModelAttributesTo(this.modelElytra);
             this.modelElytra.setRotationAngles(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
             IVertexBuilder ivertexbuilder = ItemRenderer.getArmorVertexBuilder(bufferIn, RenderType.getArmorCutoutNoCull(elytraTexture), false, elytra.hasEffect());
             this.modelElytra.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, colors.get(0), colors.get(1), colors.get(2), 1.0F);
-            matrixStackIn.pop();
         }
     }
 
     public void renderBanner(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, ItemStack elytra)
     {
         ResourceLocation elytraTexture = getElytraTexture(elytra, entitylivingbaseIn);
-        matrixStackIn.push();
-        matrixStackIn.translate(0.0D, 0.0D, 0.125D);
         this.getEntityModel().copyModelAttributesTo(this.modelElytra);
         this.modelElytra.setRotationAngles(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
         IVertexBuilder ivertexbuilder = ItemRenderer.getEntityGlintVertexBuilder(bufferIn, RenderType.getEntityNoOutline(elytraTexture), false, elytra.hasEffect());
@@ -185,7 +179,6 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
                 this.modelElytra.render(matrixStackIn, rendermaterial.getBuffer(bufferIn, RenderType::getEntityTranslucent), packedLightIn, OverlayTexture.NO_OVERLAY, afloat[0], afloat[1], afloat[2], 1.0F);
             }
         }
-        matrixStackIn.pop();
     }
 
     public void renderSplitFallback(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, ItemStack elytra, ElytraWingModel<T> wingModel)
