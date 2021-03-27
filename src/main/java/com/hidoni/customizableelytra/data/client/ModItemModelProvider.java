@@ -17,8 +17,9 @@ public class ModItemModelProvider extends ItemModelProvider
     @Override
     protected void registerModels()
     {
-        withExistingParent("customizable_elytra", mcLoc("item/elytra")).override().predicate(new ResourceLocation("broken_elytra"), 1).model(new ModelFile.ExistingModelFile(mcLoc("item/broken_elytra"), existingFileHelper)).end();
         ModelFile itemGenerated = getExistingFile(mcLoc("item/generated"));
+        getBuilder("broken_customizable_elytra").parent(itemGenerated).texture("layer0", "item/broken_elytra_left").texture("layer1", "item/broken_elytra_right");
+        getBuilder("customizable_elytra").parent(itemGenerated).texture("layer0", "item/elytra_left").texture("layer1", "item/elytra_right").override().predicate(new ResourceLocation("broken_elytra"), 1).model(new ModelFile.UncheckedModelFile(new ResourceLocation(CustomizableElytra.MOD_ID, "item/broken_customizable_elytra"))).end();
         getBuilder("elytra_wing").parent(itemGenerated).texture("layer0", "item/elytra_wing");
     }
 }

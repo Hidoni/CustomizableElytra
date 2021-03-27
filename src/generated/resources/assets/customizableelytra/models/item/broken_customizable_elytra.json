@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "customizableelytra:item/broken_elytra_left",
+    "layer1": "customizableelytra:item/broken_elytra_right"
+  }
+}

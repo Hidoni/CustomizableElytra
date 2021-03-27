@@ -1,5 +1,6 @@
 package com.hidoni.customizableelytra.events;
 
+import com.hidoni.customizableelytra.items.CustomizableElytraItem;
 import com.hidoni.customizableelytra.setup.ModItems;
 import net.minecraft.item.IDyeableArmorItem;
 import net.minecraftforge.api.distmarker.Dist;
@@ -14,7 +15,7 @@ public class ItemColorHandler
     public static void registerItemColor(ColorHandlerEvent.Item event)
     {
         event.getItemColors().register((stack, color) ->
-                color > 0 ? -1 : ((IDyeableArmorItem) stack.getItem()).getColor(stack), ModItems.CUSTOMIZABLE_ELYTRA.get());
+                ((CustomizableElytraItem) stack.getItem()).getColor(stack, color), ModItems.CUSTOMIZABLE_ELYTRA.get());
 
         event.getItemColors().register((stack, color) ->
                 color > 0 ? -1 : ((IDyeableArmorItem) stack.getItem()).getColor(stack), ModItems.ELYTRA_WING.get());

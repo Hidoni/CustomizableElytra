@@ -33,6 +33,11 @@ public class CustomizableElytraItem extends ElytraItem implements IDyeableArmorI
     @Override
     public int getColor(ItemStack stack)
     {
+        return getColor(stack, 0);
+    }
+
+    public int getColor(ItemStack stack, int index)
+    {
         CompoundNBT compoundnbt = stack.getChildTag("display");
         if (compoundnbt != null)
         {
@@ -42,6 +47,40 @@ public class CustomizableElytraItem extends ElytraItem implements IDyeableArmorI
         if (compoundnbt != null)
         {
             return DyeColor.byId(compoundnbt.getInt("Base")).getColorValue();
+        }
+        compoundnbt = stack.getChildTag("WingInfo");
+        if (compoundnbt != null)
+        {
+            if (index == 0)
+            {
+                if (compoundnbt.contains("left"))
+                {
+                    compoundnbt = compoundnbt.getCompound("left");
+                }
+                else
+                {
+                    return 16777215;
+                }
+            }
+            else if (index == 1)
+            {
+                if (compoundnbt.contains("right"))
+                {
+                    compoundnbt = compoundnbt.getCompound("right");
+                }
+                else
+                {
+                    return 16777215;
+                }
+            }
+            if (compoundnbt.contains("color"))
+            {
+                return compoundnbt.getInt("color");
+            }
+            else if (compoundnbt.contains("Base"))
+            {
+                return DyeColor.byId(compoundnbt.getInt("Base")).getColorValue();
+            }
         }
         return 16777215;
     }
