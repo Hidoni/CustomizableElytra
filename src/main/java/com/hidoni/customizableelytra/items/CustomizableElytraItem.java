@@ -2,6 +2,7 @@ package com.hidoni.customizableelytra.items;
 
 import com.hidoni.customizableelytra.CustomizableElytra;
 import com.hidoni.customizableelytra.config.Config;
+import com.hidoni.customizableelytra.util.ElytraCustomizationUtil;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
@@ -38,51 +39,7 @@ public class CustomizableElytraItem extends ElytraItem implements IDyeableArmorI
 
     public int getColor(ItemStack stack, int index)
     {
-        CompoundNBT compoundnbt = stack.getChildTag("display");
-        if (compoundnbt != null)
-        {
-            return compoundnbt.contains("color", 99) ? compoundnbt.getInt("color") : 16777215;
-        }
-        compoundnbt = stack.getChildTag("BlockEntityTag");
-        if (compoundnbt != null)
-        {
-            return DyeColor.byId(compoundnbt.getInt("Base")).getColorValue();
-        }
-        compoundnbt = stack.getChildTag("WingInfo");
-        if (compoundnbt != null)
-        {
-            if (index == 0)
-            {
-                if (compoundnbt.contains("left"))
-                {
-                    compoundnbt = compoundnbt.getCompound("left");
-                }
-                else
-                {
-                    return 16777215;
-                }
-            }
-            else if (index == 1)
-            {
-                if (compoundnbt.contains("right"))
-                {
-                    compoundnbt = compoundnbt.getCompound("right");
-                }
-                else
-                {
-                    return 16777215;
-                }
-            }
-            if (compoundnbt.contains("color"))
-            {
-                return compoundnbt.getInt("color");
-            }
-            else if (compoundnbt.contains("Base"))
-            {
-                return DyeColor.byId(compoundnbt.getInt("Base")).getColorValue();
-            }
-        }
-        return 16777215;
+        return ElytraCustomizationUtil.getData(stack).handler.getColor(index);
     }
 
     @Override
