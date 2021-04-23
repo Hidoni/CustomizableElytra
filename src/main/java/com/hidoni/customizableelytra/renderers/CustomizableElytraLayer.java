@@ -35,7 +35,7 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
     private final MirroredElytraWingModel<T> rightElytraWing = new MirroredElytraWingModel<>();
     public static final ResourceLocation TEXTURE_DYEABLE_ELYTRA = new ResourceLocation(CustomizableElytra.MOD_ID, "textures/entity/elytra.png");
 
-    public CustomizableElytraLayer(IEntityRenderer rendererIn)
+    public CustomizableElytraLayer(IEntityRenderer<T, M> rendererIn)
     {
         super(rendererIn);
     }
