@@ -5,5 +5,8 @@
   "refmap": "customizableelytra.refmap.json",
   "mixins": [
   ],
+  "client": [
+    "CapeLayerMixin"
+  ],
   "minVersion": "0.8"
 }
