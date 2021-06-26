@@ -6,7 +6,8 @@
   "mixins": [
   ],
   "client": [
-    "CapeLayerMixin"
+    "CapeLayerMixin",
+    "SimpleTextureInvoker"
   ],
   "minVersion": "0.8"
 }

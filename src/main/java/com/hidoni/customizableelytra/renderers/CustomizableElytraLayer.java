@@ -9,6 +9,7 @@ import com.hidoni.customizableelytra.setup.ModItems;
 import com.hidoni.customizableelytra.util.ElytraCustomizationData;
 import com.hidoni.customizableelytra.util.ElytraCustomizationUtil;
 import com.hidoni.customizableelytra.util.SplitCustomizationHandler;
+import com.hidoni.customizableelytra.util.ElytraTextureUtil;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -76,11 +77,11 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
             AbstractClientPlayerEntity abstractclientplayerentity = (AbstractClientPlayerEntity) entitylivingbaseIn;
             if (abstractclientplayerentity.isPlayerInfoSet() && abstractclientplayerentity.getLocationElytra() != null)
             {
-                elytraTexture = abstractclientplayerentity.getLocationElytra();
+                elytraTexture = ElytraTextureUtil.getGrayscale(abstractclientplayerentity.getLocationElytra());
             }
             else if (abstractclientplayerentity.hasPlayerInfo() && abstractclientplayerentity.getLocationCape() != null && abstractclientplayerentity.isWearing(PlayerModelPart.CAPE))
             {
-                elytraTexture = abstractclientplayerentity.getLocationCape();
+                elytraTexture = ElytraTextureUtil.getGrayscale(abstractclientplayerentity.getLocationCape());
             }
             else
             {
