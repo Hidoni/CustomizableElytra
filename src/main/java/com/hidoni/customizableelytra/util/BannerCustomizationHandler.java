@@ -1,5 +1,6 @@
 package com.hidoni.customizableelytra.util;
 
+import com.hidoni.customizableelytra.config.Config;
 import com.hidoni.customizableelytra.items.CustomizableElytraItem;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
@@ -52,15 +53,21 @@ public class BannerCustomizationHandler extends CustomizationHandler
         renderModel.setRotationAngles(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
         IVertexBuilder ivertexbuilder = ItemRenderer.getEntityGlintVertexBuilder(bufferIn, RenderType.getEntityNoOutline(textureLocation), false, hasGlint);
         renderModel.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
-
         for (int i = 0; i < 17 && i < patterns.size(); ++i)
         {
             Pair<BannerPattern, DyeColor> pair = patterns.get(i);
             float[] afloat = pair.getSecond().getColorComponentValues();
-            RenderMaterial rendermaterial = new RenderMaterial(AtlasTexture.LOCATION_BLOCKS_TEXTURE, CustomizableElytraItem.getTextureLocation(pair.getFirst()));
-            if (rendermaterial.getSprite().getName() != MissingTextureSprite.getLocation()) // Don't render this banner pattern if it's missing, silently hide the pattern
+            if (i == 0 && Config.bannerBasePatternUsesCapeTexture.get())
             {
-                renderModel.render(matrixStackIn, rendermaterial.getBuffer(bufferIn, RenderType::getEntityTranslucent), packedLightIn, OverlayTexture.NO_OVERLAY, afloat[0], afloat[1], afloat[2], 1.0F);
+                renderModel.render(matrixStackIn, ItemRenderer.getBuffer(bufferIn, RenderType.getEntityTranslucent(textureLocation), false, false), packedLightIn, OverlayTexture.NO_OVERLAY, afloat[0], afloat[1], afloat[2], 1.0F);
+            }
+            else
+            {
+                RenderMaterial rendermaterial = new RenderMaterial(AtlasTexture.LOCATION_BLOCKS_TEXTURE, CustomizableElytraItem.getTextureLocation(pair.getFirst()));
+                if (rendermaterial.getSprite().getName() != MissingTextureSprite.getLocation()) // Don't render this banner pattern if it's missing, silently hide the pattern
+                {
+                    renderModel.render(matrixStackIn, rendermaterial.getBuffer(bufferIn, RenderType::getEntityTranslucent), packedLightIn, OverlayTexture.NO_OVERLAY, afloat[0], afloat[1], afloat[2], 1.0F);
+                }
             }
         }
     }
