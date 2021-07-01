@@ -81,8 +81,8 @@ public class CustomizableElytraItem extends ElytraItem implements IDyeableArmorI
             if (wingInfo.contains("right"))
             {
                 tooltip.add(new TranslationTextComponent(RIGHT_WING_TRANSLATION_KEY).mergeStyle(TextFormatting.GRAY));
-                CompoundNBT leftWing = wingInfo.getCompound("right");
-                applyWingTooltip(tooltip, flagIn, leftWing);
+                CompoundNBT rightWing = wingInfo.getCompound("right");
+                applyWingTooltip(tooltip, flagIn, rightWing);
             }
         }
     }
