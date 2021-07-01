@@ -111,8 +111,7 @@ public class ElytraHideCapeRecipe extends SpecialRecipe
 
         if (!elytraItem.isEmpty())
         {
-            IntNBT intNBT = IntNBT.valueOf(1);
-            elytraItem.setTagInfo("HideCapePattern", intNBT);
+            elytraItem.getOrCreateTag().putBoolean("HideCapePattern", true);
         }
         return elytraItem;
     }
