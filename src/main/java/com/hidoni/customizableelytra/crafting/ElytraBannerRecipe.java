@@ -80,10 +80,18 @@ public class ElytraBannerRecipe extends SpecialRecipe
             {
                 if (inventoryItem.getItem() instanceof BannerItem)
                 {
+                    if (!bannerItem.isEmpty())
+                    {
+                        return ItemStack.EMPTY;
+                    }
                     bannerItem = inventoryItem;
                 }
                 else if (inventoryItem.getItem() == Items.ELYTRA)
                 {
+                    if (!elytraItem.isEmpty())
+                    {
+                        return ItemStack.EMPTY;
+                    }
                     ItemStack customizableElytraItem = new ItemStack(ModItems.CUSTOMIZABLE_ELYTRA.get());
                     EnchantmentHelper.setEnchantments(EnchantmentHelper.getEnchantments(inventoryItem), customizableElytraItem);
                     if (!inventoryItem.getDisplayName().equals(new TranslationTextComponent(Items.ELYTRA.getTranslationKey())))
@@ -96,6 +104,10 @@ public class ElytraBannerRecipe extends SpecialRecipe
                 }
                 else if (inventoryItem.getItem() == ModItems.CUSTOMIZABLE_ELYTRA.get() || inventoryItem.getItem() == ModItems.ELYTRA_WING.get())
                 {
+                    if (!elytraItem.isEmpty())
+                    {
+                        return ItemStack.EMPTY;
+                    }
                     elytraItem = inventoryItem.copy();
                     elytraItem.setCount(1);
                 }
