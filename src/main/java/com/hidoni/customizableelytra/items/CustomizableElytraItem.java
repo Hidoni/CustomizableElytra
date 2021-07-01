@@ -79,22 +79,22 @@ public class CustomizableElytraItem extends ElytraItem implements IDyeableArmorI
         {
             if (wingInfo.contains("left"))
             {
+                CompoundNBT leftWing = wingInfo.getCompound("left");
                 tooltip.add(new TranslationTextComponent(LEFT_WING_TRANSLATION_KEY).mergeStyle(TextFormatting.GRAY));
-                if (wingInfo.getBoolean("HideCapePattern"))
+                if (leftWing.getBoolean("HideCapePattern"))
                 {
                     tooltip.add(new TranslationTextComponent(HIDDEN_CAPE_TRANSLATION_KEY).mergeStyle(TextFormatting.GRAY, TextFormatting.ITALIC));
                 }
-                CompoundNBT leftWing = wingInfo.getCompound("left");
                 applyWingTooltip(tooltip, flagIn, leftWing);
             }
             if (wingInfo.contains("right"))
             {
+                CompoundNBT rightWing = wingInfo.getCompound("right");
                 tooltip.add(new TranslationTextComponent(RIGHT_WING_TRANSLATION_KEY).mergeStyle(TextFormatting.GRAY));
-                if (wingInfo.getBoolean("HideCapePattern"))
+                if (rightWing.getBoolean("HideCapePattern"))
                 {
                     tooltip.add(new TranslationTextComponent(HIDDEN_CAPE_TRANSLATION_KEY).mergeStyle(TextFormatting.GRAY, TextFormatting.ITALIC));
                 }
-                CompoundNBT rightWing = wingInfo.getCompound("right");
                 applyWingTooltip(tooltip, flagIn, rightWing);
             }
         }
@@ -118,20 +118,23 @@ public class CustomizableElytraItem extends ElytraItem implements IDyeableArmorI
 
     private void applyWingTooltip(List<ITextComponent> tooltip, ITooltipFlag flagIn, CompoundNBT wingIn)
     {
-        if (wingIn.contains("color"))
+        CompoundNBT wing = ElytraCustomizationUtil.migrateOldSplitWingFormat(wingIn);
+        if (wing.contains("display"))
         {
+            CompoundNBT displayTag = wing.getCompound("display");
             if (flagIn.isAdvanced())
             {
-                tooltip.add((new TranslationTextComponent("item.color", String.format("#%06X", wingIn.getInt("color")))).mergeStyle(TextFormatting.GRAY));
+                tooltip.add((new TranslationTextComponent("item.color", String.format("#%06X", displayTag.getInt("color")))).mergeStyle(TextFormatting.GRAY));
             }
             else
             {
                 tooltip.add((new TranslationTextComponent("item.dyed")).mergeStyle(TextFormatting.GRAY, TextFormatting.ITALIC));
             }
         }
-        else if (wingIn.contains("Patterns"))
+        else if (wing.contains("BlockEntityTag"))
         {
-            ListNBT listnbt = wingIn.getList("Patterns", 10);
+            CompoundNBT blockEntityTag = wingIn.getCompound("BlockEntityTag");
+            ListNBT listnbt = blockEntityTag.getList("Patterns", 10);
 
             for (int i = 0; i < listnbt.size() && i < 6; ++i)
             {

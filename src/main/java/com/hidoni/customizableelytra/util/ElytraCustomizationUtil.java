@@ -14,7 +14,7 @@ public class ElytraCustomizationUtil
         return getData(elytraIn.getTag());
     }
 
-    private static CompoundNBT migrateOldSplitWingFormat(CompoundNBT wingIn)
+    public static CompoundNBT migrateOldSplitWingFormat(CompoundNBT wingIn)
     {
         if (wingIn == null)
         {
