@@ -55,6 +55,7 @@ public class CustomizableElytraItem extends ElytraItem implements IDyeableArmorI
     public void removeColor(ItemStack stack)
     {
         IDyeableArmorItem.super.removeColor(stack);
+        stack.getOrCreateTag().remove("HideCapePattern");
         stack.removeChildTag("BlockEntityTag");
         stack.removeChildTag("WingInfo");
     }
