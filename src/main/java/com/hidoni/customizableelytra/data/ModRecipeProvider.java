@@ -35,5 +35,6 @@ public class ModRecipeProvider extends RecipeProvider
         CustomRecipeBuilder.customRecipe(ModRecipes.ELYTRA_BANNER_RECIPE.get()).build(consumer, "elytra_banner_recipe");
         CustomRecipeBuilder.customRecipe(ModRecipes.ELYTRA_WING_COMBINATION_RECIPE.get()).build(consumer, "elytra_wing_combination_recipe");
         CustomRecipeBuilder.customRecipe(ModRecipes.ELYTRA_TO_VANILLA_RECIPE.get()).build(consumer, "elytra_to_vanilla_recipe");
+        CustomRecipeBuilder.customRecipe(ModRecipes.ELYTRA_HIDE_CAPE_RECIPE.get()).build(consumer, "elytra_hide_cape_recipe");
     }
 }
