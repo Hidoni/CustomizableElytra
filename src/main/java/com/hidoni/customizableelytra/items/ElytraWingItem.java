@@ -4,6 +4,8 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -53,6 +55,10 @@ public class ElytraWingItem extends Item implements IDyeableArmorItem
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn)
     {
+        if (stack.getOrCreateTag().getBoolean("HideCapePattern"))
+        {
+            tooltip.add(new TranslationTextComponent(CustomizableElytraItem.HIDDEN_CAPE_TRANSLATION_KEY).mergeStyle(TextFormatting.GRAY, TextFormatting.ITALIC));
+        }
         BannerItem.appendHoverTextFromTileEntityTag(stack, tooltip);
     }
 }

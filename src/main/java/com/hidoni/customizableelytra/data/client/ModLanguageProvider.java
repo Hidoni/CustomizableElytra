@@ -19,5 +19,6 @@ public class ModLanguageProvider extends LanguageProvider
         add(ModItems.ELYTRA_WING.get(), "Elytra Wing");
         add(CustomizableElytraItem.LEFT_WING_TRANSLATION_KEY, "Left Wing:");
         add(CustomizableElytraItem.RIGHT_WING_TRANSLATION_KEY, "Right Wing:");
+        add(CustomizableElytraItem.HIDDEN_CAPE_TRANSLATION_KEY, "Cape Pattern Hidden");
     }
 }

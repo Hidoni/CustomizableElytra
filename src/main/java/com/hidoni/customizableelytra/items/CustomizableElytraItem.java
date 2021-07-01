@@ -25,6 +25,7 @@ public class CustomizableElytraItem extends ElytraItem implements IDyeableArmorI
 
     public final static String LEFT_WING_TRANSLATION_KEY = "item.customizable_elytra.left_wing";
     public final static String RIGHT_WING_TRANSLATION_KEY = "item.customizable_elytra.right_wing";
+    public final static String HIDDEN_CAPE_TRANSLATION_KEY = "item.customizable_elytra.cape_hidden";
 
     public CustomizableElytraItem(Properties builder)
     {
@@ -68,6 +69,10 @@ public class CustomizableElytraItem extends ElytraItem implements IDyeableArmorI
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn)
     {
+        if (stack.getOrCreateTag().getBoolean("HideCapePattern"))
+        {
+            tooltip.add(new TranslationTextComponent(HIDDEN_CAPE_TRANSLATION_KEY).mergeStyle(TextFormatting.GRAY, TextFormatting.ITALIC));
+        }
         BannerItem.appendHoverTextFromTileEntityTag(stack, tooltip);
         CompoundNBT wingInfo = stack.getChildTag("WingInfo");
         if (wingInfo != null)
@@ -75,12 +80,20 @@ public class CustomizableElytraItem extends ElytraItem implements IDyeableArmorI
             if (wingInfo.contains("left"))
             {
                 tooltip.add(new TranslationTextComponent(LEFT_WING_TRANSLATION_KEY).mergeStyle(TextFormatting.GRAY));
+                if (wingInfo.getBoolean("HideCapePattern"))
+                {
+                    tooltip.add(new TranslationTextComponent(HIDDEN_CAPE_TRANSLATION_KEY).mergeStyle(TextFormatting.GRAY, TextFormatting.ITALIC));
+                }
                 CompoundNBT leftWing = wingInfo.getCompound("left");
                 applyWingTooltip(tooltip, flagIn, leftWing);
             }
             if (wingInfo.contains("right"))
             {
                 tooltip.add(new TranslationTextComponent(RIGHT_WING_TRANSLATION_KEY).mergeStyle(TextFormatting.GRAY));
+                if (wingInfo.getBoolean("HideCapePattern"))
+                {
+                    tooltip.add(new TranslationTextComponent(HIDDEN_CAPE_TRANSLATION_KEY).mergeStyle(TextFormatting.GRAY, TextFormatting.ITALIC));
+                }
                 CompoundNBT rightWing = wingInfo.getCompound("right");
                 applyWingTooltip(tooltip, flagIn, rightWing);
             }
