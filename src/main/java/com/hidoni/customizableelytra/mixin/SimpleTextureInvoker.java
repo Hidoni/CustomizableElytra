@@ -14,5 +14,5 @@ import java.io.IOException;
 public interface SimpleTextureInvoker
 {
     @Invoker("getTextureData")
-    public SimpleTexture.TextureData invokeGetTextureData(IResourceManager resourceManager);
+    SimpleTexture.TextureData invokeGetTextureData(IResourceManager resourceManager);
 }
