@@ -14,6 +14,11 @@ public class ElytraCustomizationUtil
         return getData(elytraIn.getTag());
     }
 
+    /*
+    * Before version 1.5.1, Crafting wings separately only stored the value of a tag, i.e. only the color sub-tag of
+    * the display tag, after 1.5.1 this is no longer viable due to the ability to hide cape patterns, and data-fixers
+    * don't work with mods, so this function had to be implemented as a fix.
+    */
     public static CompoundNBT migrateOldSplitWingFormat(CompoundNBT wingIn)
     {
         if (wingIn == null)
