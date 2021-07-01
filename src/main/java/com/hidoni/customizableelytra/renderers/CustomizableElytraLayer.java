@@ -54,7 +54,8 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
             if (data.type != ElytraCustomizationData.CustomizationType.Split)
             {
                 this.getEntityModel().copyModelAttributesTo(this.modelElytra);
-                data.handler.render(matrixStackIn, bufferIn, packedLightIn, entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, this.modelElytra, getTextureWithCape(entitylivingbaseIn, elytra), elytra.hasEffect());
+                ResourceLocation elytraTexture = getTextureWithCape(entitylivingbaseIn, elytra, data.handler.isWingCapeHidden(0));
+                data.handler.render(matrixStackIn, bufferIn, packedLightIn, entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, this.modelElytra, elytraTexture, elytra.hasEffect());
             }
             else
             {
@@ -63,16 +64,18 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
                 {
                     this.getEntityModel().copyModelAttributesTo(model);
                 }
-                ((SplitCustomizationHandler) data.handler).render(matrixStackIn, bufferIn, packedLightIn, entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, models, getTextureWithCape(entitylivingbaseIn, elytra), elytra.hasEffect());
+                ResourceLocation leftWingTexture = getTextureWithCape(entitylivingbaseIn, elytra, data.handler.isWingCapeHidden(0));
+                ResourceLocation rightWingTexture = getTextureWithCape(entitylivingbaseIn, elytra, data.handler.isWingCapeHidden(1));
+                ((SplitCustomizationHandler) data.handler).render(matrixStackIn, bufferIn, packedLightIn, entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, models, leftWingTexture, rightWingTexture, elytra.hasEffect());
             }
             matrixStackIn.pop();
         }
     }
 
-    private ResourceLocation getTextureWithCape(T entitylivingbaseIn, ItemStack elytra)
+    private ResourceLocation getTextureWithCape(T entitylivingbaseIn, ItemStack elytra, boolean capeHidden)
     {
         ResourceLocation elytraTexture;
-        if (entitylivingbaseIn instanceof AbstractClientPlayerEntity)
+        if (!capeHidden && entitylivingbaseIn instanceof AbstractClientPlayerEntity)
         {
             AbstractClientPlayerEntity abstractclientplayerentity = (AbstractClientPlayerEntity) entitylivingbaseIn;
             if (abstractclientplayerentity.isPlayerInfoSet() && abstractclientplayerentity.getLocationElytra() != null)

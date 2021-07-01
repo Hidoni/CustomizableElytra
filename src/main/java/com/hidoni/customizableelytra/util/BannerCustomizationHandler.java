@@ -31,14 +31,16 @@ public class BannerCustomizationHandler extends CustomizationHandler
 
     public BannerCustomizationHandler(ItemStack itemIn)
     {
-        patterns = BannerTileEntity.getPatternColorData(ShieldItem.getColor(itemIn), BannerTileEntity.getPatternData(itemIn));
+        this(itemIn.getOrCreateTag());
     }
 
     public BannerCustomizationHandler(CompoundNBT tagIn)
     {
-        DyeColor baseColor = DyeColor.byId(tagIn.getInt("Base"));
-        ListNBT patternsList = tagIn.getList("Patterns", 10).copy();
-        patterns = BannerTileEntity.getPatternColorData(baseColor, patternsList);
+        super(tagIn.getBoolean("HideCapePattern"));
+        CompoundNBT blockEntityTag = tagIn.getCompound("BlockEntityTag");
+        DyeColor baseColor = DyeColor.byId(blockEntityTag.getInt("Base"));
+        ListNBT patternsList = blockEntityTag.getList("Patterns", 10).copy();
+        this.patterns = BannerTileEntity.getPatternColorData(baseColor, patternsList);
     }
 
     @Override

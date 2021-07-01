@@ -1,5 +1,7 @@
 package com.hidoni.customizableelytra.util;
 
+import java.util.function.Function;
+
 public class ElytraCustomizationData
 {
     public final CustomizationType type;

@@ -17,10 +17,19 @@ import net.minecraftforge.api.distmarker.OnlyIn;
  */
 public class CustomizationHandler
 {
+    private final boolean wingCapeHidden;
+
+    public CustomizationHandler(boolean wingCapeHidden)
+    {
+        this.wingCapeHidden = wingCapeHidden;
+    }
+
     public int getColor(int index)
     {
         return 16777215;
     }
+
+    public boolean isWingCapeHidden(int index) {return wingCapeHidden;}
 
     @OnlyIn(Dist.CLIENT)
     public <T extends LivingEntity, M extends AgeableModel<T>> void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, M renderModel, ResourceLocation textureLocation, boolean hasGlint)
