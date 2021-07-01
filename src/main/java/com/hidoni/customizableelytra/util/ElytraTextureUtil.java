@@ -6,7 +6,6 @@ import com.hidoni.customizableelytra.mixin.DownloadingTextureInvoker;
 import com.hidoni.customizableelytra.mixin.SimpleTextureInvoker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.*;
-import net.minecraft.client.renderer.texture.SimpleTexture.TextureData;
 import net.minecraft.util.ResourceLocation;
 
 import java.io.File;
@@ -51,12 +50,12 @@ public class ElytraTextureUtil
         }
         else if (texture instanceof DownloadingTexture)
         {
-            File cacheFile = ((DownloadingTextureAccessor)texture).getCacheFile();
+            File cacheFile = ((DownloadingTextureAccessor) texture).getCacheFile();
             if (cacheFile != null)
             {
                 try
                 {
-                    return ((DownloadingTextureInvoker)texture).callLoadTexture(new FileInputStream(cacheFile));
+                    return ((DownloadingTextureInvoker) texture).callLoadTexture(new FileInputStream(cacheFile));
                 }
                 catch (FileNotFoundException e)
                 {
@@ -69,7 +68,7 @@ public class ElytraTextureUtil
         {
             try
             {
-                return  ((SimpleTextureInvoker) texture).invokeGetTextureData(Minecraft.getInstance().getResourceManager()).getNativeImage();
+                return ((SimpleTextureInvoker) texture).invokeGetTextureData(Minecraft.getInstance().getResourceManager()).getNativeImage();
             }
             catch (IOException e)
             {
