@@ -77,28 +77,39 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
 
     private ResourceLocation getTextureWithCape(T entitylivingbaseIn, ItemStack elytra, boolean capeHidden)
     {
-        ResourceLocation elytraTexture;
-        if (!capeHidden && entitylivingbaseIn instanceof AbstractClientPlayerEntity)
+        if (!capeHidden)
         {
-            AbstractClientPlayerEntity abstractclientplayerentity = (AbstractClientPlayerEntity) entitylivingbaseIn;
-            if (abstractclientplayerentity.isPlayerInfoSet() && abstractclientplayerentity.getLocationElytra() != null)
+            if (entitylivingbaseIn instanceof AbstractClientPlayerEntity)
             {
-                elytraTexture = ElytraTextureUtil.getGrayscale(abstractclientplayerentity.getLocationElytra());
+                AbstractClientPlayerEntity abstractclientplayerentity = (AbstractClientPlayerEntity) entitylivingbaseIn;
+                if (abstractclientplayerentity.isPlayerInfoSet() && abstractclientplayerentity.getLocationElytra() != null)
+                {
+                    return ElytraTextureUtil.getGrayscale(abstractclientplayerentity.getLocationElytra());
+                }
+                else if (abstractclientplayerentity.hasPlayerInfo() && abstractclientplayerentity.getLocationCape() != null && abstractclientplayerentity.isWearing(PlayerModelPart.CAPE))
+                {
+                    return ElytraTextureUtil.getGrayscale(abstractclientplayerentity.getLocationCape());
+                }
             }
-            else if (abstractclientplayerentity.hasPlayerInfo() && abstractclientplayerentity.getLocationCape() != null && abstractclientplayerentity.isWearing(PlayerModelPart.CAPE))
+            if (CustomizableElytra.aetherLoaded)
             {
-                elytraTexture = ElytraTextureUtil.getGrayscale(abstractclientplayerentity.getLocationCape());
-            }
-            else
-            {
-                elytraTexture = getElytraTexture(elytra, entitylivingbaseIn);
+                Optional<ImmutableTriple<String, Integer, ItemStack>> curiosHelper = CuriosApi.getCuriosHelper().findEquippedCurio((item) -> item.getItem() instanceof CapeItem, entitylivingbaseIn);
+                Optional<ICuriosItemHandler> curiosHandler = CuriosApi.getCuriosHelper().getCuriosHandler(entitylivingbaseIn).resolve();
+                if (curiosHelper.isPresent() && curiosHandler.isPresent())
+                {
+                    Optional<ICurioStacksHandler> stacksHandler = curiosHandler.get().getStacksHandler(curiosHelper.get().getLeft());
+                    if (stacksHandler.isPresent())
+                    {
+                        CapeItem cape = (CapeItem) curiosHelper.get().getRight().getItem();
+                        if (cape.getCapeTexture() != null && stacksHandler.get().getRenders().get(curiosHelper.get().getMiddle()))
+                        {
+                            return ElytraTextureUtil.getGrayscale(cape.getCapeTexture());
+                        }
+                    }
+                }
             }
         }
-        else
-        {
-            elytraTexture = getElytraTexture(elytra, entitylivingbaseIn);
-        }
-        return elytraTexture;
+        return getElytraTexture(elytra, entitylivingbaseIn);
     }
 
     @Override
@@ -110,24 +121,6 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
     @Override
     public ResourceLocation getElytraTexture(ItemStack stack, T entity)
     {
-        if (CustomizableElytra.aetherLoaded)
-        {
-            Optional<ImmutableTriple<String, Integer, ItemStack>> curiosHelper = CuriosApi.getCuriosHelper().findEquippedCurio((item) -> item.getItem() instanceof CapeItem, entity);
-            Optional<ICuriosItemHandler> curiosHandler = CuriosApi.getCuriosHelper().getCuriosHandler(entity).resolve();
-            if (curiosHelper.isPresent() && curiosHandler.isPresent())
-            {
-                Optional<ICurioStacksHandler> stacksHandler = curiosHandler.get().getStacksHandler(curiosHelper.get().getLeft());
-                if (stacksHandler.isPresent())
-                {
-                    CapeItem cape = (CapeItem) curiosHelper.get().getRight().getItem();
-                    if (cape.getCapeTexture() != null && stacksHandler.get().getRenders().get(curiosHelper.get().getMiddle()))
-                    {
-                        return ElytraTextureUtil.getGrayscale(cape.getCapeTexture());
-                    }
-                }
-            }
-        }
-
         if (stack.getItem() == ModItems.CUSTOMIZABLE_ELYTRA.get())
         {
             if (((CustomizableElytraItem) stack.getItem()).hasColor(stack))
