@@ -18,7 +18,6 @@ public class Config
     public static final ForgeConfigSpec config;
 
     public static ForgeConfigSpec.BooleanValue useLowQualityElytraBanners;
-    public static ForgeConfigSpec.BooleanValue bannerBasePatternUsesCapeTexture;
 
     static
     {
@@ -27,10 +26,6 @@ public class Config
         useLowQualityElytraBanners = builder
                 .comment("If this is set to true, elytras will use lower quality textures for the banners (requires reload)")
                 .define("items.elytras_use_low_quality_banners", false);
-
-        bannerBasePatternUsesCapeTexture = builder
-                .comment("If this is set to true, customizing an elytra with a banner will use your cape texture (if present) as the base pattern, instead of a plain base")
-                .define("items.elytras_base_pattern_is_cape_texture", true);
 
         config = builder.build();
     }
