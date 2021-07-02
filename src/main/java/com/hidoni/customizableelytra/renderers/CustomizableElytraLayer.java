@@ -1,5 +1,6 @@
 package com.hidoni.customizableelytra.renderers;
 
+import com.gildedgames.aether.common.item.accessories.cape.CapeItem;
 import com.google.common.collect.ImmutableList;
 import com.hidoni.customizableelytra.CustomizableElytra;
 import com.hidoni.customizableelytra.items.CustomizableElytraItem;
@@ -25,6 +26,8 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
+import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 
 import java.util.List;
 import java.util.Optional;
@@ -107,6 +110,24 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
     @Override
     public ResourceLocation getElytraTexture(ItemStack stack, T entity)
     {
+        if (CustomizableElytra.aetherLoaded)
+        {
+            Optional<ImmutableTriple<String, Integer, ItemStack>> curiosHelper = CuriosApi.getCuriosHelper().findEquippedCurio((item) -> item.getItem() instanceof CapeItem, entity);
+            Optional<ICuriosItemHandler> curiosHandler = CuriosApi.getCuriosHelper().getCuriosHandler(entity).resolve();
+            if (curiosHelper.isPresent() && curiosHandler.isPresent())
+            {
+                Optional<ICurioStacksHandler> stacksHandler = curiosHandler.get().getStacksHandler(curiosHelper.get().getLeft());
+                if (stacksHandler.isPresent())
+                {
+                    CapeItem cape = (CapeItem) curiosHelper.get().getRight().getItem();
+                    if (cape.getCapeTexture() != null && stacksHandler.get().getRenders().get(curiosHelper.get().getMiddle()))
+                    {
+                        return ElytraTextureUtil.getGrayscale(cape.getCapeTexture());
+                    }
+                }
+            }
+        }
+
         if (stack.getItem() == ModItems.CUSTOMIZABLE_ELYTRA.get())
         {
             if (((CustomizableElytraItem) stack.getItem()).hasColor(stack))
@@ -114,6 +135,7 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
                 return TEXTURE_DYEABLE_ELYTRA;
             }
         }
+
         return super.getElytraTexture(stack, entity);
     }
 
