@@ -1,5 +1,6 @@
 package com.hidoni.customizableelytra.renderers;
 
+import com.gildedgames.aether.common.item.accessories.cape.CapeItem;
 import com.google.common.collect.ImmutableList;
 import com.hidoni.customizableelytra.CustomizableElytra;
 import com.hidoni.customizableelytra.items.CustomizableElytraItem;
@@ -25,6 +26,8 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
+import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 
 import java.util.List;
 import java.util.Optional;
@@ -74,28 +77,39 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
 
     private ResourceLocation getTextureWithCape(T entitylivingbaseIn, ItemStack elytra, boolean capeHidden)
     {
-        ResourceLocation elytraTexture;
-        if (!capeHidden && entitylivingbaseIn instanceof AbstractClientPlayerEntity)
+        if (!capeHidden)
         {
-            AbstractClientPlayerEntity abstractclientplayerentity = (AbstractClientPlayerEntity) entitylivingbaseIn;
-            if (abstractclientplayerentity.isPlayerInfoSet() && abstractclientplayerentity.getLocationElytra() != null)
+            if (entitylivingbaseIn instanceof AbstractClientPlayerEntity)
             {
-                elytraTexture = ElytraTextureUtil.getGrayscale(abstractclientplayerentity.getLocationElytra());
+                AbstractClientPlayerEntity abstractclientplayerentity = (AbstractClientPlayerEntity) entitylivingbaseIn;
+                if (abstractclientplayerentity.isPlayerInfoSet() && abstractclientplayerentity.getLocationElytra() != null)
+                {
+                    return ElytraTextureUtil.getGrayscale(abstractclientplayerentity.getLocationElytra());
+                }
+                else if (abstractclientplayerentity.hasPlayerInfo() && abstractclientplayerentity.getLocationCape() != null && abstractclientplayerentity.isWearing(PlayerModelPart.CAPE))
+                {
+                    return ElytraTextureUtil.getGrayscale(abstractclientplayerentity.getLocationCape());
+                }
             }
-            else if (abstractclientplayerentity.hasPlayerInfo() && abstractclientplayerentity.getLocationCape() != null && abstractclientplayerentity.isWearing(PlayerModelPart.CAPE))
+            if (CustomizableElytra.aetherLoaded)
             {
-                elytraTexture = ElytraTextureUtil.getGrayscale(abstractclientplayerentity.getLocationCape());
-            }
-            else
-            {
-                elytraTexture = getElytraTexture(elytra, entitylivingbaseIn);
+                Optional<ImmutableTriple<String, Integer, ItemStack>> curiosHelper = CuriosApi.getCuriosHelper().findEquippedCurio((item) -> item.getItem() instanceof CapeItem, entitylivingbaseIn);
+                Optional<ICuriosItemHandler> curiosHandler = CuriosApi.getCuriosHelper().getCuriosHandler(entitylivingbaseIn).resolve();
+                if (curiosHelper.isPresent() && curiosHandler.isPresent())
+                {
+                    Optional<ICurioStacksHandler> stacksHandler = curiosHandler.get().getStacksHandler(curiosHelper.get().getLeft());
+                    if (stacksHandler.isPresent())
+                    {
+                        CapeItem cape = (CapeItem) curiosHelper.get().getRight().getItem();
+                        if (cape.getCapeTexture() != null && stacksHandler.get().getRenders().get(curiosHelper.get().getMiddle()))
+                        {
+                            return ElytraTextureUtil.getGrayscale(cape.getCapeTexture());
+                        }
+                    }
+                }
             }
         }
-        else
-        {
-            elytraTexture = getElytraTexture(elytra, entitylivingbaseIn);
-        }
-        return elytraTexture;
+        return getElytraTexture(elytra, entitylivingbaseIn);
     }
 
     @Override
@@ -114,6 +128,7 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
                 return TEXTURE_DYEABLE_ELYTRA;
             }
         }
+
         return super.getElytraTexture(stack, entity);
     }
 

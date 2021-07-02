@@ -21,6 +21,7 @@ public class CustomizableElytra
     public static final Logger LOGGER = LogManager.getLogger();
     public static boolean caelusLoaded = false;
     public static boolean curiosLoaded = false;
+    public static boolean aetherLoaded = false;
 
     public CustomizableElytra()
     {
@@ -39,7 +40,7 @@ public class CustomizableElytra
         }
         curiosLoaded = ModList.get().isLoaded("curios");
         MinecraftForge.EVENT_BUS.register(new EntityConstructingHandler());
-
+        aetherLoaded = ModList.get().isLoaded("aether");
     }
 
     private void clientLoadingEvent(final FMLClientSetupEvent event)
