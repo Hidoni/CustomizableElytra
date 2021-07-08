@@ -3,7 +3,11 @@
   "group": "elytra_wing_recipes",
   "ingredients": [
     {
-      "item": "minecraft:elytra"
+      "type": "customizableelytra:damaged",
+      "itemlist": {
+        "item": "minecraft:elytra"
+      },
+      "damage": 0
     }
   ],
   "result": {

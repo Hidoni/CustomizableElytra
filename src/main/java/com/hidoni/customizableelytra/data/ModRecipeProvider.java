@@ -1,10 +1,13 @@
 package com.hidoni.customizableelytra.data;
 
 import com.hidoni.customizableelytra.CustomizableElytra;
+import com.hidoni.customizableelytra.crafting.DamagedIngredient;
 import com.hidoni.customizableelytra.setup.ModItems;
 import com.hidoni.customizableelytra.setup.ModRecipes;
 import net.minecraft.data.*;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import top.theillusivec4.caelus.api.CaelusApi;
 
@@ -21,12 +24,12 @@ public class ModRecipeProvider extends RecipeProvider
     protected void registerRecipes(Consumer<IFinishedRecipe> consumer)
     {
         ShapelessRecipeBuilder.shapelessRecipe(ModItems.ELYTRA_WING.get(), 2)
-                .addIngredient(CaelusApi.ELYTRA)
+                .addIngredient(new DamagedIngredient(new Ingredient.TagList(CaelusApi.ELYTRA), 0))
                 .addCriterion("has_item", hasItem(CaelusApi.ELYTRA))
                 .setGroup("elytra_wing_recipes")
                 .build(consumer);
         ShapelessRecipeBuilder.shapelessRecipe(ModItems.ELYTRA_WING.get(), 2)
-                .addIngredient(Items.ELYTRA)
+                .addIngredient(new DamagedIngredient(new Ingredient.SingleItemList(new ItemStack(Items.ELYTRA)), 0))
                 .addCriterion("has_item", hasItem(Items.ELYTRA))
                 .setGroup("elytra_wing_recipes")
                 .build(consumer, new ResourceLocation(CustomizableElytra.MOD_ID, "elytra_wing_vanilla"));
