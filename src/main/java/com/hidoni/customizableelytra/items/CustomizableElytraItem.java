@@ -81,22 +81,28 @@ public class CustomizableElytraItem extends ElytraItem implements IDyeableArmorI
             if (wingInfo.contains("left"))
             {
                 CompoundNBT leftWing = wingInfo.getCompound("left");
-                tooltip.add(new TranslationTextComponent(LEFT_WING_TRANSLATION_KEY).mergeStyle(TextFormatting.GRAY));
-                if (leftWing.getBoolean("HideCapePattern"))
+                if (!leftWing.isEmpty())
                 {
-                    tooltip.add(new TranslationTextComponent(HIDDEN_CAPE_TRANSLATION_KEY).mergeStyle(TextFormatting.GRAY, TextFormatting.ITALIC));
+                    tooltip.add(new TranslationTextComponent(LEFT_WING_TRANSLATION_KEY).mergeStyle(TextFormatting.GRAY));
+                    if (leftWing.getBoolean("HideCapePattern"))
+                    {
+                        tooltip.add(new TranslationTextComponent(HIDDEN_CAPE_TRANSLATION_KEY).mergeStyle(TextFormatting.GRAY, TextFormatting.ITALIC));
+                    }
+                    applyWingTooltip(tooltip, flagIn, leftWing);
                 }
-                applyWingTooltip(tooltip, flagIn, leftWing);
             }
             if (wingInfo.contains("right"))
             {
                 CompoundNBT rightWing = wingInfo.getCompound("right");
-                tooltip.add(new TranslationTextComponent(RIGHT_WING_TRANSLATION_KEY).mergeStyle(TextFormatting.GRAY));
-                if (rightWing.getBoolean("HideCapePattern"))
+                if (!rightWing.isEmpty())
                 {
-                    tooltip.add(new TranslationTextComponent(HIDDEN_CAPE_TRANSLATION_KEY).mergeStyle(TextFormatting.GRAY, TextFormatting.ITALIC));
+                    tooltip.add(new TranslationTextComponent(RIGHT_WING_TRANSLATION_KEY).mergeStyle(TextFormatting.GRAY));
+                    if (rightWing.getBoolean("HideCapePattern"))
+                    {
+                        tooltip.add(new TranslationTextComponent(HIDDEN_CAPE_TRANSLATION_KEY).mergeStyle(TextFormatting.GRAY, TextFormatting.ITALIC));
+                    }
+                    applyWingTooltip(tooltip, flagIn, rightWing);
                 }
-                applyWingTooltip(tooltip, flagIn, rightWing);
             }
         }
     }
