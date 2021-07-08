@@ -28,11 +28,6 @@ public class ModRecipeProvider extends RecipeProvider
                 .addCriterion("has_item", hasItem(CaelusApi.ELYTRA))
                 .setGroup("elytra_wing_recipes")
                 .build(consumer);
-        ShapelessRecipeBuilder.shapelessRecipe(ModItems.ELYTRA_WING.get(), 2)
-                .addIngredient(new DamagedIngredient(new Ingredient.SingleItemList(new ItemStack(Items.ELYTRA)), 0))
-                .addCriterion("has_item", hasItem(Items.ELYTRA))
-                .setGroup("elytra_wing_recipes")
-                .build(consumer, new ResourceLocation(CustomizableElytra.MOD_ID, "elytra_wing_vanilla"));
 
         CustomRecipeBuilder.customRecipe(ModRecipes.ELYTRA_DYE_RECIPE.get()).build(consumer, "elytra_dye_recipe");
         CustomRecipeBuilder.customRecipe(ModRecipes.ELYTRA_BANNER_RECIPE.get()).build(consumer, "elytra_banner_recipe");
