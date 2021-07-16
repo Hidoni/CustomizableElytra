@@ -6,6 +6,7 @@ import com.google.gson.JsonParser;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.tags.ItemTags;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.IIngredientSerializer;
 
@@ -66,6 +67,7 @@ public class DamagedIngredient extends Ingredient
             JsonParser parser = new JsonParser();
             JsonElement itemList = parser.parse(buffer.readString());
             int damageValue = buffer.readInt();
+            ItemTags.collection.fetchTags();
             return new DamagedIngredient(deserializeItemList(itemList.getAsJsonObject()), damageValue);
         }
 
