@@ -39,7 +39,7 @@ public class ElytraCustomizationUtil {
 
     public static ElytraCustomizationData getData(CompoundNBT wingIn) {
         CompoundNBT wingNBT = migrateOldSplitWingFormat(wingIn);
-        if (wingNBT.contains("display")) {
+        if (wingNBT.contains("display") && wingNBT.getCompound("display").contains("color", 99)) {
             return new ElytraCustomizationData(ElytraCustomizationData.CustomizationType.Dye, new DyeCustomizationHandler(wingNBT));
         } else if (wingNBT.contains("BlockEntityTag")) {
             return new ElytraCustomizationData(ElytraCustomizationData.CustomizationType.Banner, new BannerCustomizationHandler(wingNBT));

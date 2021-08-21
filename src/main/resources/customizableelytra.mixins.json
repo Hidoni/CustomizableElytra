@@ -9,6 +9,7 @@
     "CapeLayerMixin",
     "DownloadingTextureAccessor",
     "DownloadingTextureInvoker",
+    "ElytraLayerAccessor",
     "SimpleTextureInvoker"
   ],
   "minVersion": "0.8"

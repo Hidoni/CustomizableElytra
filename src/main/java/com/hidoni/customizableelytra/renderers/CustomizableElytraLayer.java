@@ -4,6 +4,7 @@ import com.gildedgames.aether.common.item.accessories.cape.CapeItem;
 import com.google.common.collect.ImmutableList;
 import com.hidoni.customizableelytra.CustomizableElytra;
 import com.hidoni.customizableelytra.items.CustomizableElytraItem;
+import com.hidoni.customizableelytra.mixin.ElytraLayerAccessor;
 import com.hidoni.customizableelytra.renderers.models.ElytraWingModel;
 import com.hidoni.customizableelytra.renderers.models.MirroredElytraWingModel;
 import com.hidoni.customizableelytra.setup.ModItems;
@@ -52,22 +53,23 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
             ElytraCustomizationData data = ElytraCustomizationUtil.getData(elytra);
             if (data.type != ElytraCustomizationData.CustomizationType.Split) {
                 this.getEntityModel().copyModelAttributesTo(this.modelElytra);
-                ResourceLocation elytraTexture = getTextureWithCape(entitylivingbaseIn, elytra, data.handler.isWingCapeHidden(0));
+                ResourceLocation elytraTexture = getTextureWithCape(entitylivingbaseIn, elytra.getTag(), data.handler.isWingCapeHidden(0));
                 data.handler.render(matrixStackIn, bufferIn, packedLightIn, entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, this.modelElytra, elytraTexture, elytra.hasEffect());
             } else {
                 List<ElytraWingModel<T>> models = ImmutableList.of(leftElytraWing, rightElytraWing);
                 for (ElytraWingModel<T> model : models) {
                     this.getEntityModel().copyModelAttributesTo(model);
                 }
-                ResourceLocation leftWingTexture = getTextureWithCape(entitylivingbaseIn, elytra, data.handler.isWingCapeHidden(0));
-                ResourceLocation rightWingTexture = getTextureWithCape(entitylivingbaseIn, elytra, data.handler.isWingCapeHidden(1));
+                CompoundNBT wingInfo = elytra.getChildTag("WingInfo");
+                ResourceLocation leftWingTexture = getTextureWithCape(entitylivingbaseIn, wingInfo.getCompound("left"), data.handler.isWingCapeHidden(0));
+                ResourceLocation rightWingTexture = getTextureWithCape(entitylivingbaseIn, wingInfo.getCompound("right"), data.handler.isWingCapeHidden(1));
                 ((SplitCustomizationHandler) data.handler).render(matrixStackIn, bufferIn, packedLightIn, entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, models, leftWingTexture, rightWingTexture, elytra.hasEffect());
             }
             matrixStackIn.pop();
         }
     }
 
-    private ResourceLocation getTextureWithCape(T entitylivingbaseIn, ItemStack elytra, boolean capeHidden) {
+    private ResourceLocation getTextureWithCape(T entitylivingbaseIn, CompoundNBT customizationTag, boolean capeHidden) {
         if (!capeHidden) {
             if (entitylivingbaseIn instanceof AbstractClientPlayerEntity) {
                 AbstractClientPlayerEntity abstractclientplayerentity = (AbstractClientPlayerEntity) entitylivingbaseIn;
@@ -91,7 +93,7 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
                 }
             }
         }
-        return getElytraTexture(elytra, entitylivingbaseIn);
+        return getElytraTexture(customizationTag, entitylivingbaseIn);
     }
 
     @Override
@@ -99,15 +101,11 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
         return stack.getItem() == ModItems.CUSTOMIZABLE_ELYTRA.get();
     }
 
-    @Override
-    public ResourceLocation getElytraTexture(ItemStack stack, T entity) {
-        if (stack.getItem() == ModItems.CUSTOMIZABLE_ELYTRA.get()) {
-            if (((CustomizableElytraItem) stack.getItem()).hasColor(stack)) {
-                return TEXTURE_DYEABLE_ELYTRA;
-            }
+    public ResourceLocation getElytraTexture(CompoundNBT customizationTag, T entity) {
+        if (ElytraCustomizationUtil.getData(customizationTag).type != ElytraCustomizationData.CustomizationType.None) {
+            return TEXTURE_DYEABLE_ELYTRA;
         }
-
-        return super.getElytraTexture(stack, entity);
+        return ((ElytraLayerAccessor)this).getDefaultElytraTexture();
     }
 
     public ItemStack getColytraSubItem(ItemStack stack) {
