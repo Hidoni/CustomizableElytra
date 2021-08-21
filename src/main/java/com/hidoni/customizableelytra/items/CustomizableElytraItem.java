@@ -51,7 +51,7 @@ public class CustomizableElytraItem extends ElytraItem implements IDyeableArmorI
     public boolean hasColor(ItemStack stack) {
         CompoundNBT bannerTag = stack.getChildTag("BlockEntityTag");
         CompoundNBT wingTag = stack.getChildTag("WingInfo");
-        return IDyeableArmorItem.super.hasColor(stack) || bannerTag != null || wingTag != null;
+        return IDyeableArmorItem.super.hasColor(stack) || bannerTag != null || wingTag != null || stack.getOrCreateTag().getBoolean("HideCapePattern");
     }
 
     @Override
