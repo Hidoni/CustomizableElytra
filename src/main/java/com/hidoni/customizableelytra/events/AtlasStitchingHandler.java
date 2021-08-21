@@ -11,24 +11,18 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class AtlasStitchingHandler
-{
+public class AtlasStitchingHandler {
     @SubscribeEvent
-    public static void onAtlasStiching(TextureStitchEvent.Pre event)
-    {
+    public static void onAtlasStiching(TextureStitchEvent.Pre event) {
         ResourceLocation stitching = event.getMap().getTextureLocation();
         if (stitching.equals(AtlasTexture.LOCATION_BLOCKS_TEXTURE)) // Currently stitching to block textures, should probably stitch to separate atlas just like shields & banners do
         {
-            for (BannerPattern bannerpattern : BannerPattern.values())
-            {
+            for (BannerPattern bannerpattern : BannerPattern.values()) {
                 ResourceLocation textureLocation = CustomizableElytraItem.getTextureLocation(bannerpattern);
                 boolean succeeded = event.addSprite(textureLocation);
-                if (!succeeded)
-                {
+                if (!succeeded) {
                     CustomizableElytra.LOGGER.error("Failed to add " + textureLocation + " to texture atlas!");
-                }
-                else
-                {
+                } else {
                     CustomizableElytra.LOGGER.debug("Added " + textureLocation + " to texture atlas.");
                 }
             }

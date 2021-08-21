@@ -7,13 +7,11 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Rarity;
 import net.minecraftforge.fml.RegistryObject;
 
-public class ModItems
-{
+public class ModItems {
     public static final RegistryObject<Item> CUSTOMIZABLE_ELYTRA = Registration.ITEMS.register("customizable_elytra", () -> new CustomizableElytraItem((new Item.Properties()).maxDamage(432).rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> ELYTRA_WING = Registration.ITEMS.register("elytra_wing", () -> new ElytraWingItem(new Item.Properties().rarity(Rarity.UNCOMMON).group(ItemGroup.MISC)));
 
-    static void register()
-    {
+    static void register() {
 
     }
 }

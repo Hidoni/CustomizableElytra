@@ -9,11 +9,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class ItemColorHandler
-{
+public class ItemColorHandler {
     @SubscribeEvent
-    public static void registerItemColor(ColorHandlerEvent.Item event)
-    {
+    public static void registerItemColor(ColorHandlerEvent.Item event) {
         event.getItemColors().register((stack, color) ->
                 ((CustomizableElytraItem) stack.getItem()).getColor(stack, color), ModItems.CUSTOMIZABLE_ELYTRA.get());
 

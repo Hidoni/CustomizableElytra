@@ -10,16 +10,13 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 
 @Mod.EventBusSubscriber(modid = CustomizableElytra.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class DataGenerators
-{
-    private DataGenerators()
-    {
+public class DataGenerators {
+    private DataGenerators() {
 
     }
 
     @SubscribeEvent
-    public static void gatherData(GatherDataEvent event)
-    {
+    public static void gatherData(GatherDataEvent event) {
         CustomizableElytra.LOGGER.info("Beginning Data Generation Registration!");
         DataGenerator generator = event.getGenerator();
         ExistingFileHelper fileHelper = event.getExistingFileHelper();

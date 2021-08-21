@@ -14,48 +14,36 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
-public class ElytraBannerRecipe extends SpecialRecipe
-{
+public class ElytraBannerRecipe extends SpecialRecipe {
 
-    public ElytraBannerRecipe(ResourceLocation idIn)
-    {
+    public ElytraBannerRecipe(ResourceLocation idIn) {
         super(idIn);
     }
 
     @Override
-    public boolean matches(CraftingInventory inv, World worldIn)
-    {
+    public boolean matches(CraftingInventory inv, World worldIn) {
         ItemStack elytraItem = ItemStack.EMPTY;
         ItemStack bannerItem = ItemStack.EMPTY;
 
-        for (int i = 0; i < inv.getSizeInventory(); ++i)
-        {
+        for (int i = 0; i < inv.getSizeInventory(); ++i) {
             ItemStack inventoryItem = inv.getStackInSlot(i);
-            if (!inventoryItem.isEmpty())
-            {
-                if (inventoryItem.getItem() instanceof BannerItem)
-                {
-                    if (!bannerItem.isEmpty())
-                    {
+            if (!inventoryItem.isEmpty()) {
+                if (inventoryItem.getItem() instanceof BannerItem) {
+                    if (!bannerItem.isEmpty()) {
                         return false;
                     }
 
                     bannerItem = inventoryItem;
-                }
-                else
-                {
-                    if (inventoryItem.getItem() != Items.ELYTRA && inventoryItem.getItem() != ModItems.CUSTOMIZABLE_ELYTRA.get() && inventoryItem.getItem() != ModItems.ELYTRA_WING.get())
-                    {
+                } else {
+                    if (inventoryItem.getItem() != Items.ELYTRA && inventoryItem.getItem() != ModItems.CUSTOMIZABLE_ELYTRA.get() && inventoryItem.getItem() != ModItems.ELYTRA_WING.get()) {
                         return false;
                     }
 
-                    if (!elytraItem.isEmpty())
-                    {
+                    if (!elytraItem.isEmpty()) {
                         return false;
                     }
 
-                    if (inventoryItem.getChildTag("BlockEntityTag") != null || inventoryItem.getChildTag("WingInfo") != null)
-                    {
+                    if (inventoryItem.getChildTag("BlockEntityTag") != null || inventoryItem.getChildTag("WingInfo") != null) {
                         return false;
                     }
 
@@ -68,44 +56,32 @@ public class ElytraBannerRecipe extends SpecialRecipe
     }
 
     @Override
-    public ItemStack getCraftingResult(CraftingInventory inv)
-    {
+    public ItemStack getCraftingResult(CraftingInventory inv) {
         ItemStack bannerItem = ItemStack.EMPTY;
         ItemStack elytraItem = ItemStack.EMPTY;
 
-        for (int i = 0; i < inv.getSizeInventory(); ++i)
-        {
+        for (int i = 0; i < inv.getSizeInventory(); ++i) {
             ItemStack inventoryItem = inv.getStackInSlot(i);
-            if (!inventoryItem.isEmpty())
-            {
-                if (inventoryItem.getItem() instanceof BannerItem)
-                {
-                    if (!bannerItem.isEmpty())
-                    {
+            if (!inventoryItem.isEmpty()) {
+                if (inventoryItem.getItem() instanceof BannerItem) {
+                    if (!bannerItem.isEmpty()) {
                         return ItemStack.EMPTY;
                     }
                     bannerItem = inventoryItem;
-                }
-                else if (inventoryItem.getItem() == Items.ELYTRA)
-                {
-                    if (!elytraItem.isEmpty())
-                    {
+                } else if (inventoryItem.getItem() == Items.ELYTRA) {
+                    if (!elytraItem.isEmpty()) {
                         return ItemStack.EMPTY;
                     }
                     ItemStack customizableElytraItem = new ItemStack(ModItems.CUSTOMIZABLE_ELYTRA.get());
                     EnchantmentHelper.setEnchantments(EnchantmentHelper.getEnchantments(inventoryItem), customizableElytraItem);
-                    if (!inventoryItem.getDisplayName().equals(new TranslationTextComponent(Items.ELYTRA.getTranslationKey())))
-                    {
+                    if (!inventoryItem.getDisplayName().equals(new TranslationTextComponent(Items.ELYTRA.getTranslationKey()))) {
                         customizableElytraItem.setDisplayName(inventoryItem.getDisplayName());
                     }
                     customizableElytraItem.setDamage(inventoryItem.getDamage());
                     customizableElytraItem.setRepairCost(inventoryItem.getRepairCost());
                     elytraItem = customizableElytraItem;
-                }
-                else if (inventoryItem.getItem() == ModItems.CUSTOMIZABLE_ELYTRA.get() || inventoryItem.getItem() == ModItems.ELYTRA_WING.get())
-                {
-                    if (!elytraItem.isEmpty())
-                    {
+                } else if (inventoryItem.getItem() == ModItems.CUSTOMIZABLE_ELYTRA.get() || inventoryItem.getItem() == ModItems.ELYTRA_WING.get()) {
+                    if (!elytraItem.isEmpty()) {
                         return ItemStack.EMPTY;
                     }
                     elytraItem = inventoryItem.copy();
@@ -114,8 +90,7 @@ public class ElytraBannerRecipe extends SpecialRecipe
             }
         }
 
-        if (!elytraItem.isEmpty())
-        {
+        if (!elytraItem.isEmpty()) {
             CompoundNBT compoundnbt = bannerItem.getChildTag("BlockEntityTag");
             CompoundNBT compoundnbt1 = compoundnbt == null ? new CompoundNBT() : compoundnbt.copy();
             compoundnbt1.putInt("Base", ((BannerItem) bannerItem.getItem()).getColor().getId());
@@ -126,14 +101,12 @@ public class ElytraBannerRecipe extends SpecialRecipe
     }
 
     @Override
-    public boolean canFit(int width, int height)
-    {
+    public boolean canFit(int width, int height) {
         return width * height >= 2;
     }
 
     @Override
-    public IRecipeSerializer<?> getSerializer()
-    {
+    public IRecipeSerializer<?> getSerializer() {
         return ModRecipes.ELYTRA_BANNER_RECIPE.get();
     }
 }

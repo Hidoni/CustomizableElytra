@@ -17,8 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 @Mod(CustomizableElytra.MOD_ID)
-public class CustomizableElytra
-{
+public class CustomizableElytra {
     public static final String MOD_ID = "customizableelytra";
     // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger();
@@ -26,8 +25,7 @@ public class CustomizableElytra
     public static boolean curiosLoaded = false;
     public static boolean aetherLoaded = false;
 
-    public CustomizableElytra()
-    {
+    public CustomizableElytra() {
         Registration.register();
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientLoadingEvent);
@@ -36,13 +34,10 @@ public class CustomizableElytra
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
-        if (ModList.get().isLoaded("caelus"))
-        {
+        if (ModList.get().isLoaded("caelus")) {
             caelusLoaded = true;
             MinecraftForge.EVENT_BUS.register(new ElytraRenderHandler());
-        }
-        else
-        {
+        } else {
             // If Caelus isn't loaded, this tag needs to be created to prevent crashing
             ForgeTagHandler.createOptionalTag(ForgeRegistries.ITEMS, new ResourceLocation("forge", "elytra"));
         }
@@ -51,8 +46,7 @@ public class CustomizableElytra
         aetherLoaded = ModList.get().isLoaded("aether");
     }
 
-    private void clientLoadingEvent(final FMLClientSetupEvent event)
-    {
+    private void clientLoadingEvent(final FMLClientSetupEvent event) {
         ClientEventHandler.handleClientLoading(event);
     }
 }

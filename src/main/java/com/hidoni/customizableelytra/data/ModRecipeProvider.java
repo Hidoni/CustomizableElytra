@@ -13,16 +13,13 @@ import top.theillusivec4.caelus.api.CaelusApi;
 
 import java.util.function.Consumer;
 
-public class ModRecipeProvider extends RecipeProvider
-{
-    public ModRecipeProvider(DataGenerator generatorIn)
-    {
+public class ModRecipeProvider extends RecipeProvider {
+    public ModRecipeProvider(DataGenerator generatorIn) {
         super(generatorIn);
     }
 
     @Override
-    protected void registerRecipes(Consumer<IFinishedRecipe> consumer)
-    {
+    protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
         ShapelessRecipeBuilder.shapelessRecipe(ModItems.ELYTRA_WING.get(), 2)
                 .addIngredient(new DamagedIngredient(new Ingredient.TagList(CaelusApi.ELYTRA), 0))
                 .addCriterion("has_item", hasItem(CaelusApi.ELYTRA))

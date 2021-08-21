@@ -7,8 +7,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 import java.io.File;
 
 @Mixin(DownloadingTexture.class)
-public interface DownloadingTextureAccessor
-{
+public interface DownloadingTextureAccessor {
     @Accessor("cacheFile")
     File getCacheFile();
 }

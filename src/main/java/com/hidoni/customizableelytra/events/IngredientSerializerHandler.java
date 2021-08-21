@@ -10,11 +10,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-public class IngredientSerializerHandler
-{
+public class IngredientSerializerHandler {
     @SubscribeEvent
-    public static void onSerializerRegistration(RegistryEvent.Register<IRecipeSerializer<?>> event)
-    {
+    public static void onSerializerRegistration(RegistryEvent.Register<IRecipeSerializer<?>> event) {
         CraftingHelper.register(new ResourceLocation(CustomizableElytra.MOD_ID, "damaged"), DamagedIngredient.Serializer.INSTANCE);
     }
 }

@@ -8,8 +8,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 import java.io.InputStream;
 
 @Mixin(DownloadingTexture.class)
-public interface DownloadingTextureInvoker
-{
+public interface DownloadingTextureInvoker {
     @Invoker("loadTexture")
     NativeImage callLoadTexture(InputStream inputStreamIn);
 }

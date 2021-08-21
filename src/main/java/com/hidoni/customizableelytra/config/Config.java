@@ -12,15 +12,12 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import java.io.File;
 
 @Mod.EventBusSubscriber
-public class Config
-{
-    private static final ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
+public class Config {
     public static final ForgeConfigSpec config;
-
+    private static final ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
     public static ForgeConfigSpec.BooleanValue useLowQualityElytraBanners;
 
-    static
-    {
+    static {
         builder.comment("Customizable Elytra Common Config File");
 
         useLowQualityElytraBanners = builder
@@ -30,8 +27,7 @@ public class Config
         config = builder.build();
     }
 
-    public static void loadConfig(ForgeConfigSpec config, String path)
-    {
+    public static void loadConfig(ForgeConfigSpec config, String path) {
         CustomizableElytra.LOGGER.debug("Beginning config loading!");
         final CommentedFileConfig file = CommentedFileConfig.builder(new File(path)).sync().autosave().writingMode(WritingMode.REPLACE).preserveInsertionOrder().build();
         file.load();
@@ -39,8 +35,7 @@ public class Config
         CustomizableElytra.LOGGER.debug("Finished config loading!");
     }
 
-    public static void init()
-    {
+    public static void init() {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.config);
         loadConfig(config, FMLPaths.CONFIGDIR.get().resolve(CustomizableElytra.MOD_ID + "-common.toml").toString());
 

@@ -15,16 +15,12 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ElytraTextureUtil
-{
+public class ElytraTextureUtil {
     private static final Map<ResourceLocation, ResourceLocation> TEXTURE_CACHE = new HashMap<>();
 
-    private static void convertTextureToGrayscale(NativeImage nativeImage)
-    {
-        for (int x = 0; x < nativeImage.getWidth(); x++)
-        {
-            for (int y = 0; y < nativeImage.getHeight(); y++)
-            {
+    private static void convertTextureToGrayscale(NativeImage nativeImage) {
+        for (int x = 0; x < nativeImage.getWidth(); x++) {
+            for (int y = 0; y < nativeImage.getHeight(); y++) {
                 int pixelRGBA = nativeImage.getPixelRGBA(x, y);
                 int originalRGB = pixelRGBA & 0xFFFFFF;
                 int grayscale = (((originalRGB & 0xFF0000) >> 16) + ((originalRGB & 0xFF00) >> 8) + (originalRGB & 0xFF)) / 3;
@@ -34,55 +30,39 @@ public class ElytraTextureUtil
         }
     }
 
-    private static NativeImage getNativeImageFromTexture(ResourceLocation locationIn)
-    {
+    private static NativeImage getNativeImageFromTexture(ResourceLocation locationIn) {
         Texture texture = Minecraft.getInstance().getTextureManager().getTexture(locationIn);
-        if (texture instanceof DynamicTexture)
-        {
+        if (texture instanceof DynamicTexture) {
             DynamicTexture dynamicTexture = (DynamicTexture) texture;
             NativeImage dynamicTextureData = dynamicTexture.getTextureData();
-            if (dynamicTextureData != null)
-            {
+            if (dynamicTextureData != null) {
                 NativeImage returnTexture = new NativeImage(dynamicTextureData.getWidth(), dynamicTextureData.getHeight(), false);
                 returnTexture.copyImageData(dynamicTextureData);
                 return returnTexture;
             }
-        }
-        else if (texture instanceof DownloadingTexture)
-        {
+        } else if (texture instanceof DownloadingTexture) {
             File cacheFile = ((DownloadingTextureAccessor) texture).getCacheFile();
-            if (cacheFile != null)
-            {
-                try
-                {
+            if (cacheFile != null) {
+                try {
                     return ((DownloadingTextureInvoker) texture).callLoadTexture(new FileInputStream(cacheFile));
-                }
-                catch (FileNotFoundException e)
-                {
+                } catch (FileNotFoundException e) {
                     return null;
                 }
             }
             return null;
-        }
-        else if (texture instanceof SimpleTexture)
-        {
-            try
-            {
+        } else if (texture instanceof SimpleTexture) {
+            try {
                 return ((SimpleTextureInvoker) texture).invokeGetTextureData(Minecraft.getInstance().getResourceManager()).getNativeImage();
-            }
-            catch (IOException e)
-            {
+            } catch (IOException e) {
                 return null;
             }
         }
         return null;
     }
 
-    private static ResourceLocation createGrayscaleTexture(ResourceLocation locationIn)
-    {
+    private static ResourceLocation createGrayscaleTexture(ResourceLocation locationIn) {
         NativeImage texture = getNativeImageFromTexture(locationIn);
-        if (texture == null)
-        {
+        if (texture == null) {
             return locationIn;
         }
         convertTextureToGrayscale(texture);
@@ -92,10 +72,8 @@ public class ElytraTextureUtil
         return locationOut;
     }
 
-    public static ResourceLocation getGrayscale(ResourceLocation locationIn)
-    {
-        if (!TEXTURE_CACHE.containsKey(locationIn))
-        {
+    public static ResourceLocation getGrayscale(ResourceLocation locationIn) {
+        if (!TEXTURE_CACHE.containsKey(locationIn)) {
             CustomizableElytra.LOGGER.debug("Creating grayscale texture for: " + locationIn);
             return createGrayscaleTexture(locationIn);
         }

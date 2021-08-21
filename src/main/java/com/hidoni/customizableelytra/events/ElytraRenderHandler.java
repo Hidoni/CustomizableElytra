@@ -13,29 +13,21 @@ import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.Optional;
 
-public class ElytraRenderHandler
-{
+public class ElytraRenderHandler {
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void onElytraRender(RenderElytraEvent event)
-    {
-        if (event.canRender())
-        {
+    public void onElytraRender(RenderElytraEvent event) {
+        if (event.canRender()) {
             // Check if the equipped armor has been modified with Colytra
             ItemStack chestStack = event.getPlayer().getItemStackFromSlot(EquipmentSlotType.CHEST);
             CompoundNBT colytraChestTag = chestStack.getChildTag("colytra:ElytraUpgrade");
-            if (colytraChestTag != null)
-            {
+            if (colytraChestTag != null) {
                 ItemStack elytraStack = ItemStack.read(colytraChestTag);
-                if (elytraStack.getItem() == ModItems.CUSTOMIZABLE_ELYTRA.get())
-                {
+                if (elytraStack.getItem() == ModItems.CUSTOMIZABLE_ELYTRA.get()) {
                     event.setRender(false); // disable the rendering set by Colytra, custom layer will handle it from here.
                 }
-            }
-            else if (CustomizableElytra.curiosLoaded)
-            {
+            } else if (CustomizableElytra.curiosLoaded) {
                 Optional<ImmutableTriple<String, Integer, ItemStack>> curio = CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.CUSTOMIZABLE_ELYTRA.get(), event.getPlayer());
-                if (curio.isPresent())
-                {
+                if (curio.isPresent()) {
                     event.setRender(false);
                 }
             }

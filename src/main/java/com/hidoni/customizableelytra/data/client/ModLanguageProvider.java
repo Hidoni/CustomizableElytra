@@ -6,16 +6,13 @@ import com.hidoni.customizableelytra.setup.ModItems;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.LanguageProvider;
 
-public class ModLanguageProvider extends LanguageProvider
-{
-    public ModLanguageProvider(DataGenerator gen)
-    {
+public class ModLanguageProvider extends LanguageProvider {
+    public ModLanguageProvider(DataGenerator gen) {
         super(gen, CustomizableElytra.MOD_ID, "en_us");
     }
 
     @Override
-    protected void addTranslations()
-    {
+    protected void addTranslations() {
         add(ModItems.ELYTRA_WING.get(), "Elytra Wing");
         add(CustomizableElytraItem.LEFT_WING_TRANSLATION_KEY, "Left Wing:");
         add(CustomizableElytraItem.RIGHT_WING_TRANSLATION_KEY, "Right Wing:");

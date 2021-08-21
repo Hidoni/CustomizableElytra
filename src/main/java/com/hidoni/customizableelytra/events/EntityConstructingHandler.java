@@ -9,14 +9,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-public class EntityConstructingHandler
-{
+public class EntityConstructingHandler {
     private static boolean addedYet = false;
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public void onEntityConstruct(EntityEvent.EntityConstructing event)
-    {
+    public void onEntityConstruct(EntityEvent.EntityConstructing event) {
         if (!addedYet && event.getEntity() instanceof ArmorStandEntity) // Add custom elytra to armor stands.
         {
             ArmorStandEntity entity = (ArmorStandEntity) event.getEntity();
