@@ -3,15 +3,11 @@ package com.hidoni.customizableelytra.renderers;
 import com.gildedgames.aether.common.item.accessories.cape.CapeItem;
 import com.google.common.collect.ImmutableList;
 import com.hidoni.customizableelytra.CustomizableElytra;
-import com.hidoni.customizableelytra.items.CustomizableElytraItem;
 import com.hidoni.customizableelytra.mixin.ElytraLayerAccessor;
 import com.hidoni.customizableelytra.renderers.models.ElytraWingModel;
 import com.hidoni.customizableelytra.renderers.models.MirroredElytraWingModel;
 import com.hidoni.customizableelytra.setup.ModItems;
-import com.hidoni.customizableelytra.util.ElytraCustomizationData;
-import com.hidoni.customizableelytra.util.ElytraCustomizationUtil;
-import com.hidoni.customizableelytra.util.ElytraTextureUtil;
-import com.hidoni.customizableelytra.util.SplitCustomizationHandler;
+import com.hidoni.customizableelytra.util.*;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -21,7 +17,6 @@ import net.minecraft.client.renderer.entity.model.ElytraModel;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerModelPart;
-import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
@@ -43,10 +38,9 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
         super(rendererIn);
     }
 
-
     @Override
     public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        ItemStack elytra = tryFindElytra(entitylivingbaseIn);
+        ItemStack elytra = ElytraInventoryUtil.tryFindElytra(entitylivingbaseIn);
         if (elytra != ItemStack.EMPTY) {
             matrixStackIn.push();
             matrixStackIn.translate(0.0D, 0.0D, 0.125D);
@@ -105,42 +99,6 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
         if (ElytraCustomizationUtil.getData(customizationTag).type != ElytraCustomizationData.CustomizationType.None) {
             return TEXTURE_DYEABLE_ELYTRA;
         }
-        return ((ElytraLayerAccessor)this).getDefaultElytraTexture();
-    }
-
-    public ItemStack getColytraSubItem(ItemStack stack) {
-        CompoundNBT colytraChestTag = stack.getChildTag("colytra:ElytraUpgrade");
-        if (colytraChestTag != null) {
-            ItemStack elytraStack = ItemStack.read(colytraChestTag);
-            if (elytraStack.getItem() == ModItems.CUSTOMIZABLE_ELYTRA.get()) {
-                return elytraStack;
-            }
-        }
-        return ItemStack.EMPTY;
-    }
-
-    public ItemStack getCurioElytra(LivingEntity entity) {
-        Optional<ImmutableTriple<String, Integer, ItemStack>> curio = CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.CUSTOMIZABLE_ELYTRA.get(), entity);
-        if (curio.isPresent()) {
-            return curio.get().getRight();
-        }
-        return ItemStack.EMPTY;
-    }
-
-    public ItemStack tryFindElytra(LivingEntity entity) {
-        ItemStack elytra = entity.getItemStackFromSlot(EquipmentSlotType.CHEST);
-        if (shouldRender(elytra, entity)) {
-            return elytra;
-        }
-        if (CustomizableElytra.caelusLoaded) {
-            elytra = getColytraSubItem(elytra);
-            if (elytra != ItemStack.EMPTY) {
-                return elytra;
-            }
-            if (CustomizableElytra.curiosLoaded) {
-                return getCurioElytra(entity);
-            }
-        }
-        return ItemStack.EMPTY;
+        return ((ElytraLayerAccessor) this).getDefaultElytraTexture();
     }
 }
