@@ -70,7 +70,7 @@ public class CustomizableElytraItem extends ElytraItem implements IDyeableArmorI
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        applyWingTooltip(tooltip, flagIn, stack.getTag());
+        applyWingTooltip(tooltip, flagIn, stack.getTag(), true);
         CompoundNBT wingInfo = stack.getChildTag("WingInfo");
         if (wingInfo != null) {
             if (wingInfo.contains("left")) {
@@ -95,17 +95,23 @@ public class CustomizableElytraItem extends ElytraItem implements IDyeableArmorI
         return Items.ELYTRA.getTranslationKey();
     }
 
-    private void applyWingTooltip(List<ITextComponent> tooltip, ITooltipFlag flagIn, CompoundNBT wingIn) {
+    public static void applyWingTooltip(List<ITextComponent> tooltip, ITooltipFlag flagIn, CompoundNBT wingIn) {
+        applyWingTooltip(tooltip, flagIn, wingIn, false);
+    }
+
+    public static void applyWingTooltip(List<ITextComponent> tooltip, ITooltipFlag flagIn, CompoundNBT wingIn, boolean ignoreDisplayTag) {
         CompoundNBT wing = ElytraCustomizationUtil.migrateOldSplitWingFormat(wingIn);
         if (wing.getBoolean("HideCapePattern")) {
             tooltip.add(new TranslationTextComponent(HIDDEN_CAPE_TRANSLATION_KEY).mergeStyle(TextFormatting.GRAY, TextFormatting.ITALIC));
         }
-        if (wing.contains("display")) {
+        if (!ignoreDisplayTag && wing.contains("display")) {
             CompoundNBT displayTag = wing.getCompound("display");
-            if (flagIn.isAdvanced()) {
-                tooltip.add((new TranslationTextComponent("item.color", String.format("#%06X", displayTag.getInt("color")))).mergeStyle(TextFormatting.GRAY));
-            } else {
-                tooltip.add((new TranslationTextComponent("item.dyed")).mergeStyle(TextFormatting.GRAY, TextFormatting.ITALIC));
+            if (displayTag.contains("color", 99)) {
+                if (flagIn.isAdvanced()) {
+                    tooltip.add((new TranslationTextComponent("item.color", String.format("#%06X", displayTag.getInt("color")))).mergeStyle(TextFormatting.GRAY));
+                } else {
+                    tooltip.add((new TranslationTextComponent("item.dyed")).mergeStyle(TextFormatting.GRAY, TextFormatting.ITALIC));
+                }
             }
         } else if (wing.contains("BlockEntityTag")) {
             CompoundNBT blockEntityTag = wingIn.getCompound("BlockEntityTag");
