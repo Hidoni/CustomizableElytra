@@ -115,7 +115,7 @@ public class CustomizableElytraItem extends ElytraItem implements IDyeableArmorI
             }
         } else if (wing.contains("BlockEntityTag")) {
             CompoundNBT blockEntityTag = wingIn.getCompound("BlockEntityTag");
-            int baseColor = blockEntityTag.getInt("base");
+            int baseColor = blockEntityTag.getInt("Base");
             tooltip.add((new TranslationTextComponent("block.minecraft.banner." + BannerPattern.BASE.getFileName() + '.' + DyeColor.byId(baseColor).getTranslationKey())).mergeStyle(TextFormatting.GRAY));
             ListNBT listnbt = blockEntityTag.getList("Patterns", 10);
 
