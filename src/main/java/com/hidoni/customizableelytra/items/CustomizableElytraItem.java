@@ -70,19 +70,13 @@ public class CustomizableElytraItem extends ElytraItem implements IDyeableArmorI
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        if (stack.getOrCreateTag().getBoolean("HideCapePattern")) {
-            tooltip.add(new TranslationTextComponent(HIDDEN_CAPE_TRANSLATION_KEY).mergeStyle(TextFormatting.GRAY, TextFormatting.ITALIC));
-        }
-        BannerItem.appendHoverTextFromTileEntityTag(stack, tooltip);
+        applyWingTooltip(tooltip, flagIn, stack.getTag());
         CompoundNBT wingInfo = stack.getChildTag("WingInfo");
         if (wingInfo != null) {
             if (wingInfo.contains("left")) {
                 CompoundNBT leftWing = wingInfo.getCompound("left");
                 if (!leftWing.isEmpty()) {
                     tooltip.add(new TranslationTextComponent(LEFT_WING_TRANSLATION_KEY).mergeStyle(TextFormatting.GRAY));
-                    if (leftWing.getBoolean("HideCapePattern")) {
-                        tooltip.add(new TranslationTextComponent(HIDDEN_CAPE_TRANSLATION_KEY).mergeStyle(TextFormatting.GRAY, TextFormatting.ITALIC));
-                    }
                     applyWingTooltip(tooltip, flagIn, leftWing);
                 }
             }
@@ -90,9 +84,6 @@ public class CustomizableElytraItem extends ElytraItem implements IDyeableArmorI
                 CompoundNBT rightWing = wingInfo.getCompound("right");
                 if (!rightWing.isEmpty()) {
                     tooltip.add(new TranslationTextComponent(RIGHT_WING_TRANSLATION_KEY).mergeStyle(TextFormatting.GRAY));
-                    if (rightWing.getBoolean("HideCapePattern")) {
-                        tooltip.add(new TranslationTextComponent(HIDDEN_CAPE_TRANSLATION_KEY).mergeStyle(TextFormatting.GRAY, TextFormatting.ITALIC));
-                    }
                     applyWingTooltip(tooltip, flagIn, rightWing);
                 }
             }
@@ -106,6 +97,9 @@ public class CustomizableElytraItem extends ElytraItem implements IDyeableArmorI
 
     private void applyWingTooltip(List<ITextComponent> tooltip, ITooltipFlag flagIn, CompoundNBT wingIn) {
         CompoundNBT wing = ElytraCustomizationUtil.migrateOldSplitWingFormat(wingIn);
+        if (wing.getBoolean("HideCapePattern")) {
+            tooltip.add(new TranslationTextComponent(HIDDEN_CAPE_TRANSLATION_KEY).mergeStyle(TextFormatting.GRAY, TextFormatting.ITALIC));
+        }
         if (wing.contains("display")) {
             CompoundNBT displayTag = wing.getCompound("display");
             if (flagIn.isAdvanced()) {
@@ -115,6 +109,8 @@ public class CustomizableElytraItem extends ElytraItem implements IDyeableArmorI
             }
         } else if (wing.contains("BlockEntityTag")) {
             CompoundNBT blockEntityTag = wingIn.getCompound("BlockEntityTag");
+            int baseColor = blockEntityTag.getInt("base");
+            tooltip.add((new TranslationTextComponent("block.minecraft.banner." + BannerPattern.BASE.getFileName() + '.' + DyeColor.byId(baseColor).getTranslationKey())).mergeStyle(TextFormatting.GRAY));
             ListNBT listnbt = blockEntityTag.getList("Patterns", 10);
 
             for (int i = 0; i < listnbt.size() && i < 6; ++i) {
