@@ -44,9 +44,6 @@ public class ElytraWingItem extends Item implements IDyeableArmorItem {
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        if (stack.getOrCreateTag().getBoolean("HideCapePattern")) {
-            tooltip.add(new TranslationTextComponent(CustomizableElytraItem.HIDDEN_CAPE_TRANSLATION_KEY).mergeStyle(TextFormatting.GRAY, TextFormatting.ITALIC));
-        }
-        BannerItem.appendHoverTextFromTileEntityTag(stack, tooltip);
+        CustomizableElytraItem.applyWingTooltip(tooltip, flagIn, stack.getTag(), true);
     }
 }
