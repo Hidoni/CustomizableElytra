@@ -6,10 +6,12 @@
   "mixins": [
   ],
   "client": [
+    "ArmorStandRendererMixin",
     "CapeLayerMixin",
     "DownloadingTextureAccessor",
     "DownloadingTextureInvoker",
     "ElytraLayerAccessor",
+    "PlayerRendererMixin",
     "SimpleTextureInvoker"
   ],
   "minVersion": "0.8"
