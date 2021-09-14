@@ -2,6 +2,7 @@ package com.hidoni.customizableelytra.setup;
 
 import com.hidoni.customizableelytra.items.CustomizableElytraItem;
 import com.hidoni.customizableelytra.items.ElytraWingItem;
+import net.minecraft.core.cauldron.CauldronInteraction;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Rarity;
@@ -12,6 +13,5 @@ public class ModItems {
     public static final RegistryObject<Item> ELYTRA_WING = Registration.ITEMS.register("elytra_wing", () -> new ElytraWingItem(new Item.Properties().rarity(Rarity.UNCOMMON).tab(CreativeModeTab.TAB_MISC)));
 
     static void register() {
-
     }
 }
