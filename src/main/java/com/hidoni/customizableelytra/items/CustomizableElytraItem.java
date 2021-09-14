@@ -5,7 +5,6 @@ import com.hidoni.customizableelytra.config.Config;
 import com.hidoni.customizableelytra.util.ElytraCustomizationUtil;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.world.level.block.entity.BannerPattern;
@@ -19,8 +18,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.List;
-
-import net.minecraft.world.item.Item.Properties;
 
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeableLeatherItem;

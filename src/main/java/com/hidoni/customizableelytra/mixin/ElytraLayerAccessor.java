@@ -7,6 +7,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(ElytraLayer.class)
 public interface ElytraLayerAccessor {
-    @Accessor("TEXTURE_ELYTRA")
+    @Accessor("WINGS_LOCATION")
     ResourceLocation getDefaultElytraTexture();
 }

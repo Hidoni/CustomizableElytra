@@ -5,7 +5,7 @@ import com.hidoni.customizableelytra.items.ElytraWingItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Rarity;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.fmllegacy.RegistryObject;
 
 public class ModItems {
     public static final RegistryObject<Item> CUSTOMIZABLE_ELYTRA = Registration.ITEMS.register("customizable_elytra", () -> new CustomizableElytraItem((new Item.Properties()).durability(432).rarity(Rarity.UNCOMMON)));

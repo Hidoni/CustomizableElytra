@@ -8,6 +8,6 @@ import java.io.File;
 
 @Mixin(HttpTexture.class)
 public interface DownloadingTextureAccessor {
-    @Accessor("cacheFile")
+    @Accessor("file")
     File getCacheFile();
 }

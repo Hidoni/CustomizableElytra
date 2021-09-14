@@ -7,6 +7,6 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(SimpleTexture.class)
 public interface SimpleTextureInvoker {
-    @Invoker("getTextureData")
+    @Invoker("getTextureImage")
     SimpleTexture.TextureImage invokeGetTextureData(ResourceManager resourceManager);
 }

@@ -5,7 +5,6 @@ import com.hidoni.customizableelytra.setup.ModItems;
 import com.hidoni.customizableelytra.setup.ModRecipes;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.inventory.CraftingContainer;
-import net.minecraft.item.*;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.resources.ResourceLocation;

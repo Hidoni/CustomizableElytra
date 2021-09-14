@@ -9,6 +9,6 @@ import java.io.InputStream;
 
 @Mixin(HttpTexture.class)
 public interface DownloadingTextureInvoker {
-    @Invoker("loadTexture")
+    @Invoker("load")
     NativeImage callLoadTexture(InputStream inputStreamIn);
 }
