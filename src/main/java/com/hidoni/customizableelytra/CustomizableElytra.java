@@ -2,7 +2,6 @@ package com.hidoni.customizableelytra;
 
 import com.hidoni.customizableelytra.config.Config;
 import com.hidoni.customizableelytra.events.ClientEventHandler;
-import com.hidoni.customizableelytra.events.EntityConstructingHandler;
 import com.hidoni.customizableelytra.setup.Registration;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ForgeTagHandler;
@@ -41,7 +40,6 @@ public class CustomizableElytra {
             ForgeTagHandler.createOptionalTag(ForgeRegistries.ITEMS, new ResourceLocation("forge", "elytra"));
         }
         curiosLoaded = ModList.get().isLoaded("curios");
-        MinecraftForge.EVENT_BUS.register(new EntityConstructingHandler());
         aetherLoaded = ModList.get().isLoaded("aether");
     }
 
