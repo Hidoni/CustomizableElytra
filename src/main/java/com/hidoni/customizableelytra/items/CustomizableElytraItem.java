@@ -27,9 +27,10 @@ import net.minecraft.world.item.Items;
 
 public class CustomizableElytraItem extends ElytraItem implements DyeableLeatherItem {
 
-    public final static String LEFT_WING_TRANSLATION_KEY = "item.customizable_elytra.left_wing";
-    public final static String RIGHT_WING_TRANSLATION_KEY = "item.customizable_elytra.right_wing";
-    public final static String HIDDEN_CAPE_TRANSLATION_KEY = "item.customizable_elytra.cape_hidden";
+    public final static String LEFT_WING_TRANSLATION_KEY = "item.customizableelytra.left_wing";
+    public final static String RIGHT_WING_TRANSLATION_KEY = "item.customizableelytra.right_wing";
+    public final static String HIDDEN_CAPE_TRANSLATION_KEY = "item.customizableelytra.cape_hidden";
+    public final static String GLOWING_WING_TRANSLATION_KEY = "item.customizableelytra.glowing_wing";
 
     public CustomizableElytraItem(Properties builder) {
         super(builder);
@@ -108,6 +109,9 @@ public class CustomizableElytraItem extends ElytraItem implements DyeableLeather
         CompoundTag wing = ElytraCustomizationUtil.migrateOldSplitWingFormat(wingIn);
         if (wing.getBoolean("HideCapePattern")) {
             tooltip.add(new TranslatableComponent(HIDDEN_CAPE_TRANSLATION_KEY).withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
+        }
+        if (wing.getInt("WingLightLevel") > 0) {
+            tooltip.add(new TranslatableComponent(GLOWING_WING_TRANSLATION_KEY).withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
         }
         if (!ignoreDisplayTag && wing.contains("display")) {
             CompoundTag displayTag = wing.getCompound("display");
