@@ -1,6 +1,5 @@
 package com.hidoni.customizableelytra.renderers;
 
-import com.gildedgames.aether.common.item.accessories.cape.CapeItem;
 import com.google.common.collect.ImmutableList;
 import com.hidoni.customizableelytra.CustomizableElytra;
 import com.hidoni.customizableelytra.mixin.ElytraLayerAccessor;
@@ -73,19 +72,7 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
                     return ElytraTextureUtil.getGrayscale(abstractclientplayerentity.getCloakTextureLocation());
                 }
             }
-            if (CustomizableElytra.aetherLoaded) {
-                Optional<ImmutableTriple<String, Integer, ItemStack>> curiosHelper = CuriosApi.getCuriosHelper().findEquippedCurio((item) -> item.getItem() instanceof CapeItem, entitylivingbaseIn);
-                Optional<ICuriosItemHandler> curiosHandler = CuriosApi.getCuriosHelper().getCuriosHandler(entitylivingbaseIn).resolve();
-                if (curiosHelper.isPresent() && curiosHandler.isPresent()) {
-                    Optional<ICurioStacksHandler> stacksHandler = curiosHandler.get().getStacksHandler(curiosHelper.get().getLeft());
-                    if (stacksHandler.isPresent()) {
-                        CapeItem cape = (CapeItem) curiosHelper.get().getRight().getItem();
-                        if (cape.getCapeTexture() != null && stacksHandler.get().getRenders().get(curiosHelper.get().getMiddle())) {
-                            return ElytraTextureUtil.getGrayscale(cape.getCapeTexture());
-                        }
-                    }
-                }
-            }
+            // TODO: Bring back Aether integration when it updates
         }
         return getElytraTexture(customizationTag, entitylivingbaseIn);
     }

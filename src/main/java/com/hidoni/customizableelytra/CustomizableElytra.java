@@ -2,7 +2,6 @@ package com.hidoni.customizableelytra;
 
 import com.hidoni.customizableelytra.config.Config;
 import com.hidoni.customizableelytra.events.ClientEventHandler;
-import com.hidoni.customizableelytra.events.ElytraRenderHandler;
 import com.hidoni.customizableelytra.events.EntityConstructingHandler;
 import com.hidoni.customizableelytra.setup.Registration;
 import net.minecraft.resources.ResourceLocation;
@@ -34,9 +33,9 @@ public class CustomizableElytra {
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
-        if (ModList.get().isLoaded("caelus")) {
+        if (false && ModList.get().isLoaded("caelus")) {
             caelusLoaded = true;
-            MinecraftForge.EVENT_BUS.register(new ElytraRenderHandler());
+            // MinecraftForge.EVENT_BUS.register(new ElytraRenderHandler());
         } else {
             // If Caelus isn't loaded, this tag needs to be created to prevent crashing
             ForgeTagHandler.createOptionalTag(ForgeRegistries.ITEMS, new ResourceLocation("forge", "elytra"));

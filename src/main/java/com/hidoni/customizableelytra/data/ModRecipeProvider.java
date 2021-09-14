@@ -9,7 +9,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.resources.ResourceLocation;
-import top.theillusivec4.caelus.api.CaelusApi;
 
 import java.util.function.Consumer;
 
@@ -24,12 +23,8 @@ public class ModRecipeProvider extends RecipeProvider {
     }
 
     @Override
-    protected void buildShapelessRecipes(Consumer<FinishedRecipe> consumer) {
-        ShapelessRecipeBuilder.shapeless(ModItems.ELYTRA_WING.get(), 2)
-                .requires(new DamagedIngredient(new Ingredient.TagValue(CaelusApi.ELYTRA), 0))
-                .unlockedBy("has_item", has(CaelusApi.ELYTRA))
-                .group("elytra_wing_recipes")
-                .save(consumer);
+    protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
+        // TODO: Add Caelus tag back when it updates
         ShapelessRecipeBuilder.shapeless(ModItems.ELYTRA_WING.get(), 2)
                 .requires(new DamagedIngredient(new Ingredient.ItemValue(new ItemStack(Items.ELYTRA)), 0))
                 .unlockedBy("has_item", has(Items.ELYTRA))
