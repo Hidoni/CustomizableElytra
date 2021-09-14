@@ -35,13 +35,14 @@ public class ElytraWingItem extends Item implements DyeableLeatherItem {
     @Override
     public boolean hasCustomColor(ItemStack stack) {
         CompoundTag compoundnbt = stack.getTagElement("BlockEntityTag");
-        return DyeableLeatherItem.super.hasCustomColor(stack) || compoundnbt != null;
+        return DyeableLeatherItem.super.hasCustomColor(stack) || compoundnbt != null || stack.getOrCreateTag().getBoolean("HideCapePattern") || stack.getOrCreateTag().getInt("WingLightLevel") > 0;
     }
 
     @Override
     public void clearColor(ItemStack stack) {
         DyeableLeatherItem.super.clearColor(stack);
         stack.getOrCreateTag().remove("HideCapePattern");
+        stack.getOrCreateTag().remove("WingLightLevel");
         stack.removeTagKey("BlockEntityTag");
     }
 

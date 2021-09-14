@@ -57,13 +57,14 @@ public class CustomizableElytraItem extends ElytraItem implements DyeableLeather
     public boolean hasCustomColor(ItemStack stack) {
         CompoundTag bannerTag = stack.getTagElement("BlockEntityTag");
         CompoundTag wingTag = stack.getTagElement("WingInfo");
-        return DyeableLeatherItem.super.hasCustomColor(stack) || bannerTag != null || wingTag != null || stack.getOrCreateTag().getBoolean("HideCapePattern");
+        return DyeableLeatherItem.super.hasCustomColor(stack) || bannerTag != null || wingTag != null || stack.getOrCreateTag().getBoolean("HideCapePattern") || stack.getOrCreateTag().getInt("WingLightLevel") > 0;
     }
 
     @Override
     public void clearColor(ItemStack stack) {
         DyeableLeatherItem.super.clearColor(stack);
         stack.getOrCreateTag().remove("HideCapePattern");
+        stack.getOrCreateTag().remove("WingLightLevel");
         stack.removeTagKey("BlockEntityTag");
         stack.removeTagKey("WingInfo");
     }
