@@ -14,8 +14,8 @@ import net.minecraftforge.fml.common.Mod;
 public class AtlasStitchingHandler {
     @SubscribeEvent
     public static void onAtlasStiching(TextureStitchEvent.Pre event) {
-        ResourceLocation stitching = event.getMap().getTextureLocation();
-        if (stitching.equals(AtlasTexture.LOCATION_BLOCKS_TEXTURE)) // Currently stitching to block textures, should probably stitch to separate atlas just like shields & banners do
+        ResourceLocation stitching = event.getMap().location();
+        if (stitching.equals(AtlasTexture.LOCATION_BLOCKS)) // Currently stitching to block textures, should probably stitch to separate atlas just like shields & banners do
         {
             for (BannerPattern bannerpattern : BannerPattern.values()) {
                 ResourceLocation textureLocation = CustomizableElytraItem.getTextureLocation(bannerpattern);

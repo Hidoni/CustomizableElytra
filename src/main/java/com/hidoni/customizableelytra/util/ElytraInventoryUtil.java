@@ -13,9 +13,9 @@ import java.util.Optional;
 
 public class ElytraInventoryUtil {
     public static ItemStack getColytraSubItem(ItemStack stack) {
-        CompoundNBT colytraChestTag = stack.getChildTag("colytra:ElytraUpgrade");
+        CompoundNBT colytraChestTag = stack.getTagElement("colytra:ElytraUpgrade");
         if (colytraChestTag != null) {
-            ItemStack elytraStack = ItemStack.read(colytraChestTag);
+            ItemStack elytraStack = ItemStack.of(colytraChestTag);
             if (elytraStack.getItem() == ModItems.CUSTOMIZABLE_ELYTRA.get()) {
                 return elytraStack;
             }
@@ -32,7 +32,7 @@ public class ElytraInventoryUtil {
     }
 
     public static ItemStack tryFindElytra(LivingEntity entity) {
-        ItemStack elytra = entity.getItemStackFromSlot(EquipmentSlotType.CHEST);
+        ItemStack elytra = entity.getItemBySlot(EquipmentSlotType.CHEST);
         if (elytra.getItem() == ModItems.CUSTOMIZABLE_ELYTRA.get()) {
             return elytra;
         }

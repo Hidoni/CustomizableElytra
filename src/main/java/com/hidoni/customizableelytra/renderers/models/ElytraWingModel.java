@@ -16,24 +16,24 @@ public class ElytraWingModel<T extends LivingEntity> extends AgeableModel<T> {
     }
 
     @Override
-    protected Iterable<ModelRenderer> getHeadParts() {
+    protected Iterable<ModelRenderer> headParts() {
         return ImmutableList.of();
     }
 
     @Override
-    protected Iterable<ModelRenderer> getBodyParts() {
+    protected Iterable<ModelRenderer> bodyParts() {
         return ImmutableList.of(this.wing);
     }
 
     @Override
-    public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         float f = 0.2617994F;
         float f1 = -0.2617994F;
         float f2 = 0.0F;
         float f3 = 0.0F;
-        if (entityIn.isElytraFlying()) {
+        if (entityIn.isFallFlying()) {
             float f4 = 1.0F;
-            Vector3d vector3d = entityIn.getMotion();
+            Vector3d vector3d = entityIn.getDeltaMovement();
             if (vector3d.y < 0.0D) {
                 Vector3d vector3d1 = vector3d.normalize();
                 f4 = 1.0F - (float) Math.pow(-vector3d1.y, 1.5D);
@@ -48,20 +48,20 @@ public class ElytraWingModel<T extends LivingEntity> extends AgeableModel<T> {
             f3 = 0.08726646F;
         }
 
-        this.wing.rotationPointX = 5.0F;
-        this.wing.rotationPointY = f2;
+        this.wing.x = 5.0F;
+        this.wing.y = f2;
         if (entityIn instanceof AbstractClientPlayerEntity) {
             AbstractClientPlayerEntity abstractclientplayerentity = (AbstractClientPlayerEntity) entityIn;
-            abstractclientplayerentity.rotateElytraX = (float) ((double) abstractclientplayerentity.rotateElytraX + (double) (f - abstractclientplayerentity.rotateElytraX) * 0.1D);
-            abstractclientplayerentity.rotateElytraY = (float) ((double) abstractclientplayerentity.rotateElytraY + (double) (f3 - abstractclientplayerentity.rotateElytraY) * 0.1D);
-            abstractclientplayerentity.rotateElytraZ = (float) ((double) abstractclientplayerentity.rotateElytraZ + (double) (f1 - abstractclientplayerentity.rotateElytraZ) * 0.1D);
-            this.wing.rotateAngleX = abstractclientplayerentity.rotateElytraX;
-            this.wing.rotateAngleY = abstractclientplayerentity.rotateElytraY;
-            this.wing.rotateAngleZ = abstractclientplayerentity.rotateElytraZ;
+            abstractclientplayerentity.elytraRotX = (float) ((double) abstractclientplayerentity.elytraRotX + (double) (f - abstractclientplayerentity.elytraRotX) * 0.1D);
+            abstractclientplayerentity.elytraRotY = (float) ((double) abstractclientplayerentity.elytraRotY + (double) (f3 - abstractclientplayerentity.elytraRotY) * 0.1D);
+            abstractclientplayerentity.elytraRotZ = (float) ((double) abstractclientplayerentity.elytraRotZ + (double) (f1 - abstractclientplayerentity.elytraRotZ) * 0.1D);
+            this.wing.xRot = abstractclientplayerentity.elytraRotX;
+            this.wing.yRot = abstractclientplayerentity.elytraRotY;
+            this.wing.zRot = abstractclientplayerentity.elytraRotZ;
         } else {
-            this.wing.rotateAngleX = f;
-            this.wing.rotateAngleZ = f1;
-            this.wing.rotateAngleY = f3;
+            this.wing.xRot = f;
+            this.wing.zRot = f1;
+            this.wing.yRot = f3;
         }
     }
 }

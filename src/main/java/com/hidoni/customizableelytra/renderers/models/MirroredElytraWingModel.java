@@ -11,10 +11,10 @@ public class MirroredElytraWingModel<T extends LivingEntity> extends ElytraWingM
     }
 
     @Override
-    public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        super.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-        this.wing.rotationPointX = -this.wing.rotationPointX;
-        this.wing.rotateAngleY = -this.wing.rotateAngleY;
-        this.wing.rotateAngleZ = -this.wing.rotateAngleZ;
+    public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        super.setupAnim(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+        this.wing.x = -this.wing.x;
+        this.wing.yRot = -this.wing.yRot;
+        this.wing.zRot = -this.wing.zRot;
     }
 }

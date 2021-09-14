@@ -13,6 +13,8 @@ import net.minecraftforge.common.crafting.IIngredientSerializer;
 import javax.annotation.Nullable;
 import java.util.stream.Stream;
 
+import net.minecraft.item.crafting.Ingredient.IItemList;
+
 public class DamagedIngredient extends Ingredient {
     private final IItemList itemList;
     private final int damageValue;
@@ -28,7 +30,7 @@ public class DamagedIngredient extends Ingredient {
         if (testStack == null) {
             return false;
         }
-        return super.test(testStack) && testStack.getDamage() == this.damageValue;
+        return super.test(testStack) && testStack.getDamageValue() == this.damageValue;
     }
 
     @Override
@@ -42,7 +44,7 @@ public class DamagedIngredient extends Ingredient {
     }
 
     @Override
-    public JsonElement serialize() {
+    public JsonElement toJson() {
         JsonObject json = new JsonObject();
         json.addProperty("type", CraftingHelper.getID(DamagedIngredient.Serializer.INSTANCE).toString());
         json.add("itemlist", this.itemList.serialize());
@@ -56,22 +58,22 @@ public class DamagedIngredient extends Ingredient {
         @Override
         public DamagedIngredient parse(PacketBuffer buffer) {
             JsonParser parser = new JsonParser();
-            JsonElement itemList = parser.parse(buffer.readString());
+            JsonElement itemList = parser.parse(buffer.readUtf());
             int damageValue = buffer.readInt();
-            ItemTags.collection.fetchTags();
-            return new DamagedIngredient(deserializeItemList(itemList.getAsJsonObject()), damageValue);
+            ItemTags.HELPER.resetToEmpty();
+            return new DamagedIngredient(valueFromJson(itemList.getAsJsonObject()), damageValue);
         }
 
         @Override
         public DamagedIngredient parse(JsonObject json) {
             JsonElement itemList = json.get("itemlist");
             int damageValue = json.get("damage").getAsInt();
-            return new DamagedIngredient(deserializeItemList(itemList.getAsJsonObject()), damageValue);
+            return new DamagedIngredient(valueFromJson(itemList.getAsJsonObject()), damageValue);
         }
 
         @Override
         public void write(PacketBuffer buffer, DamagedIngredient ingredient) {
-            buffer.writeString(ingredient.itemList.serialize().toString());
+            buffer.writeUtf(ingredient.itemList.serialize().toString());
             buffer.writeInt(ingredient.damageValue);
         }
     }

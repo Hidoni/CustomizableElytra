@@ -5,7 +5,7 @@ import net.minecraft.nbt.CompoundNBT;
 
 public class ElytraCustomizationUtil {
     public static ElytraCustomizationData getData(ItemStack elytraIn) {
-        if (elytraIn.getChildTag("WingInfo") != null) {
+        if (elytraIn.getTagElement("WingInfo") != null) {
             return new ElytraCustomizationData(ElytraCustomizationData.CustomizationType.Split, new SplitCustomizationHandler(elytraIn));
         }
         return getData(elytraIn.getTag());

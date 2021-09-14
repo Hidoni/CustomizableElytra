@@ -34,10 +34,10 @@ public class ElytraTextureUtil {
         Texture texture = Minecraft.getInstance().getTextureManager().getTexture(locationIn);
         if (texture instanceof DynamicTexture) {
             DynamicTexture dynamicTexture = (DynamicTexture) texture;
-            NativeImage dynamicTextureData = dynamicTexture.getTextureData();
+            NativeImage dynamicTextureData = dynamicTexture.getPixels();
             if (dynamicTextureData != null) {
                 NativeImage returnTexture = new NativeImage(dynamicTextureData.getWidth(), dynamicTextureData.getHeight(), false);
-                returnTexture.copyImageData(dynamicTextureData);
+                returnTexture.copyFrom(dynamicTextureData);
                 return returnTexture;
             }
         } else if (texture instanceof DownloadingTexture) {
@@ -52,7 +52,7 @@ public class ElytraTextureUtil {
             return null;
         } else if (texture instanceof SimpleTexture) {
             try {
-                return ((SimpleTextureInvoker) texture).invokeGetTextureData(Minecraft.getInstance().getResourceManager()).getNativeImage();
+                return ((SimpleTextureInvoker) texture).invokeGetTextureData(Minecraft.getInstance().getResourceManager()).getImage();
             } catch (IOException e) {
                 return null;
             }
@@ -67,7 +67,7 @@ public class ElytraTextureUtil {
         }
         convertTextureToGrayscale(texture);
         ResourceLocation locationOut = new ResourceLocation(CustomizableElytra.MOD_ID, "grayscale_" + locationIn.getPath());
-        Minecraft.getInstance().getTextureManager().loadTexture(locationOut, new DynamicTexture(texture));
+        Minecraft.getInstance().getTextureManager().register(locationOut, new DynamicTexture(texture));
         TEXTURE_CACHE.put(locationIn, locationOut);
         return locationOut;
     }

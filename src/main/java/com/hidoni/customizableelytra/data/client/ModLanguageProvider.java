@@ -22,7 +22,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add(CustomizableElytraItem.RIGHT_WING_TRANSLATION_KEY, "Right Wing:");
         add(CustomizableElytraItem.HIDDEN_CAPE_TRANSLATION_KEY, "Cape Pattern Hidden");
         for (DyeColor dye : DyeColor.values()) {
-            add("block.minecraft.banner." + BannerPattern.BASE.getFileName() + '.' + dye.getTranslationKey(), I18n.format("item.minecraft.firework_star." + dye.getTranslationKey()) + " Base");
+            add("block.minecraft.banner." + BannerPattern.BASE.getFilename() + '.' + dye.getName(), I18n.get("item.minecraft.firework_star." + dye.getName()) + " Base");
         }
     }
 }

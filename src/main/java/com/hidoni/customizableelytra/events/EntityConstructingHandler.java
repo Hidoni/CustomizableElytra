@@ -18,7 +18,7 @@ public class EntityConstructingHandler {
         if (!addedYet && event.getEntity() instanceof ArmorStandEntity) // Add custom elytra to armor stands.
         {
             ArmorStandEntity entity = (ArmorStandEntity) event.getEntity();
-            ArmorStandRenderer renderer = (ArmorStandRenderer) Minecraft.getInstance().getRenderManager().getRenderer(entity);
+            ArmorStandRenderer renderer = (ArmorStandRenderer) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(entity);
             renderer.addLayer(new CustomizableElytraLayer<>(renderer));
             addedYet = true;
         }

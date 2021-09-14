@@ -9,6 +9,8 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.List;
 
+import net.minecraft.item.Item.Properties;
+
 public class ElytraWingItem extends Item implements IDyeableArmorItem {
     public ElytraWingItem(Properties properties) {
         super(properties);
@@ -16,11 +18,11 @@ public class ElytraWingItem extends Item implements IDyeableArmorItem {
 
     @Override
     public int getColor(ItemStack stack) {
-        CompoundNBT compoundnbt = stack.getChildTag("display");
+        CompoundNBT compoundnbt = stack.getTagElement("display");
         if (compoundnbt != null) {
             return compoundnbt.contains("color", 99) ? compoundnbt.getInt("color") : 16777215;
         }
-        compoundnbt = stack.getChildTag("BlockEntityTag");
+        compoundnbt = stack.getTagElement("BlockEntityTag");
         if (compoundnbt != null) {
             return DyeColor.byId(compoundnbt.getInt("Base")).getColorValue();
         }
@@ -28,20 +30,20 @@ public class ElytraWingItem extends Item implements IDyeableArmorItem {
     }
 
     @Override
-    public boolean hasColor(ItemStack stack) {
-        CompoundNBT compoundnbt = stack.getChildTag("BlockEntityTag");
-        return IDyeableArmorItem.super.hasColor(stack) || compoundnbt != null;
+    public boolean hasCustomColor(ItemStack stack) {
+        CompoundNBT compoundnbt = stack.getTagElement("BlockEntityTag");
+        return IDyeableArmorItem.super.hasCustomColor(stack) || compoundnbt != null;
     }
 
     @Override
-    public void removeColor(ItemStack stack) {
-        IDyeableArmorItem.super.removeColor(stack);
+    public void clearColor(ItemStack stack) {
+        IDyeableArmorItem.super.clearColor(stack);
         stack.getOrCreateTag().remove("HideCapePattern");
-        stack.removeChildTag("BlockEntityTag");
+        stack.removeTagKey("BlockEntityTag");
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         CustomizableElytraItem.applyTooltip(tooltip, flagIn, stack.getTag(), true);
     }
 }

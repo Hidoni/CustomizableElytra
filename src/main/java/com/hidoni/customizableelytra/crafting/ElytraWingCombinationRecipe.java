@@ -20,8 +20,8 @@ public class ElytraWingCombinationRecipe extends SpecialRecipe {
         ItemStack leftWing = ItemStack.EMPTY;
         ItemStack rightWing = ItemStack.EMPTY;
 
-        for (int i = 0; i < inv.getSizeInventory(); ++i) {
-            ItemStack inventoryItem = inv.getStackInSlot(i);
+        for (int i = 0; i < inv.getContainerSize(); ++i) {
+            ItemStack inventoryItem = inv.getItem(i);
             if (!inventoryItem.isEmpty()) {
                 if (inventoryItem.getItem() == ModItems.ELYTRA_WING.get()) {
                     if (leftWing == ItemStack.EMPTY) {
@@ -39,12 +39,12 @@ public class ElytraWingCombinationRecipe extends SpecialRecipe {
     }
 
     @Override
-    public ItemStack getCraftingResult(CraftingInventory inv) {
+    public ItemStack assemble(CraftingInventory inv) {
         ItemStack leftWing = ItemStack.EMPTY;
         ItemStack rightWing = ItemStack.EMPTY;
 
-        for (int i = 0; i < inv.getSizeInventory(); ++i) {
-            ItemStack inventoryItem = inv.getStackInSlot(i);
+        for (int i = 0; i < inv.getContainerSize(); ++i) {
+            ItemStack inventoryItem = inv.getItem(i);
             if (!inventoryItem.isEmpty()) {
                 if (inventoryItem.getItem() == ModItems.ELYTRA_WING.get()) {
                     if (leftWing == ItemStack.EMPTY) {
@@ -69,12 +69,12 @@ public class ElytraWingCombinationRecipe extends SpecialRecipe {
         if (rightWingNBT != null) {
             wingInfo.put("right", rightWingNBT);
         }
-        customizedElytra.setTagInfo("WingInfo", wingInfo);
+        customizedElytra.addTagElement("WingInfo", wingInfo);
         return customizedElytra;
     }
 
     @Override
-    public boolean canFit(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return width * height >= 2;
     }
 

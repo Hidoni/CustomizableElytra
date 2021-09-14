@@ -21,8 +21,8 @@ public class ElytraToVanillaRecipe extends SpecialRecipe {
     public boolean matches(CraftingInventory inv, World worldIn) {
         ItemStack elytraItem = ItemStack.EMPTY;
 
-        for (int i = 0; i < inv.getSizeInventory(); ++i) {
-            ItemStack inventoryItem = inv.getStackInSlot(i);
+        for (int i = 0; i < inv.getContainerSize(); ++i) {
+            ItemStack inventoryItem = inv.getItem(i);
             if (!inventoryItem.isEmpty()) {
                 if (!elytraItem.isEmpty() || !(inventoryItem.getItem() instanceof CustomizableElytraItem)) {
                     return false;
@@ -34,11 +34,11 @@ public class ElytraToVanillaRecipe extends SpecialRecipe {
     }
 
     @Override
-    public ItemStack getCraftingResult(CraftingInventory inv) {
+    public ItemStack assemble(CraftingInventory inv) {
         ItemStack elytraItem = ItemStack.EMPTY;
 
-        for (int i = 0; i < inv.getSizeInventory(); ++i) {
-            ItemStack inventoryItem = inv.getStackInSlot(i);
+        for (int i = 0; i < inv.getContainerSize(); ++i) {
+            ItemStack inventoryItem = inv.getItem(i);
             if (!inventoryItem.isEmpty()) {
                 if (!elytraItem.isEmpty() || !(inventoryItem.getItem() instanceof CustomizableElytraItem)) {
                     return ItemStack.EMPTY;
@@ -49,16 +49,16 @@ public class ElytraToVanillaRecipe extends SpecialRecipe {
 
         ItemStack vanillaElytraItem = new ItemStack(Items.ELYTRA, 1);
         EnchantmentHelper.setEnchantments(EnchantmentHelper.getEnchantments(elytraItem), vanillaElytraItem);
-        if (!elytraItem.getDisplayName().equals(new TranslationTextComponent(Items.ELYTRA.getTranslationKey()))) {
-            vanillaElytraItem.setDisplayName(elytraItem.getDisplayName());
+        if (!elytraItem.getHoverName().equals(new TranslationTextComponent(Items.ELYTRA.getDescriptionId()))) {
+            vanillaElytraItem.setHoverName(elytraItem.getHoverName());
         }
-        vanillaElytraItem.setDamage(elytraItem.getDamage());
-        vanillaElytraItem.setRepairCost(elytraItem.getRepairCost());
+        vanillaElytraItem.setDamageValue(elytraItem.getDamageValue());
+        vanillaElytraItem.setRepairCost(elytraItem.getBaseRepairCost());
         return !elytraItem.isEmpty() ? vanillaElytraItem : ItemStack.EMPTY;
     }
 
     @Override
-    public boolean canFit(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return width * height >= 2;
     }
 

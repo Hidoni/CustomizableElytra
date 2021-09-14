@@ -15,7 +15,7 @@ public class SplitCustomizationHandler extends CustomizationHandler {
 
     public SplitCustomizationHandler(ItemStack itemIn) {
         super(itemIn.getOrCreateTag().getBoolean("HideCapePattern"));
-        CompoundNBT wingTag = itemIn.getChildTag("WingInfo");
+        CompoundNBT wingTag = itemIn.getTagElement("WingInfo");
         leftWing = ElytraCustomizationUtil.getData(wingTag.getCompound("left"));
         rightWing = ElytraCustomizationUtil.getData(wingTag.getCompound("right"));
     }

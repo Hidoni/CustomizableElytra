@@ -16,7 +16,7 @@ public class ModItemTagsProvider extends ItemTagsProvider {
     }
 
     @Override
-    protected void registerTags() {
-        getOrCreateBuilder(CaelusApi.ELYTRA).add(ModItems.CUSTOMIZABLE_ELYTRA.get());
+    protected void addTags() {
+        tag(CaelusApi.ELYTRA).add(ModItems.CUSTOMIZABLE_ELYTRA.get());
     }
 }

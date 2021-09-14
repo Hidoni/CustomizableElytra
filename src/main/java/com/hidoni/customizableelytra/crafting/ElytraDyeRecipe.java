@@ -24,8 +24,8 @@ public class ElytraDyeRecipe extends SpecialRecipe {
         ItemStack elytraItem = ItemStack.EMPTY;
         List<ItemStack> list = Lists.newArrayList();
 
-        for (int i = 0; i < inv.getSizeInventory(); ++i) {
-            ItemStack inventoryItem = inv.getStackInSlot(i);
+        for (int i = 0; i < inv.getContainerSize(); ++i) {
+            ItemStack inventoryItem = inv.getItem(i);
             if (!inventoryItem.isEmpty()) {
                 if (inventoryItem.getItem() == Items.ELYTRA) {
                     if (!elytraItem.isEmpty()) {
@@ -47,12 +47,12 @@ public class ElytraDyeRecipe extends SpecialRecipe {
     }
 
     @Override
-    public ItemStack getCraftingResult(CraftingInventory inv) {
+    public ItemStack assemble(CraftingInventory inv) {
         List<DyeItem> list = Lists.newArrayList();
         ItemStack elytraItem = ItemStack.EMPTY;
 
-        for (int i = 0; i < inv.getSizeInventory(); ++i) {
-            ItemStack inventoryItem = inv.getStackInSlot(i);
+        for (int i = 0; i < inv.getContainerSize(); ++i) {
+            ItemStack inventoryItem = inv.getItem(i);
             if (!inventoryItem.isEmpty()) {
                 Item item = inventoryItem.getItem();
                 if (item == Items.ELYTRA) {
@@ -72,16 +72,16 @@ public class ElytraDyeRecipe extends SpecialRecipe {
         }
         ItemStack customizableElytraItem = new ItemStack(ModItems.CUSTOMIZABLE_ELYTRA.get(), elytraItem.getCount());
         EnchantmentHelper.setEnchantments(EnchantmentHelper.getEnchantments(elytraItem), customizableElytraItem);
-        if (!elytraItem.getDisplayName().equals(new TranslationTextComponent(Items.ELYTRA.getTranslationKey()))) {
-            customizableElytraItem.setDisplayName(elytraItem.getDisplayName());
+        if (!elytraItem.getHoverName().equals(new TranslationTextComponent(Items.ELYTRA.getDescriptionId()))) {
+            customizableElytraItem.setHoverName(elytraItem.getHoverName());
         }
-        customizableElytraItem.setDamage(elytraItem.getDamage());
-        customizableElytraItem.setRepairCost(elytraItem.getRepairCost());
-        return !elytraItem.isEmpty() && !list.isEmpty() ? IDyeableArmorItem.dyeItem(customizableElytraItem, list) : ItemStack.EMPTY;
+        customizableElytraItem.setDamageValue(elytraItem.getDamageValue());
+        customizableElytraItem.setRepairCost(elytraItem.getBaseRepairCost());
+        return !elytraItem.isEmpty() && !list.isEmpty() ? IDyeableArmorItem.dyeArmor(customizableElytraItem, list) : ItemStack.EMPTY;
     }
 
     @Override
-    public boolean canFit(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return width * height >= 2;
     }
 

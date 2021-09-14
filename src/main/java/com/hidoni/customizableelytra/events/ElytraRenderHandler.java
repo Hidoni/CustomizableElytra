@@ -18,10 +18,10 @@ public class ElytraRenderHandler {
     public void onElytraRender(RenderElytraEvent event) {
         if (event.canRender()) {
             // Check if the equipped armor has been modified with Colytra
-            ItemStack chestStack = event.getPlayer().getItemStackFromSlot(EquipmentSlotType.CHEST);
-            CompoundNBT colytraChestTag = chestStack.getChildTag("colytra:ElytraUpgrade");
+            ItemStack chestStack = event.getPlayer().getItemBySlot(EquipmentSlotType.CHEST);
+            CompoundNBT colytraChestTag = chestStack.getTagElement("colytra:ElytraUpgrade");
             if (colytraChestTag != null) {
-                ItemStack elytraStack = ItemStack.read(colytraChestTag);
+                ItemStack elytraStack = ItemStack.of(colytraChestTag);
                 if (elytraStack.getItem() == ModItems.CUSTOMIZABLE_ELYTRA.get()) {
                     event.setRender(false); // disable the rendering set by Colytra, custom layer will handle it from here.
                 }

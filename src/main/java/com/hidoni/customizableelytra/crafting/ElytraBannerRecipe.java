@@ -25,8 +25,8 @@ public class ElytraBannerRecipe extends SpecialRecipe {
         ItemStack elytraItem = ItemStack.EMPTY;
         ItemStack bannerItem = ItemStack.EMPTY;
 
-        for (int i = 0; i < inv.getSizeInventory(); ++i) {
-            ItemStack inventoryItem = inv.getStackInSlot(i);
+        for (int i = 0; i < inv.getContainerSize(); ++i) {
+            ItemStack inventoryItem = inv.getItem(i);
             if (!inventoryItem.isEmpty()) {
                 if (inventoryItem.getItem() instanceof BannerItem) {
                     if (!bannerItem.isEmpty()) {
@@ -43,7 +43,7 @@ public class ElytraBannerRecipe extends SpecialRecipe {
                         return false;
                     }
 
-                    if (inventoryItem.getChildTag("BlockEntityTag") != null || inventoryItem.getChildTag("WingInfo") != null) {
+                    if (inventoryItem.getTagElement("BlockEntityTag") != null || inventoryItem.getTagElement("WingInfo") != null) {
                         return false;
                     }
 
@@ -56,12 +56,12 @@ public class ElytraBannerRecipe extends SpecialRecipe {
     }
 
     @Override
-    public ItemStack getCraftingResult(CraftingInventory inv) {
+    public ItemStack assemble(CraftingInventory inv) {
         ItemStack bannerItem = ItemStack.EMPTY;
         ItemStack elytraItem = ItemStack.EMPTY;
 
-        for (int i = 0; i < inv.getSizeInventory(); ++i) {
-            ItemStack inventoryItem = inv.getStackInSlot(i);
+        for (int i = 0; i < inv.getContainerSize(); ++i) {
+            ItemStack inventoryItem = inv.getItem(i);
             if (!inventoryItem.isEmpty()) {
                 if (inventoryItem.getItem() instanceof BannerItem) {
                     if (!bannerItem.isEmpty()) {
@@ -74,11 +74,11 @@ public class ElytraBannerRecipe extends SpecialRecipe {
                     }
                     ItemStack customizableElytraItem = new ItemStack(ModItems.CUSTOMIZABLE_ELYTRA.get());
                     EnchantmentHelper.setEnchantments(EnchantmentHelper.getEnchantments(inventoryItem), customizableElytraItem);
-                    if (!inventoryItem.getDisplayName().equals(new TranslationTextComponent(Items.ELYTRA.getTranslationKey()))) {
-                        customizableElytraItem.setDisplayName(inventoryItem.getDisplayName());
+                    if (!inventoryItem.getHoverName().equals(new TranslationTextComponent(Items.ELYTRA.getDescriptionId()))) {
+                        customizableElytraItem.setHoverName(inventoryItem.getHoverName());
                     }
-                    customizableElytraItem.setDamage(inventoryItem.getDamage());
-                    customizableElytraItem.setRepairCost(inventoryItem.getRepairCost());
+                    customizableElytraItem.setDamageValue(inventoryItem.getDamageValue());
+                    customizableElytraItem.setRepairCost(inventoryItem.getBaseRepairCost());
                     elytraItem = customizableElytraItem;
                 } else if (inventoryItem.getItem() == ModItems.CUSTOMIZABLE_ELYTRA.get() || inventoryItem.getItem() == ModItems.ELYTRA_WING.get()) {
                     if (!elytraItem.isEmpty()) {
@@ -91,11 +91,11 @@ public class ElytraBannerRecipe extends SpecialRecipe {
         }
 
         if (!elytraItem.isEmpty()) {
-            CompoundNBT compoundnbt = bannerItem.getChildTag("BlockEntityTag");
+            CompoundNBT compoundnbt = bannerItem.getTagElement("BlockEntityTag");
             CompoundNBT compoundnbt1 = compoundnbt == null ? new CompoundNBT() : compoundnbt.copy();
             compoundnbt1.putInt("Base", ((BannerItem) bannerItem.getItem()).getColor().getId());
-            elytraItem.setTagInfo("BlockEntityTag", compoundnbt1);
-            CompoundNBT displayTag = elytraItem.getChildTag("display");
+            elytraItem.addTagElement("BlockEntityTag", compoundnbt1);
+            CompoundNBT displayTag = elytraItem.getTagElement("display");
             if (displayTag != null) {
                 displayTag.remove("color");
             }
@@ -104,7 +104,7 @@ public class ElytraBannerRecipe extends SpecialRecipe {
     }
 
     @Override
-    public boolean canFit(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return width * height >= 2;
     }
 

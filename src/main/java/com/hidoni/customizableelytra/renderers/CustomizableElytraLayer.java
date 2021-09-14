@@ -42,24 +42,24 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
     public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         ItemStack elytra = ElytraInventoryUtil.tryFindElytra(entitylivingbaseIn);
         if (elytra != ItemStack.EMPTY) {
-            matrixStackIn.push();
+            matrixStackIn.pushPose();
             matrixStackIn.translate(0.0D, 0.0D, 0.125D);
             ElytraCustomizationData data = ElytraCustomizationUtil.getData(elytra);
             if (data.type != ElytraCustomizationData.CustomizationType.Split) {
-                this.getEntityModel().copyModelAttributesTo(this.modelElytra);
+                this.getParentModel().copyPropertiesTo(this.modelElytra);
                 ResourceLocation elytraTexture = getTextureWithCape(entitylivingbaseIn, elytra.getTag(), data.handler.isWingCapeHidden(0));
-                data.handler.render(matrixStackIn, bufferIn, packedLightIn, entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, this.modelElytra, elytraTexture, elytra.hasEffect());
+                data.handler.render(matrixStackIn, bufferIn, packedLightIn, entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, this.modelElytra, elytraTexture, elytra.hasFoil());
             } else {
                 List<ElytraWingModel<T>> models = ImmutableList.of(leftElytraWing, rightElytraWing);
                 for (ElytraWingModel<T> model : models) {
-                    this.getEntityModel().copyModelAttributesTo(model);
+                    this.getParentModel().copyPropertiesTo(model);
                 }
-                CompoundNBT wingInfo = elytra.getChildTag("WingInfo");
+                CompoundNBT wingInfo = elytra.getTagElement("WingInfo");
                 ResourceLocation leftWingTexture = getTextureWithCape(entitylivingbaseIn, wingInfo.getCompound("left"), data.handler.isWingCapeHidden(0));
                 ResourceLocation rightWingTexture = getTextureWithCape(entitylivingbaseIn, wingInfo.getCompound("right"), data.handler.isWingCapeHidden(1));
-                ((SplitCustomizationHandler) data.handler).render(matrixStackIn, bufferIn, packedLightIn, entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, models, leftWingTexture, rightWingTexture, elytra.hasEffect());
+                ((SplitCustomizationHandler) data.handler).render(matrixStackIn, bufferIn, packedLightIn, entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, models, leftWingTexture, rightWingTexture, elytra.hasFoil());
             }
-            matrixStackIn.pop();
+            matrixStackIn.popPose();
         }
     }
 
@@ -67,10 +67,10 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
         if (!capeHidden) {
             if (entitylivingbaseIn instanceof AbstractClientPlayerEntity) {
                 AbstractClientPlayerEntity abstractclientplayerentity = (AbstractClientPlayerEntity) entitylivingbaseIn;
-                if (abstractclientplayerentity.isPlayerInfoSet() && abstractclientplayerentity.getLocationElytra() != null) {
-                    return ElytraTextureUtil.getGrayscale(abstractclientplayerentity.getLocationElytra());
-                } else if (abstractclientplayerentity.hasPlayerInfo() && abstractclientplayerentity.getLocationCape() != null && abstractclientplayerentity.isWearing(PlayerModelPart.CAPE)) {
-                    return ElytraTextureUtil.getGrayscale(abstractclientplayerentity.getLocationCape());
+                if (abstractclientplayerentity.isElytraLoaded() && abstractclientplayerentity.getElytraTextureLocation() != null) {
+                    return ElytraTextureUtil.getGrayscale(abstractclientplayerentity.getElytraTextureLocation());
+                } else if (abstractclientplayerentity.isCapeLoaded() && abstractclientplayerentity.getCloakTextureLocation() != null && abstractclientplayerentity.isModelPartShown(PlayerModelPart.CAPE)) {
+                    return ElytraTextureUtil.getGrayscale(abstractclientplayerentity.getCloakTextureLocation());
                 }
             }
             if (CustomizableElytra.aetherLoaded) {
