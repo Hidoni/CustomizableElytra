@@ -44,7 +44,7 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
                 ElytraModel<T> elytraModel = ((ElytraLayerAccessor<T>) this).getElytraModel();
                 this.getParentModel().copyPropertiesTo(elytraModel);
                 ResourceLocation elytraTexture = getTextureWithCape(entitylivingbaseIn, elytra.getTag(), data.handler.isWingCapeHidden(0));
-                data.handler.render(matrixStackIn, bufferIn, packedLightIn, entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, elytraModel, elytraTexture, elytra.hasFoil());
+                data.handler.render(matrixStackIn, bufferIn, data.handler.modifyWingLight(packedLightIn, 0), entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, elytraModel, elytraTexture, elytra.hasFoil());
             } else {
                 List<ElytraWingModel<T>> models = ImmutableList.of(leftElytraWing, rightElytraWing);
                 for (ElytraWingModel<T> model : models) {
