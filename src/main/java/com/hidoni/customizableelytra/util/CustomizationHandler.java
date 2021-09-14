@@ -17,9 +17,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
  */
 public class CustomizationHandler {
     private final boolean wingCapeHidden;
+    private int wingLightLevel;
 
-    public CustomizationHandler(boolean wingCapeHidden) {
+    public CustomizationHandler(boolean wingCapeHidden, int wingLightLevel) {
         this.wingCapeHidden = wingCapeHidden;
+        this.wingLightLevel = wingLightLevel;
     }
 
     public int getColor(int index) {
@@ -28,6 +30,13 @@ public class CustomizationHandler {
 
     public boolean isWingCapeHidden(int index) {
         return wingCapeHidden;
+    }
+
+    public int modifyWingLight(int lightLevel, int index) {
+        if (wingLightLevel > 0) {
+            lightLevel |= 0xFF;
+        }
+        return lightLevel;
     }
 
     @OnlyIn(Dist.CLIENT)

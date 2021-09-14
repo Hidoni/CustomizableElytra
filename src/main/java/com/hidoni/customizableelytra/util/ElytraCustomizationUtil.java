@@ -44,6 +44,6 @@ public class ElytraCustomizationUtil {
         } else if (wingNBT.contains("BlockEntityTag")) {
             return new ElytraCustomizationData(ElytraCustomizationData.CustomizationType.Banner, new BannerCustomizationHandler(wingNBT));
         }
-        return new ElytraCustomizationData(ElytraCustomizationData.CustomizationType.None, new CustomizationHandler(wingNBT.getBoolean("HideCapePattern")));
+        return new ElytraCustomizationData(ElytraCustomizationData.CustomizationType.None, new CustomizationHandler(wingNBT.getBoolean("HideCapePattern"), wingNBT.getInt("WingLightLevel")));
     }
 }

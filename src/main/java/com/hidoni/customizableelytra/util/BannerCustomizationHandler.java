@@ -31,7 +31,7 @@ public class BannerCustomizationHandler extends CustomizationHandler {
     }
 
     public BannerCustomizationHandler(CompoundTag tagIn) {
-        super(tagIn.getBoolean("HideCapePattern"));
+        super(tagIn.getBoolean("HideCapePattern"), tagIn.getInt("WingLightLevel"));
         CompoundTag blockEntityTag = tagIn.getCompound("BlockEntityTag");
         DyeColor baseColor = DyeColor.byId(blockEntityTag.getInt("Base"));
         ListTag patternsList = blockEntityTag.getList("Patterns", 10).copy();
