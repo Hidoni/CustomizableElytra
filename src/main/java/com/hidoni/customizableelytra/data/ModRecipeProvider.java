@@ -36,5 +36,6 @@ public class ModRecipeProvider extends RecipeProvider {
         SpecialRecipeBuilder.special(ModRecipes.ELYTRA_WING_COMBINATION_RECIPE.get()).save(consumer, "elytra_wing_combination_recipe");
         SpecialRecipeBuilder.special(ModRecipes.ELYTRA_TO_VANILLA_RECIPE.get()).save(consumer, "elytra_to_vanilla_recipe");
         SpecialRecipeBuilder.special(ModRecipes.ELYTRA_HIDE_CAPE_RECIPE.get()).save(consumer, "elytra_hide_cape_recipe");
+        SpecialRecipeBuilder.special(ModRecipes.ELYTRA_WING_GLOW_RECIPE.get()).save(consumer, "elytra_wing_glow_recipe");
     }
 }
