@@ -9,10 +9,11 @@ import net.minecraft.world.phys.Vec3;
 
 public class ElytraWingModel<T extends LivingEntity> extends AgeableListModel<T> {
     protected ModelPart wing;
+    private final boolean is_right_wing;
 
-    public ElytraWingModel() {
-        wing = new ModelPart(this, 22, 0);
-        this.wing.addBox(-10.0F, 0.0F, 0.0F, 10.0F, 20.0F, 2.0F, 1.0F);
+    public ElytraWingModel(ModelPart rootLayer, boolean is_right_wing) {
+        wing = is_right_wing ? rootLayer.getChild("right_wing") : rootLayer.getChild("left_wing");
+        this.is_right_wing = is_right_wing;
     }
 
     @Override
@@ -62,6 +63,12 @@ public class ElytraWingModel<T extends LivingEntity> extends AgeableListModel<T>
             this.wing.xRot = f;
             this.wing.zRot = f1;
             this.wing.yRot = f3;
+        }
+
+        if (this.is_right_wing) {
+            this.wing.x = -this.wing.x;
+            this.wing.yRot = -this.wing.yRot;
+            this.wing.zRot = -this.wing.zRot;
         }
     }
 }

@@ -8,6 +8,9 @@ import com.hidoni.customizableelytra.renderers.models.MirroredElytraWingModel;
 import com.hidoni.customizableelytra.setup.ModItems;
 import com.hidoni.customizableelytra.util.*;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.model.geom.EntityModelSet;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
@@ -19,22 +22,17 @@ import net.minecraft.world.entity.player.PlayerModelPart;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import org.apache.commons.lang3.tuple.ImmutableTriple;
-import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
-import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
-
 import java.util.List;
-import java.util.Optional;
 
 public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityModel<T>> extends ElytraLayer<T, M> {
     public static final ResourceLocation TEXTURE_DYEABLE_ELYTRA = new ResourceLocation(CustomizableElytra.MOD_ID, "textures/entity/elytra.png");
-    private final ElytraModel<T> modelElytra = new ElytraModel<>();
-    private final ElytraWingModel<T> leftElytraWing = new ElytraWingModel<>();
-    private final MirroredElytraWingModel<T> rightElytraWing = new MirroredElytraWingModel<>();
+    private final ElytraWingModel<T> leftElytraWing;
+    private final ElytraWingModel<T> rightElytraWing;
 
-    public CustomizableElytraLayer(RenderLayerParent<T, M> rendererIn) {
-        super(rendererIn);
+    public CustomizableElytraLayer(RenderLayerParent<T, M> renderLayerParent, EntityModelSet entityModelSet) {
+        super(renderLayerParent, entityModelSet);
+        leftElytraWing = new ElytraWingModel<>(entityModelSet.bakeLayer(ModelLayers.ELYTRA), false);
+        rightElytraWing = new ElytraWingModel<>(entityModelSet.bakeLayer(ModelLayers.ELYTRA), true);
     }
 
     @Override
@@ -45,9 +43,10 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
             matrixStackIn.translate(0.0D, 0.0D, 0.125D);
             ElytraCustomizationData data = ElytraCustomizationUtil.getData(elytra);
             if (data.type != ElytraCustomizationData.CustomizationType.Split) {
-                this.getParentModel().copyPropertiesTo(this.modelElytra);
+                ElytraModel<T> elytraModel = ((ElytraLayerAccessor<T>) this).getElytraModel();
+                this.getParentModel().copyPropertiesTo(elytraModel);
                 ResourceLocation elytraTexture = getTextureWithCape(entitylivingbaseIn, elytra.getTag(), data.handler.isWingCapeHidden(0));
-                data.handler.render(matrixStackIn, bufferIn, packedLightIn, entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, this.modelElytra, elytraTexture, elytra.hasFoil());
+                data.handler.render(matrixStackIn, bufferIn, packedLightIn, entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, elytraModel, elytraTexture, elytra.hasFoil());
             } else {
                 List<ElytraWingModel<T>> models = ImmutableList.of(leftElytraWing, rightElytraWing);
                 for (ElytraWingModel<T> model : models) {
@@ -86,6 +85,6 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
         if (ElytraCustomizationUtil.getData(customizationTag).type != ElytraCustomizationData.CustomizationType.None) {
             return TEXTURE_DYEABLE_ELYTRA;
         }
-        return ((ElytraLayerAccessor) this).getDefaultElytraTexture();
+        return ((ElytraLayerAccessor<T>) this).getDefaultElytraTexture();
     }
 }
