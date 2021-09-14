@@ -2,21 +2,21 @@ package com.hidoni.customizableelytra.crafting;
 
 import com.hidoni.customizableelytra.setup.ModItems;
 import com.hidoni.customizableelytra.setup.ModRecipes;
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.SpecialRecipe;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
 
-public class ElytraWingCombinationRecipe extends SpecialRecipe {
+public class ElytraWingCombinationRecipe extends CustomRecipe {
     public ElytraWingCombinationRecipe(ResourceLocation idIn) {
         super(idIn);
     }
 
     @Override
-    public boolean matches(CraftingInventory inv, World worldIn) {
+    public boolean matches(CraftingContainer inv, Level worldIn) {
         ItemStack leftWing = ItemStack.EMPTY;
         ItemStack rightWing = ItemStack.EMPTY;
 
@@ -39,7 +39,7 @@ public class ElytraWingCombinationRecipe extends SpecialRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingInventory inv) {
+    public ItemStack assemble(CraftingContainer inv) {
         ItemStack leftWing = ItemStack.EMPTY;
         ItemStack rightWing = ItemStack.EMPTY;
 
@@ -60,9 +60,9 @@ public class ElytraWingCombinationRecipe extends SpecialRecipe {
         }
 
         ItemStack customizedElytra = new ItemStack(ModItems.CUSTOMIZABLE_ELYTRA.get());
-        CompoundNBT leftWingNBT = convertWingToNBT(leftWing);
-        CompoundNBT rightWingNBT = convertWingToNBT(rightWing);
-        CompoundNBT wingInfo = new CompoundNBT();
+        CompoundTag leftWingNBT = convertWingToNBT(leftWing);
+        CompoundTag rightWingNBT = convertWingToNBT(rightWing);
+        CompoundTag wingInfo = new CompoundTag();
         if (leftWingNBT != null) {
             wingInfo.put("left", leftWingNBT);
         }
@@ -79,11 +79,11 @@ public class ElytraWingCombinationRecipe extends SpecialRecipe {
     }
 
     @Override
-    public IRecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<?> getSerializer() {
         return ModRecipes.ELYTRA_WING_COMBINATION_RECIPE.get();
     }
 
-    public CompoundNBT convertWingToNBT(ItemStack wingIn) {
+    public CompoundTag convertWingToNBT(ItemStack wingIn) {
         return wingIn.getOrCreateTag();
     }
 }

@@ -2,9 +2,9 @@ package com.hidoni.customizableelytra.data;
 
 import com.hidoni.customizableelytra.CustomizableElytra;
 import com.hidoni.customizableelytra.setup.ModItems;
-import net.minecraft.data.BlockTagsProvider;
+import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.ItemTagsProvider;
+import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import top.theillusivec4.caelus.api.CaelusApi;
 

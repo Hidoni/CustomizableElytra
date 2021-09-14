@@ -3,7 +3,7 @@ package com.hidoni.customizableelytra.events;
 import com.hidoni.customizableelytra.renderers.CustomizableElytraLayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.ArmorStandRenderer;
-import net.minecraft.entity.item.ArmorStandEntity;
+import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.EntityEvent;
@@ -15,9 +15,9 @@ public class EntityConstructingHandler {
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public void onEntityConstruct(EntityEvent.EntityConstructing event) {
-        if (!addedYet && event.getEntity() instanceof ArmorStandEntity) // Add custom elytra to armor stands.
+        if (!addedYet && event.getEntity() instanceof ArmorStand) // Add custom elytra to armor stands.
         {
-            ArmorStandEntity entity = (ArmorStandEntity) event.getEntity();
+            ArmorStand entity = (ArmorStand) event.getEntity();
             ArmorStandRenderer renderer = (ArmorStandRenderer) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(entity);
             renderer.addLayer(new CustomizableElytraLayer<>(renderer));
             addedYet = true;

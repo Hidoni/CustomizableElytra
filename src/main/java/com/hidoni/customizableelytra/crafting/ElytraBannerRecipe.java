@@ -2,26 +2,26 @@ package com.hidoni.customizableelytra.crafting;
 
 import com.hidoni.customizableelytra.setup.ModItems;
 import com.hidoni.customizableelytra.setup.ModRecipes;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.item.BannerItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.SpecialRecipe;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.BannerItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 
-public class ElytraBannerRecipe extends SpecialRecipe {
+public class ElytraBannerRecipe extends CustomRecipe {
 
     public ElytraBannerRecipe(ResourceLocation idIn) {
         super(idIn);
     }
 
     @Override
-    public boolean matches(CraftingInventory inv, World worldIn) {
+    public boolean matches(CraftingContainer inv, Level worldIn) {
         ItemStack elytraItem = ItemStack.EMPTY;
         ItemStack bannerItem = ItemStack.EMPTY;
 
@@ -56,7 +56,7 @@ public class ElytraBannerRecipe extends SpecialRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingInventory inv) {
+    public ItemStack assemble(CraftingContainer inv) {
         ItemStack bannerItem = ItemStack.EMPTY;
         ItemStack elytraItem = ItemStack.EMPTY;
 
@@ -74,7 +74,7 @@ public class ElytraBannerRecipe extends SpecialRecipe {
                     }
                     ItemStack customizableElytraItem = new ItemStack(ModItems.CUSTOMIZABLE_ELYTRA.get());
                     EnchantmentHelper.setEnchantments(EnchantmentHelper.getEnchantments(inventoryItem), customizableElytraItem);
-                    if (!inventoryItem.getHoverName().equals(new TranslationTextComponent(Items.ELYTRA.getDescriptionId()))) {
+                    if (!inventoryItem.getHoverName().equals(new TranslatableComponent(Items.ELYTRA.getDescriptionId()))) {
                         customizableElytraItem.setHoverName(inventoryItem.getHoverName());
                     }
                     customizableElytraItem.setDamageValue(inventoryItem.getDamageValue());
@@ -91,11 +91,11 @@ public class ElytraBannerRecipe extends SpecialRecipe {
         }
 
         if (!elytraItem.isEmpty()) {
-            CompoundNBT compoundnbt = bannerItem.getTagElement("BlockEntityTag");
-            CompoundNBT compoundnbt1 = compoundnbt == null ? new CompoundNBT() : compoundnbt.copy();
+            CompoundTag compoundnbt = bannerItem.getTagElement("BlockEntityTag");
+            CompoundTag compoundnbt1 = compoundnbt == null ? new CompoundTag() : compoundnbt.copy();
             compoundnbt1.putInt("Base", ((BannerItem) bannerItem.getItem()).getColor().getId());
             elytraItem.addTagElement("BlockEntityTag", compoundnbt1);
-            CompoundNBT displayTag = elytraItem.getTagElement("display");
+            CompoundTag displayTag = elytraItem.getTagElement("display");
             if (displayTag != null) {
                 displayTag.remove("color");
             }
@@ -109,7 +109,7 @@ public class ElytraBannerRecipe extends SpecialRecipe {
     }
 
     @Override
-    public IRecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<?> getSerializer() {
         return ModRecipes.ELYTRA_BANNER_RECIPE.get();
     }
 }

@@ -2,9 +2,9 @@ package com.hidoni.customizableelytra.events;
 
 import com.hidoni.customizableelytra.CustomizableElytra;
 import com.hidoni.customizableelytra.items.CustomizableElytraItem;
-import net.minecraft.client.renderer.texture.AtlasTexture;
-import net.minecraft.tileentity.BannerPattern;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.world.level.block.entity.BannerPattern;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -15,7 +15,7 @@ public class AtlasStitchingHandler {
     @SubscribeEvent
     public static void onAtlasStiching(TextureStitchEvent.Pre event) {
         ResourceLocation stitching = event.getMap().location();
-        if (stitching.equals(AtlasTexture.LOCATION_BLOCKS)) // Currently stitching to block textures, should probably stitch to separate atlas just like shields & banners do
+        if (stitching.equals(TextureAtlas.LOCATION_BLOCKS)) // Currently stitching to block textures, should probably stitch to separate atlas just like shields & banners do
         {
             for (BannerPattern bannerpattern : BannerPattern.values()) {
                 ResourceLocation textureLocation = CustomizableElytraItem.getTextureLocation(bannerpattern);

@@ -3,9 +3,9 @@ package com.hidoni.customizableelytra.crafting;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.tags.ItemTags;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.IIngredientSerializer;
@@ -13,13 +13,13 @@ import net.minecraftforge.common.crafting.IIngredientSerializer;
 import javax.annotation.Nullable;
 import java.util.stream.Stream;
 
-import net.minecraft.item.crafting.Ingredient.IItemList;
+import net.minecraft.world.item.crafting.Ingredient.Value;
 
 public class DamagedIngredient extends Ingredient {
-    private final IItemList itemList;
+    private final Value itemList;
     private final int damageValue;
 
-    public DamagedIngredient(IItemList list, int damageValue) {
+    public DamagedIngredient(Value list, int damageValue) {
         super(Stream.of(list));
         this.itemList = list;
         this.damageValue = damageValue;
@@ -56,7 +56,7 @@ public class DamagedIngredient extends Ingredient {
         public static final DamagedIngredient.Serializer INSTANCE = new DamagedIngredient.Serializer();
 
         @Override
-        public DamagedIngredient parse(PacketBuffer buffer) {
+        public DamagedIngredient parse(FriendlyByteBuf buffer) {
             JsonParser parser = new JsonParser();
             JsonElement itemList = parser.parse(buffer.readUtf());
             int damageValue = buffer.readInt();
@@ -72,7 +72,7 @@ public class DamagedIngredient extends Ingredient {
         }
 
         @Override
-        public void write(PacketBuffer buffer, DamagedIngredient ingredient) {
+        public void write(FriendlyByteBuf buffer, DamagedIngredient ingredient) {
             buffer.writeUtf(ingredient.itemList.serialize().toString());
             buffer.writeInt(ingredient.damageValue);
         }

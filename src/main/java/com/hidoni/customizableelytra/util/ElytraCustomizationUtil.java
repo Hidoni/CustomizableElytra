@@ -1,7 +1,7 @@
 package com.hidoni.customizableelytra.util;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 
 public class ElytraCustomizationUtil {
     public static ElytraCustomizationData getData(ItemStack elytraIn) {
@@ -16,19 +16,19 @@ public class ElytraCustomizationUtil {
      * the display tag, after 1.5.1 this is no longer viable due to the ability to hide cape patterns, and data-fixers
      * don't work with mods, so this function had to be implemented as a fix.
      */
-    public static CompoundNBT migrateOldSplitWingFormat(CompoundNBT wingIn) {
+    public static CompoundTag migrateOldSplitWingFormat(CompoundTag wingIn) {
         if (wingIn == null) {
-            return new CompoundNBT();
+            return new CompoundTag();
         }
         if (wingIn.contains("color", 99)) {
-            CompoundNBT newNBT = new CompoundNBT();
-            CompoundNBT displayNBT = new CompoundNBT();
+            CompoundTag newNBT = new CompoundTag();
+            CompoundTag displayNBT = new CompoundTag();
             displayNBT.putInt("color", wingIn.getInt("color"));
             newNBT.put("display", displayNBT);
             return newNBT;
         } else if (wingIn.contains("Patterns", 9)) {
-            CompoundNBT newNBT = new CompoundNBT();
-            CompoundNBT blockEntityTagNBT = new CompoundNBT();
+            CompoundTag newNBT = new CompoundTag();
+            CompoundTag blockEntityTagNBT = new CompoundTag();
             blockEntityTagNBT.put("Patterns", wingIn.getList("Patterns", 10));
             blockEntityTagNBT.putInt("Base", wingIn.getInt("Base"));
             newNBT.put("BlockEntityTag", blockEntityTagNBT);
@@ -37,8 +37,8 @@ public class ElytraCustomizationUtil {
         return wingIn;
     }
 
-    public static ElytraCustomizationData getData(CompoundNBT wingIn) {
-        CompoundNBT wingNBT = migrateOldSplitWingFormat(wingIn);
+    public static ElytraCustomizationData getData(CompoundTag wingIn) {
+        CompoundTag wingNBT = migrateOldSplitWingFormat(wingIn);
         if (wingNBT.contains("display") && wingNBT.getCompound("display").contains("color", 99)) {
             return new ElytraCustomizationData(ElytraCustomizationData.CustomizationType.Dye, new DyeCustomizationHandler(wingNBT));
         } else if (wingNBT.contains("BlockEntityTag")) {

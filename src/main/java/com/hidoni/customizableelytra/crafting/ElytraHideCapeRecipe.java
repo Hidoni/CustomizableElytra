@@ -2,23 +2,23 @@ package com.hidoni.customizableelytra.crafting;
 
 import com.hidoni.customizableelytra.setup.ModItems;
 import com.hidoni.customizableelytra.setup.ModRecipes;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.SpecialRecipe;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 
-public class ElytraHideCapeRecipe extends SpecialRecipe {
+public class ElytraHideCapeRecipe extends CustomRecipe {
     public ElytraHideCapeRecipe(ResourceLocation idIn) {
         super(idIn);
     }
 
     @Override
-    public boolean matches(CraftingInventory inv, World worldIn) {
+    public boolean matches(CraftingContainer inv, Level worldIn) {
         ItemStack elytraItem = ItemStack.EMPTY;
         ItemStack paperItem = ItemStack.EMPTY;
 
@@ -49,7 +49,7 @@ public class ElytraHideCapeRecipe extends SpecialRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingInventory inv) {
+    public ItemStack assemble(CraftingContainer inv) {
         ItemStack paperItem = ItemStack.EMPTY;
         ItemStack elytraItem = ItemStack.EMPTY;
 
@@ -67,7 +67,7 @@ public class ElytraHideCapeRecipe extends SpecialRecipe {
                     }
                     ItemStack customizableElytraItem = new ItemStack(ModItems.CUSTOMIZABLE_ELYTRA.get());
                     EnchantmentHelper.setEnchantments(EnchantmentHelper.getEnchantments(inventoryItem), customizableElytraItem);
-                    if (!inventoryItem.getHoverName().equals(new TranslationTextComponent(Items.ELYTRA.getDescriptionId()))) {
+                    if (!inventoryItem.getHoverName().equals(new TranslatableComponent(Items.ELYTRA.getDescriptionId()))) {
                         customizableElytraItem.setHoverName(inventoryItem.getHoverName());
                     }
                     customizableElytraItem.setDamageValue(inventoryItem.getDamageValue());
@@ -95,7 +95,7 @@ public class ElytraHideCapeRecipe extends SpecialRecipe {
     }
 
     @Override
-    public IRecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<?> getSerializer() {
         return ModRecipes.ELYTRA_HIDE_CAPE_RECIPE.get();
     }
 }

@@ -1,27 +1,27 @@
 package com.hidoni.customizableelytra.renderers.models;
 
 import com.google.common.collect.ImmutableList;
-import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
-import net.minecraft.client.renderer.entity.model.AgeableModel;
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.model.AgeableListModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.Vec3;
 
-public class ElytraWingModel<T extends LivingEntity> extends AgeableModel<T> {
-    protected ModelRenderer wing;
+public class ElytraWingModel<T extends LivingEntity> extends AgeableListModel<T> {
+    protected ModelPart wing;
 
     public ElytraWingModel() {
-        wing = new ModelRenderer(this, 22, 0);
+        wing = new ModelPart(this, 22, 0);
         this.wing.addBox(-10.0F, 0.0F, 0.0F, 10.0F, 20.0F, 2.0F, 1.0F);
     }
 
     @Override
-    protected Iterable<ModelRenderer> headParts() {
+    protected Iterable<ModelPart> headParts() {
         return ImmutableList.of();
     }
 
     @Override
-    protected Iterable<ModelRenderer> bodyParts() {
+    protected Iterable<ModelPart> bodyParts() {
         return ImmutableList.of(this.wing);
     }
 
@@ -33,9 +33,9 @@ public class ElytraWingModel<T extends LivingEntity> extends AgeableModel<T> {
         float f3 = 0.0F;
         if (entityIn.isFallFlying()) {
             float f4 = 1.0F;
-            Vector3d vector3d = entityIn.getDeltaMovement();
+            Vec3 vector3d = entityIn.getDeltaMovement();
             if (vector3d.y < 0.0D) {
-                Vector3d vector3d1 = vector3d.normalize();
+                Vec3 vector3d1 = vector3d.normalize();
                 f4 = 1.0F - (float) Math.pow(-vector3d1.y, 1.5D);
             }
 
@@ -50,8 +50,8 @@ public class ElytraWingModel<T extends LivingEntity> extends AgeableModel<T> {
 
         this.wing.x = 5.0F;
         this.wing.y = f2;
-        if (entityIn instanceof AbstractClientPlayerEntity) {
-            AbstractClientPlayerEntity abstractclientplayerentity = (AbstractClientPlayerEntity) entityIn;
+        if (entityIn instanceof AbstractClientPlayer) {
+            AbstractClientPlayer abstractclientplayerentity = (AbstractClientPlayer) entityIn;
             abstractclientplayerentity.elytraRotX = (float) ((double) abstractclientplayerentity.elytraRotX + (double) (f - abstractclientplayerentity.elytraRotX) * 0.1D);
             abstractclientplayerentity.elytraRotY = (float) ((double) abstractclientplayerentity.elytraRotY + (double) (f3 - abstractclientplayerentity.elytraRotY) * 0.1D);
             abstractclientplayerentity.elytraRotZ = (float) ((double) abstractclientplayerentity.elytraRotZ + (double) (f1 - abstractclientplayerentity.elytraRotZ) * 0.1D);

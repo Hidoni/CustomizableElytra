@@ -8,18 +8,18 @@ import com.hidoni.customizableelytra.renderers.models.ElytraWingModel;
 import com.hidoni.customizableelytra.renderers.models.MirroredElytraWingModel;
 import com.hidoni.customizableelytra.setup.ModItems;
 import com.hidoni.customizableelytra.util.*;
-import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.entity.IEntityRenderer;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.ElytraLayer;
-import net.minecraft.client.renderer.entity.model.ElytraModel;
-import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerModelPart;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.model.ElytraModel;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.PlayerModelPart;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
@@ -34,12 +34,12 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
     private final ElytraWingModel<T> leftElytraWing = new ElytraWingModel<>();
     private final MirroredElytraWingModel<T> rightElytraWing = new MirroredElytraWingModel<>();
 
-    public CustomizableElytraLayer(IEntityRenderer<T, M> rendererIn) {
+    public CustomizableElytraLayer(RenderLayerParent<T, M> rendererIn) {
         super(rendererIn);
     }
 
     @Override
-    public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         ItemStack elytra = ElytraInventoryUtil.tryFindElytra(entitylivingbaseIn);
         if (elytra != ItemStack.EMPTY) {
             matrixStackIn.pushPose();
@@ -54,7 +54,7 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
                 for (ElytraWingModel<T> model : models) {
                     this.getParentModel().copyPropertiesTo(model);
                 }
-                CompoundNBT wingInfo = elytra.getTagElement("WingInfo");
+                CompoundTag wingInfo = elytra.getTagElement("WingInfo");
                 ResourceLocation leftWingTexture = getTextureWithCape(entitylivingbaseIn, wingInfo.getCompound("left"), data.handler.isWingCapeHidden(0));
                 ResourceLocation rightWingTexture = getTextureWithCape(entitylivingbaseIn, wingInfo.getCompound("right"), data.handler.isWingCapeHidden(1));
                 ((SplitCustomizationHandler) data.handler).render(matrixStackIn, bufferIn, packedLightIn, entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, models, leftWingTexture, rightWingTexture, elytra.hasFoil());
@@ -63,10 +63,10 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
         }
     }
 
-    private ResourceLocation getTextureWithCape(T entitylivingbaseIn, CompoundNBT customizationTag, boolean capeHidden) {
+    private ResourceLocation getTextureWithCape(T entitylivingbaseIn, CompoundTag customizationTag, boolean capeHidden) {
         if (!capeHidden) {
-            if (entitylivingbaseIn instanceof AbstractClientPlayerEntity) {
-                AbstractClientPlayerEntity abstractclientplayerentity = (AbstractClientPlayerEntity) entitylivingbaseIn;
+            if (entitylivingbaseIn instanceof AbstractClientPlayer) {
+                AbstractClientPlayer abstractclientplayerentity = (AbstractClientPlayer) entitylivingbaseIn;
                 if (abstractclientplayerentity.isElytraLoaded() && abstractclientplayerentity.getElytraTextureLocation() != null) {
                     return ElytraTextureUtil.getGrayscale(abstractclientplayerentity.getElytraTextureLocation());
                 } else if (abstractclientplayerentity.isCapeLoaded() && abstractclientplayerentity.getCloakTextureLocation() != null && abstractclientplayerentity.isModelPartShown(PlayerModelPart.CAPE)) {
@@ -95,7 +95,7 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
         return stack.getItem() == ModItems.CUSTOMIZABLE_ELYTRA.get();
     }
 
-    public ResourceLocation getElytraTexture(CompoundNBT customizationTag, T entity) {
+    public ResourceLocation getElytraTexture(CompoundTag customizationTag, T entity) {
         if (ElytraCustomizationUtil.getData(customizationTag).type != ElytraCustomizationData.CustomizationType.None) {
             return TEXTURE_DYEABLE_ELYTRA;
         }

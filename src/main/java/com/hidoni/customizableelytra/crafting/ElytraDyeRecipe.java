@@ -3,24 +3,30 @@ package com.hidoni.customizableelytra.crafting;
 import com.google.common.collect.Lists;
 import com.hidoni.customizableelytra.setup.ModItems;
 import com.hidoni.customizableelytra.setup.ModRecipes;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.inventory.CraftingInventory;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.item.*;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.SpecialRecipe;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 
 import java.util.List;
 
-public class ElytraDyeRecipe extends SpecialRecipe {
+import net.minecraft.world.item.DyeItem;
+import net.minecraft.world.item.DyeableLeatherItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+
+public class ElytraDyeRecipe extends CustomRecipe {
     public ElytraDyeRecipe(ResourceLocation idIn) {
         super(idIn);
     }
 
     @Override
-    public boolean matches(CraftingInventory inv, World worldIn) {
+    public boolean matches(CraftingContainer inv, Level worldIn) {
         ItemStack elytraItem = ItemStack.EMPTY;
         List<ItemStack> list = Lists.newArrayList();
 
@@ -47,7 +53,7 @@ public class ElytraDyeRecipe extends SpecialRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingInventory inv) {
+    public ItemStack assemble(CraftingContainer inv) {
         List<DyeItem> list = Lists.newArrayList();
         ItemStack elytraItem = ItemStack.EMPTY;
 
@@ -72,12 +78,12 @@ public class ElytraDyeRecipe extends SpecialRecipe {
         }
         ItemStack customizableElytraItem = new ItemStack(ModItems.CUSTOMIZABLE_ELYTRA.get(), elytraItem.getCount());
         EnchantmentHelper.setEnchantments(EnchantmentHelper.getEnchantments(elytraItem), customizableElytraItem);
-        if (!elytraItem.getHoverName().equals(new TranslationTextComponent(Items.ELYTRA.getDescriptionId()))) {
+        if (!elytraItem.getHoverName().equals(new TranslatableComponent(Items.ELYTRA.getDescriptionId()))) {
             customizableElytraItem.setHoverName(elytraItem.getHoverName());
         }
         customizableElytraItem.setDamageValue(elytraItem.getDamageValue());
         customizableElytraItem.setRepairCost(elytraItem.getBaseRepairCost());
-        return !elytraItem.isEmpty() && !list.isEmpty() ? IDyeableArmorItem.dyeArmor(customizableElytraItem, list) : ItemStack.EMPTY;
+        return !elytraItem.isEmpty() && !list.isEmpty() ? DyeableLeatherItem.dyeArmor(customizableElytraItem, list) : ItemStack.EMPTY;
     }
 
     @Override
@@ -86,7 +92,7 @@ public class ElytraDyeRecipe extends SpecialRecipe {
     }
 
     @Override
-    public IRecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<?> getSerializer() {
         return ModRecipes.ELYTRA_DYE_RECIPE.get();
     }
 }

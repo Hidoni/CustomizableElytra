@@ -3,10 +3,10 @@ package com.hidoni.customizableelytra.data.client;
 import com.hidoni.customizableelytra.CustomizableElytra;
 import com.hidoni.customizableelytra.items.CustomizableElytraItem;
 import com.hidoni.customizableelytra.setup.ModItems;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.item.DyeColor;
-import net.minecraft.tileentity.BannerPattern;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.level.block.entity.BannerPattern;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.data.LanguageProvider;
 

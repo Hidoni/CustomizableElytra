@@ -5,7 +5,7 @@ import com.hidoni.customizableelytra.events.ClientEventHandler;
 import com.hidoni.customizableelytra.events.ElytraRenderHandler;
 import com.hidoni.customizableelytra.events.EntityConstructingHandler;
 import com.hidoni.customizableelytra.setup.Registration;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ForgeTagHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModList;

@@ -1,24 +1,29 @@
 package com.hidoni.customizableelytra.items;
 
-import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.item.*;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.world.World;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-import net.minecraft.item.Item.Properties;
+import net.minecraft.world.item.Item.Properties;
 
-public class ElytraWingItem extends Item implements IDyeableArmorItem {
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.DyeableLeatherItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+
+public class ElytraWingItem extends Item implements DyeableLeatherItem {
     public ElytraWingItem(Properties properties) {
         super(properties);
     }
 
     @Override
     public int getColor(ItemStack stack) {
-        CompoundNBT compoundnbt = stack.getTagElement("display");
+        CompoundTag compoundnbt = stack.getTagElement("display");
         if (compoundnbt != null) {
             return compoundnbt.contains("color", 99) ? compoundnbt.getInt("color") : 16777215;
         }
@@ -31,19 +36,19 @@ public class ElytraWingItem extends Item implements IDyeableArmorItem {
 
     @Override
     public boolean hasCustomColor(ItemStack stack) {
-        CompoundNBT compoundnbt = stack.getTagElement("BlockEntityTag");
-        return IDyeableArmorItem.super.hasCustomColor(stack) || compoundnbt != null;
+        CompoundTag compoundnbt = stack.getTagElement("BlockEntityTag");
+        return DyeableLeatherItem.super.hasCustomColor(stack) || compoundnbt != null;
     }
 
     @Override
     public void clearColor(ItemStack stack) {
-        IDyeableArmorItem.super.clearColor(stack);
+        DyeableLeatherItem.super.clearColor(stack);
         stack.getOrCreateTag().remove("HideCapePattern");
         stack.removeTagKey("BlockEntityTag");
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         CustomizableElytraItem.applyTooltip(tooltip, flagIn, stack.getTag(), true);
     }
 }

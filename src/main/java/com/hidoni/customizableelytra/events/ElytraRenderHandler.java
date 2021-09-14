@@ -2,9 +2,9 @@ package com.hidoni.customizableelytra.events;
 
 import com.hidoni.customizableelytra.CustomizableElytra;
 import com.hidoni.customizableelytra.setup.ModItems;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
@@ -18,8 +18,8 @@ public class ElytraRenderHandler {
     public void onElytraRender(RenderElytraEvent event) {
         if (event.canRender()) {
             // Check if the equipped armor has been modified with Colytra
-            ItemStack chestStack = event.getPlayer().getItemBySlot(EquipmentSlotType.CHEST);
-            CompoundNBT colytraChestTag = chestStack.getTagElement("colytra:ElytraUpgrade");
+            ItemStack chestStack = event.getPlayer().getItemBySlot(EquipmentSlot.CHEST);
+            CompoundTag colytraChestTag = chestStack.getTagElement("colytra:ElytraUpgrade");
             if (colytraChestTag != null) {
                 ItemStack elytraStack = ItemStack.of(colytraChestTag);
                 if (elytraStack.getItem() == ModItems.CUSTOMIZABLE_ELYTRA.get()) {

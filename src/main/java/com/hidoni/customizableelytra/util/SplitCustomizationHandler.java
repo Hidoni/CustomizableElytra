@@ -1,12 +1,12 @@
 package com.hidoni.customizableelytra.util;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.entity.model.AgeableModel;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ResourceLocation;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.model.AgeableListModel;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class SplitCustomizationHandler extends CustomizationHandler {
 
     public SplitCustomizationHandler(ItemStack itemIn) {
         super(itemIn.getOrCreateTag().getBoolean("HideCapePattern"));
-        CompoundNBT wingTag = itemIn.getTagElement("WingInfo");
+        CompoundTag wingTag = itemIn.getTagElement("WingInfo");
         leftWing = ElytraCustomizationUtil.getData(wingTag.getCompound("left"));
         rightWing = ElytraCustomizationUtil.getData(wingTag.getCompound("right"));
     }
@@ -30,7 +30,7 @@ public class SplitCustomizationHandler extends CustomizationHandler {
         return super.isWingCapeHidden(index) || (index == 0 ? leftWing.handler.isWingCapeHidden(index) : rightWing.handler.isWingCapeHidden(index));
     }
 
-    public <T extends LivingEntity, M extends AgeableModel<T>> void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, List<M> renderModels, ResourceLocation leftWingTexture, ResourceLocation rightWingTexture, boolean hasGlint) {
+    public <T extends LivingEntity, M extends AgeableListModel<T>> void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, List<M> renderModels, ResourceLocation leftWingTexture, ResourceLocation rightWingTexture, boolean hasGlint) {
         leftWing.handler.render(matrixStackIn, bufferIn, packedLightIn, entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, renderModels.get(0), leftWingTexture, hasGlint);
         rightWing.handler.render(matrixStackIn, bufferIn, packedLightIn, entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, renderModels.get(1), rightWingTexture, hasGlint);
     }

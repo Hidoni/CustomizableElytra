@@ -2,10 +2,10 @@ package com.hidoni.customizableelytra.util;
 
 import com.hidoni.customizableelytra.CustomizableElytra;
 import com.hidoni.customizableelytra.setup.ModItems;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 import top.theillusivec4.curios.api.CuriosApi;
 
@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public class ElytraInventoryUtil {
     public static ItemStack getColytraSubItem(ItemStack stack) {
-        CompoundNBT colytraChestTag = stack.getTagElement("colytra:ElytraUpgrade");
+        CompoundTag colytraChestTag = stack.getTagElement("colytra:ElytraUpgrade");
         if (colytraChestTag != null) {
             ItemStack elytraStack = ItemStack.of(colytraChestTag);
             if (elytraStack.getItem() == ModItems.CUSTOMIZABLE_ELYTRA.get()) {
@@ -32,7 +32,7 @@ public class ElytraInventoryUtil {
     }
 
     public static ItemStack tryFindElytra(LivingEntity entity) {
-        ItemStack elytra = entity.getItemBySlot(EquipmentSlotType.CHEST);
+        ItemStack elytra = entity.getItemBySlot(EquipmentSlot.CHEST);
         if (elytra.getItem() == ModItems.CUSTOMIZABLE_ELYTRA.get()) {
             return elytra;
         }

@@ -6,7 +6,7 @@ import com.hidoni.customizableelytra.mixin.DownloadingTextureInvoker;
 import com.hidoni.customizableelytra.mixin.SimpleTextureInvoker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.*;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,6 +14,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.mojang.blaze3d.platform.NativeImage;
 
 public class ElytraTextureUtil {
     private static final Map<ResourceLocation, ResourceLocation> TEXTURE_CACHE = new HashMap<>();
@@ -31,7 +33,7 @@ public class ElytraTextureUtil {
     }
 
     private static NativeImage getNativeImageFromTexture(ResourceLocation locationIn) {
-        Texture texture = Minecraft.getInstance().getTextureManager().getTexture(locationIn);
+        AbstractTexture texture = Minecraft.getInstance().getTextureManager().getTexture(locationIn);
         if (texture instanceof DynamicTexture) {
             DynamicTexture dynamicTexture = (DynamicTexture) texture;
             NativeImage dynamicTextureData = dynamicTexture.getPixels();
@@ -40,7 +42,7 @@ public class ElytraTextureUtil {
                 returnTexture.copyFrom(dynamicTextureData);
                 return returnTexture;
             }
-        } else if (texture instanceof DownloadingTexture) {
+        } else if (texture instanceof HttpTexture) {
             File cacheFile = ((DownloadingTextureAccessor) texture).getCacheFile();
             if (cacheFile != null) {
                 try {

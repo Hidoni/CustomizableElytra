@@ -5,13 +5,18 @@ import com.hidoni.customizableelytra.crafting.DamagedIngredient;
 import com.hidoni.customizableelytra.setup.ModItems;
 import com.hidoni.customizableelytra.setup.ModRecipes;
 import net.minecraft.data.*;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.resources.ResourceLocation;
 import top.theillusivec4.caelus.api.CaelusApi;
 
 import java.util.function.Consumer;
+
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.data.recipes.SpecialRecipeBuilder;
 
 public class ModRecipeProvider extends RecipeProvider {
     public ModRecipeProvider(DataGenerator generatorIn) {
@@ -19,22 +24,22 @@ public class ModRecipeProvider extends RecipeProvider {
     }
 
     @Override
-    protected void buildShapelessRecipes(Consumer<IFinishedRecipe> consumer) {
+    protected void buildShapelessRecipes(Consumer<FinishedRecipe> consumer) {
         ShapelessRecipeBuilder.shapeless(ModItems.ELYTRA_WING.get(), 2)
-                .requires(new DamagedIngredient(new Ingredient.TagList(CaelusApi.ELYTRA), 0))
+                .requires(new DamagedIngredient(new Ingredient.TagValue(CaelusApi.ELYTRA), 0))
                 .unlockedBy("has_item", has(CaelusApi.ELYTRA))
                 .group("elytra_wing_recipes")
                 .save(consumer);
         ShapelessRecipeBuilder.shapeless(ModItems.ELYTRA_WING.get(), 2)
-                .requires(new DamagedIngredient(new Ingredient.SingleItemList(new ItemStack(Items.ELYTRA)), 0))
+                .requires(new DamagedIngredient(new Ingredient.ItemValue(new ItemStack(Items.ELYTRA)), 0))
                 .unlockedBy("has_item", has(Items.ELYTRA))
                 .group("elytra_wing_recipes")
                 .save(consumer, new ResourceLocation(CustomizableElytra.MOD_ID, "elytra_wing_vanilla"));
 
-        CustomRecipeBuilder.special(ModRecipes.ELYTRA_DYE_RECIPE.get()).save(consumer, "elytra_dye_recipe");
-        CustomRecipeBuilder.special(ModRecipes.ELYTRA_BANNER_RECIPE.get()).save(consumer, "elytra_banner_recipe");
-        CustomRecipeBuilder.special(ModRecipes.ELYTRA_WING_COMBINATION_RECIPE.get()).save(consumer, "elytra_wing_combination_recipe");
-        CustomRecipeBuilder.special(ModRecipes.ELYTRA_TO_VANILLA_RECIPE.get()).save(consumer, "elytra_to_vanilla_recipe");
-        CustomRecipeBuilder.special(ModRecipes.ELYTRA_HIDE_CAPE_RECIPE.get()).save(consumer, "elytra_hide_cape_recipe");
+        SpecialRecipeBuilder.special(ModRecipes.ELYTRA_DYE_RECIPE.get()).save(consumer, "elytra_dye_recipe");
+        SpecialRecipeBuilder.special(ModRecipes.ELYTRA_BANNER_RECIPE.get()).save(consumer, "elytra_banner_recipe");
+        SpecialRecipeBuilder.special(ModRecipes.ELYTRA_WING_COMBINATION_RECIPE.get()).save(consumer, "elytra_wing_combination_recipe");
+        SpecialRecipeBuilder.special(ModRecipes.ELYTRA_TO_VANILLA_RECIPE.get()).save(consumer, "elytra_to_vanilla_recipe");
+        SpecialRecipeBuilder.special(ModRecipes.ELYTRA_HIDE_CAPE_RECIPE.get()).save(consumer, "elytra_hide_cape_recipe");
     }
 }
