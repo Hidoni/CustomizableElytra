@@ -1,5 +1,6 @@
 package com.hidoni.customizableelytra.items;
 
+import com.hidoni.customizableelytra.util.ColorUtil;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -26,7 +27,7 @@ public class ElytraWingItem extends Item implements DyeableLeatherItem {
         }
         compoundnbt = stack.getTagElement("BlockEntityTag");
         if (compoundnbt != null) {
-            return DyeColor.byId(compoundnbt.getInt("Base")).getColorValue();
+            return ColorUtil.convertDyeColorToInt(DyeColor.byId(compoundnbt.getInt("Base")));
         }
         return 16777215;
     }

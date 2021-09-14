@@ -40,7 +40,7 @@ public class BannerCustomizationHandler extends CustomizationHandler {
 
     @Override
     public int getColor(int index) {
-        return patterns.get(0).getSecond().getColorValue();
+        return ColorUtil.convertDyeColorToInt(patterns.get(0).getSecond());
     }
 
     @Override
