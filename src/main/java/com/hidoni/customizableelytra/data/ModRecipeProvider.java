@@ -24,7 +24,6 @@ public class ModRecipeProvider extends RecipeProvider {
 
     @Override
     protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
-        // TODO: Add Caelus tag back when it updates
         ShapelessRecipeBuilder.shapeless(ModItems.ELYTRA_WING.get(), 2)
                 .requires(new DamagedIngredient(new Ingredient.ItemValue(new ItemStack(Items.ELYTRA)), 0))
                 .unlockedBy("has_item", has(Items.ELYTRA))

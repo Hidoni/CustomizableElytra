@@ -15,6 +15,5 @@ public class ModItemTagsProvider extends ItemTagsProvider {
 
     @Override
     protected void addTags() {
-        // TODO: Add Caelus tag back when it updates
     }
 }
