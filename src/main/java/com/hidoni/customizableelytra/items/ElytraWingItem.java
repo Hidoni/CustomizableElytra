@@ -30,13 +30,14 @@ public class ElytraWingItem extends Item implements IDyeableArmorItem {
     @Override
     public boolean hasColor(ItemStack stack) {
         CompoundNBT compoundnbt = stack.getChildTag("BlockEntityTag");
-        return IDyeableArmorItem.super.hasColor(stack) || compoundnbt != null;
+        return IDyeableArmorItem.super.hasColor(stack) || compoundnbt != null || stack.getOrCreateTag().getBoolean("HideCapePattern") || stack.getOrCreateTag().getInt("WingLightLevel") > 0;
     }
 
     @Override
     public void removeColor(ItemStack stack) {
         IDyeableArmorItem.super.removeColor(stack);
         stack.getOrCreateTag().remove("HideCapePattern");
+        stack.getOrCreateTag().remove("WingLightLevel");
         stack.removeChildTag("BlockEntityTag");
     }
 

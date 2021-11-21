@@ -15,8 +15,9 @@
   "block.minecraft.banner.base.red": "Red Base",
   "block.minecraft.banner.base.white": "White Base",
   "block.minecraft.banner.base.yellow": "Yellow Base",
-  "item.customizable_elytra.cape_hidden": "Cape Pattern Hidden",
-  "item.customizable_elytra.left_wing": "Left Wing:",
-  "item.customizable_elytra.right_wing": "Right Wing:",
-  "item.customizableelytra.elytra_wing": "Elytra Wing"
+  "item.customizableelytra.cape_hidden": "Cape Pattern Hidden",
+  "item.customizableelytra.elytra_wing": "Elytra Wing",
+  "item.customizableelytra.glowing_wing": "Glowing",
+  "item.customizableelytra.left_wing": "Left Wing:",
+  "item.customizableelytra.right_wing": "Right Wing:"
 }

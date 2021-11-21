@@ -24,7 +24,7 @@ public class DyeCustomizationHandler extends CustomizationHandler {
     }
 
     public DyeCustomizationHandler(CompoundNBT tagIn) {
-        super(tagIn.getBoolean("HideCapePattern"));
+        super(tagIn.getBoolean("HideCapePattern"), tagIn.getInt("WingLightLevel"));
         CompoundNBT childTag = tagIn.getCompound("display");
         this.color = childTag.contains("color", 99) ? childTag.getInt("color") : 16777215;
     }

@@ -21,10 +21,10 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class CustomizableElytraItem extends ElytraItem implements IDyeableArmorItem {
-
-    public final static String LEFT_WING_TRANSLATION_KEY = "item.customizable_elytra.left_wing";
-    public final static String RIGHT_WING_TRANSLATION_KEY = "item.customizable_elytra.right_wing";
-    public final static String HIDDEN_CAPE_TRANSLATION_KEY = "item.customizable_elytra.cape_hidden";
+    public final static String LEFT_WING_TRANSLATION_KEY = "item.customizableelytra.left_wing";
+    public final static String RIGHT_WING_TRANSLATION_KEY = "item.customizableelytra.right_wing";
+    public final static String HIDDEN_CAPE_TRANSLATION_KEY = "item.customizableelytra.cape_hidden";
+    public final static String GLOWING_WING_TRANSLATION_KEY = "item.customizableelytra.glowing_wing";
 
     public CustomizableElytraItem(Properties builder) {
         super(builder);
@@ -51,13 +51,14 @@ public class CustomizableElytraItem extends ElytraItem implements IDyeableArmorI
     public boolean hasColor(ItemStack stack) {
         CompoundNBT bannerTag = stack.getChildTag("BlockEntityTag");
         CompoundNBT wingTag = stack.getChildTag("WingInfo");
-        return IDyeableArmorItem.super.hasColor(stack) || bannerTag != null || wingTag != null || stack.getOrCreateTag().getBoolean("HideCapePattern");
+        return IDyeableArmorItem.super.hasColor(stack) || bannerTag != null || wingTag != null || stack.getOrCreateTag().getBoolean("HideCapePattern") || stack.getOrCreateTag().getInt("WingLightLevel") > 0;
     }
 
     @Override
     public void removeColor(ItemStack stack) {
         IDyeableArmorItem.super.removeColor(stack);
         stack.getOrCreateTag().remove("HideCapePattern");
+        stack.getOrCreateTag().remove("WingLightLevel");
         stack.removeChildTag("BlockEntityTag");
         stack.removeChildTag("WingInfo");
     }
@@ -103,6 +104,9 @@ public class CustomizableElytraItem extends ElytraItem implements IDyeableArmorI
         CompoundNBT wing = ElytraCustomizationUtil.migrateOldSplitWingFormat(wingIn);
         if (wing.getBoolean("HideCapePattern")) {
             tooltip.add(new TranslationTextComponent(HIDDEN_CAPE_TRANSLATION_KEY).mergeStyle(TextFormatting.GRAY, TextFormatting.ITALIC));
+        }
+        if (wing.getInt("WingLightLevel") > 0) {
+            tooltip.add(new TranslationTextComponent(GLOWING_WING_TRANSLATION_KEY).mergeStyle(TextFormatting.GRAY, TextFormatting.ITALIC));
         }
         if (!ignoreDisplayTag && wing.contains("display")) {
             CompoundNBT displayTag = wing.getCompound("display");
