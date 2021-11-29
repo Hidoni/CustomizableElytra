@@ -64,16 +64,18 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
     }
 
     private ResourceLocation getTextureWithCape(T entitylivingbaseIn, CompoundNBT customizationTag, boolean capeHidden) {
+        ResourceLocation elytraTexture = null;
+        boolean isTextureGrayscale = ElytraCustomizationUtil.getData(customizationTag).type != ElytraCustomizationData.CustomizationType.None;
         if (!capeHidden) {
             if (entitylivingbaseIn instanceof AbstractClientPlayerEntity) {
                 AbstractClientPlayerEntity abstractclientplayerentity = (AbstractClientPlayerEntity) entitylivingbaseIn;
                 if (abstractclientplayerentity.isPlayerInfoSet() && abstractclientplayerentity.getLocationElytra() != null) {
-                    return ElytraTextureUtil.getGrayscale(abstractclientplayerentity.getLocationElytra());
+                    elytraTexture = abstractclientplayerentity.getLocationElytra();
                 } else if (abstractclientplayerentity.hasPlayerInfo() && abstractclientplayerentity.getLocationCape() != null && abstractclientplayerentity.isWearing(PlayerModelPart.CAPE)) {
-                    return ElytraTextureUtil.getGrayscale(abstractclientplayerentity.getLocationCape());
+                    elytraTexture = abstractclientplayerentity.getLocationCape();
                 }
             }
-            if (CustomizableElytra.aetherLoaded) {
+            if (elytraTexture == null && CustomizableElytra.aetherLoaded) {
                 Optional<ImmutableTriple<String, Integer, ItemStack>> curiosHelper = CuriosApi.getCuriosHelper().findEquippedCurio((item) -> item.getItem() instanceof CapeItem, entitylivingbaseIn);
                 Optional<ICuriosItemHandler> curiosHandler = CuriosApi.getCuriosHelper().getCuriosHandler(entitylivingbaseIn).resolve();
                 if (curiosHelper.isPresent() && curiosHandler.isPresent()) {
@@ -81,13 +83,18 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
                     if (stacksHandler.isPresent()) {
                         CapeItem cape = (CapeItem) curiosHelper.get().getRight().getItem();
                         if (cape.getCapeTexture() != null && stacksHandler.get().getRenders().get(curiosHelper.get().getMiddle())) {
-                            return ElytraTextureUtil.getGrayscale(cape.getCapeTexture());
+                            elytraTexture = cape.getCapeTexture();
                         }
                     }
                 }
             }
         }
-        return getElytraTexture(customizationTag, entitylivingbaseIn);
+        if (elytraTexture == null) {
+            elytraTexture = getElytraTexture(isTextureGrayscale);
+        } else if (isTextureGrayscale) {
+            elytraTexture = ElytraTextureUtil.getGrayscale(elytraTexture);
+        }
+        return elytraTexture;
     }
 
     @Override
@@ -95,8 +102,8 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
         return stack.getItem() == ModItems.CUSTOMIZABLE_ELYTRA.get();
     }
 
-    public ResourceLocation getElytraTexture(CompoundNBT customizationTag, T entity) {
-        if (ElytraCustomizationUtil.getData(customizationTag).type != ElytraCustomizationData.CustomizationType.None) {
+    public ResourceLocation getElytraTexture(boolean isTextureGrayscale) {
+        if (isTextureGrayscale) {
             return TEXTURE_DYEABLE_ELYTRA;
         }
         return ((ElytraLayerAccessor) this).getDefaultElytraTexture();
