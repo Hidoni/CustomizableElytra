@@ -60,18 +60,25 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
     }
 
     private ResourceLocation getTextureWithCape(T entitylivingbaseIn, CompoundTag customizationTag, boolean capeHidden) {
+        ResourceLocation elytraTexture = null;
+        boolean isTextureGrayscale = ElytraCustomizationUtil.getData(customizationTag).type != ElytraCustomizationData.CustomizationType.None;
         if (!capeHidden) {
             if (entitylivingbaseIn instanceof AbstractClientPlayer) {
                 AbstractClientPlayer abstractclientplayerentity = (AbstractClientPlayer) entitylivingbaseIn;
                 if (abstractclientplayerentity.isElytraLoaded() && abstractclientplayerentity.getElytraTextureLocation() != null) {
-                    return ElytraTextureUtil.getGrayscale(abstractclientplayerentity.getElytraTextureLocation());
+                    elytraTexture = abstractclientplayerentity.getElytraTextureLocation();
                 } else if (abstractclientplayerentity.isCapeLoaded() && abstractclientplayerentity.getCloakTextureLocation() != null && abstractclientplayerentity.isModelPartShown(PlayerModelPart.CAPE)) {
-                    return ElytraTextureUtil.getGrayscale(abstractclientplayerentity.getCloakTextureLocation());
+                    elytraTexture = abstractclientplayerentity.getCloakTextureLocation();
                 }
             }
             // TODO: Bring back Aether integration when it updates
         }
-        return getElytraTexture(customizationTag, entitylivingbaseIn);
+        if (elytraTexture == null) {
+            elytraTexture = getElytraTexture(isTextureGrayscale);
+        } else if (isTextureGrayscale) {
+            elytraTexture = ElytraTextureUtil.getGrayscale(elytraTexture);
+        }
+        return elytraTexture;
     }
 
     @Override
@@ -79,8 +86,8 @@ public class CustomizableElytraLayer<T extends LivingEntity, M extends EntityMod
         return stack.getItem() == ModItems.CUSTOMIZABLE_ELYTRA.get();
     }
 
-    public ResourceLocation getElytraTexture(CompoundTag customizationTag, T entity) {
-        if (ElytraCustomizationUtil.getData(customizationTag).type != ElytraCustomizationData.CustomizationType.None) {
+    public ResourceLocation getElytraTexture(boolean isTextureGrayscale) {
+        if (isTextureGrayscale) {
             return TEXTURE_DYEABLE_ELYTRA;
         }
         return ((ElytraLayerAccessor<T>) this).getDefaultElytraTexture();
