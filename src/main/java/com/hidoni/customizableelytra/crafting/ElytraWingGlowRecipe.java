@@ -15,6 +15,8 @@ import net.minecraft.world.World;
 
 public class ElytraWingGlowRecipe extends SpecialRecipe {
     private static final ResourceLocation upgradeAquaticGlowingInkSac = new ResourceLocation("upgrade_aquatic", "glowing_ink_sac");
+    private static final ResourceLocation cavesAndCliffsBackportGlowInkSac = new ResourceLocation("cavesandcliffs", "glow_ink_sac");
+    private static final ResourceLocation[] moddedGlowInkSacLocations = {upgradeAquaticGlowingInkSac, cavesAndCliffsBackportGlowInkSac};
 
     public ElytraWingGlowRecipe(ResourceLocation idIn) {
         super(idIn);
@@ -28,7 +30,7 @@ public class ElytraWingGlowRecipe extends SpecialRecipe {
         for (int i = 0; i < inv.getSizeInventory(); ++i) {
             ItemStack inventoryItem = inv.getStackInSlot(i);
             if (!inventoryItem.isEmpty()) {
-                if (Registry.ITEM.getKey(inventoryItem.getItem()).equals(upgradeAquaticGlowingInkSac)) {
+                if (isGlowInkSac(inventoryItem)) {
                     if (!glowInkSac.isEmpty()) {
                         return false;
                     }
@@ -59,7 +61,7 @@ public class ElytraWingGlowRecipe extends SpecialRecipe {
         for (int i = 0; i < inv.getSizeInventory(); ++i) {
             ItemStack inventoryItem = inv.getStackInSlot(i);
             if (!inventoryItem.isEmpty()) {
-                if (Registry.ITEM.getKey(inventoryItem.getItem()).equals(upgradeAquaticGlowingInkSac)) {
+                if (isGlowInkSac(inventoryItem)) {
                     if (!glowInkSac.isEmpty()) {
                         return ItemStack.EMPTY;
                     }
@@ -100,5 +102,15 @@ public class ElytraWingGlowRecipe extends SpecialRecipe {
     @Override
     public IRecipeSerializer<?> getSerializer() {
         return ModRecipes.ELYTRA_WING_GLOW_RECIPE.get();
+    }
+
+    private static boolean isGlowInkSac(ItemStack stack) {
+        ResourceLocation key = Registry.ITEM.getKey(stack.getItem());
+        for (ResourceLocation resourceLocation : moddedGlowInkSacLocations) {
+            if (key.equals(resourceLocation)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
