@@ -2,7 +2,7 @@ package com.hidoni.customizableelytra.setup;
 
 import com.hidoni.customizableelytra.crafting.*;
 import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
-import net.minecraftforge.fmllegacy.RegistryObject;
+import net.minecraftforge.registries.RegistryObject;
 
 public class ModRecipes {
     public static final RegistryObject<SimpleRecipeSerializer<ElytraDyeRecipe>> ELYTRA_DYE_RECIPE = Registration.RECIPE_SERIALIZERS.register("elytra_dye_recipe", () -> new SimpleRecipeSerializer<>(ElytraDyeRecipe::new));

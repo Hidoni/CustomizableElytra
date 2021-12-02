@@ -2,11 +2,10 @@ package com.hidoni.customizableelytra.setup;
 
 import com.hidoni.customizableelytra.items.CustomizableElytraItem;
 import com.hidoni.customizableelytra.items.ElytraWingItem;
-import net.minecraft.core.cauldron.CauldronInteraction;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Rarity;
-import net.minecraftforge.fmllegacy.RegistryObject;
+import net.minecraftforge.registries.RegistryObject;
 
 public class ModItems {
     public static final RegistryObject<Item> CUSTOMIZABLE_ELYTRA = Registration.ITEMS.register("customizable_elytra", () -> new CustomizableElytraItem((new Item.Properties()).durability(432).rarity(Rarity.UNCOMMON)));
