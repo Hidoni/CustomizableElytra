@@ -20,6 +20,7 @@ version = '1.18-1.6.2'
 group = 'com.hidoni.customizableelytra' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'customizableelytra'
 def curios_version = '1.18-5.0.2.2'
+def caelus_version = '1.18-3.0.0.1'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
@@ -152,6 +153,8 @@ repositories {
 }
 
 dependencies {
+    runtimeOnly fg.deobf("top.theillusivec4.caelus:caelus-forge:${caelus_version}")
+    compileOnly fg.deobf("top.theillusivec4.caelus:caelus-forge:${caelus_version}:api")
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
     compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}:api")
 

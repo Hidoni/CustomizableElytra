@@ -2,6 +2,7 @@ package com.hidoni.customizableelytra;
 
 import com.hidoni.customizableelytra.config.Config;
 import com.hidoni.customizableelytra.events.ClientEventHandler;
+import com.hidoni.customizableelytra.integration.curios.CuriosIntegration;
 import com.hidoni.customizableelytra.setup.Registration;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ForgeTagHandler;
@@ -32,15 +33,14 @@ public class CustomizableElytra {
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
-        if (false && ModList.get().isLoaded("caelus")) {
-            caelusLoaded = true;
-            // MinecraftForge.EVENT_BUS.register(new ElytraRenderHandler());
-        } else {
-            // If Caelus isn't loaded, this tag needs to be created to prevent crashing
-            ForgeTagHandler.createOptionalTag(ForgeRegistries.ITEMS, new ResourceLocation("forge", "elytra"));
-        }
+        caelusLoaded = ModList.get().isLoaded("caelus");
         curiosLoaded = ModList.get().isLoaded("curios");
         aetherLoaded = ModList.get().isLoaded("aether");
+        if (!caelusLoaded) {
+            ForgeTagHandler.createOptionalTag(ForgeRegistries.ITEMS, new ResourceLocation("forge", "elytra"));
+        } else if (curiosLoaded) {
+            CuriosIntegration.init();
+        }
     }
 
     private void clientLoadingEvent(final FMLClientSetupEvent event) {
