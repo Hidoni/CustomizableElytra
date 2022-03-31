@@ -60,7 +60,6 @@ public class DamagedIngredient extends Ingredient {
             JsonParser parser = new JsonParser();
             JsonElement itemList = parser.parse(buffer.readUtf());
             int damageValue = buffer.readInt();
-            ItemTags.HELPER.resetToEmpty();
             return new DamagedIngredient(valueFromJson(itemList.getAsJsonObject()), damageValue);
         }
 
