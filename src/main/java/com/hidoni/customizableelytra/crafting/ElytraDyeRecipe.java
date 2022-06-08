@@ -3,12 +3,12 @@ package com.hidoni.customizableelytra.crafting;
 import com.google.common.collect.Lists;
 import com.hidoni.customizableelytra.setup.ModItems;
 import com.hidoni.customizableelytra.setup.ModRecipes;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
@@ -77,7 +77,7 @@ public class ElytraDyeRecipe extends CustomRecipe {
         }
         ItemStack customizableElytraItem = new ItemStack(ModItems.CUSTOMIZABLE_ELYTRA.get(), elytraItem.getCount());
         EnchantmentHelper.setEnchantments(EnchantmentHelper.getEnchantments(elytraItem), customizableElytraItem);
-        if (!elytraItem.getHoverName().equals(new TranslatableComponent(Items.ELYTRA.getDescriptionId()))) {
+        if (!elytraItem.getHoverName().equals(Component.translatable(Items.ELYTRA.getDescriptionId()))) {
             customizableElytraItem.setHoverName(elytraItem.getHoverName());
         }
         customizableElytraItem.setDamageValue(elytraItem.getDamageValue());

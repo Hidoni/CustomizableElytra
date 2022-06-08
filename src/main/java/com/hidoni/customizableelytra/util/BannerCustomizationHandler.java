@@ -8,10 +8,13 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.model.AgeableListModel;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
@@ -22,9 +25,10 @@ import net.minecraft.world.level.block.entity.BannerBlockEntity;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
+import java.util.Optional;
 
 public class BannerCustomizationHandler extends CustomizationHandler {
-    private final List<Pair<BannerPattern, DyeColor>> patterns;
+    private final List<Pair<Holder<BannerPattern>, DyeColor>> patterns;
 
     public BannerCustomizationHandler(ItemStack itemIn) {
         this(itemIn.getOrCreateTag());
@@ -51,12 +55,17 @@ public class BannerCustomizationHandler extends CustomizationHandler {
         float[] baseColor = patterns.get(0).getSecond().getTextureDiffuseColors();
         renderModel.renderToBuffer(matrixStackIn, ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityTranslucent(textureLocation), false, false), packedLightIn, OverlayTexture.NO_OVERLAY, baseColor[0], baseColor[1], baseColor[2], 1.0F);
         for (int i = 1; i < 17 && i < patterns.size(); ++i) {
-            Pair<BannerPattern, DyeColor> pair = patterns.get(i);
+            Pair<Holder<BannerPattern>, DyeColor> pair = patterns.get(i);
             float[] afloat = pair.getSecond().getTextureDiffuseColors();
-            Material rendermaterial = new Material(TextureAtlas.LOCATION_BLOCKS, CustomizableElytraItem.getTextureLocation(pair.getFirst()));
-            if (rendermaterial.sprite().getName() != MissingTextureAtlasSprite.getLocation()) // Don't render this banner pattern if it's missing, silently hide the pattern
-            {
-                renderModel.renderToBuffer(matrixStackIn, rendermaterial.buffer(bufferIn, RenderType::entityTranslucent), packedLightIn, OverlayTexture.NO_OVERLAY, afloat[0], afloat[1], afloat[2], 1.0F);
+            Optional<ResourceKey<BannerPattern>> resourceKey = pair.getFirst().unwrapKey();
+            if (resourceKey.isPresent()) {
+                Material rendermaterial = new Material(TextureAtlas.LOCATION_BLOCKS, CustomizableElytraItem.getTextureLocation(resourceKey.get()));
+                try (TextureAtlasSprite sprite = rendermaterial.sprite()) {
+                    if (sprite.getName() != MissingTextureAtlasSprite.getLocation()) // Don't render this banner pattern if it's missing, silently hide the pattern
+                    {
+                        renderModel.renderToBuffer(matrixStackIn, rendermaterial.buffer(bufferIn, RenderType::entityTranslucent), packedLightIn, OverlayTexture.NO_OVERLAY, afloat[0], afloat[1], afloat[2], 1.0F);
+                    }
+                }
             }
         }
     }

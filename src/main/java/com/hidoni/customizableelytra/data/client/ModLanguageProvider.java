@@ -7,6 +7,7 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.entity.BannerPattern;
+import net.minecraft.world.level.block.entity.BannerPatterns;
 import net.minecraftforge.common.data.LanguageProvider;
 
 public class ModLanguageProvider extends LanguageProvider {
@@ -22,7 +23,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add(CustomizableElytraItem.HIDDEN_CAPE_TRANSLATION_KEY, "Cape Pattern Hidden");
         add(CustomizableElytraItem.GLOWING_WING_TRANSLATION_KEY, "Glowing");
         for (DyeColor dye : DyeColor.values()) {
-            add("block.minecraft.banner." + BannerPattern.BASE.getFilename() + '.' + dye.getName(), I18n.get("item.minecraft.firework_star." + dye.getName()) + " Base");
+            add("block.minecraft.banner." + BannerPatterns.BASE.location().getPath() + '.' + dye.getName(), I18n.get("item.minecraft.firework_star." + dye.getName()) + " Base");
         }
     }
 }

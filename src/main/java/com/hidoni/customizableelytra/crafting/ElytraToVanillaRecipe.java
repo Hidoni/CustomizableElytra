@@ -2,6 +2,7 @@ package com.hidoni.customizableelytra.crafting;
 
 import com.hidoni.customizableelytra.items.CustomizableElytraItem;
 import com.hidoni.customizableelytra.setup.ModRecipes;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
@@ -9,7 +10,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.Level;
 
 public class ElytraToVanillaRecipe extends CustomRecipe {
@@ -49,7 +49,7 @@ public class ElytraToVanillaRecipe extends CustomRecipe {
 
         ItemStack vanillaElytraItem = new ItemStack(Items.ELYTRA, 1);
         EnchantmentHelper.setEnchantments(EnchantmentHelper.getEnchantments(elytraItem), vanillaElytraItem);
-        if (!elytraItem.getHoverName().equals(new TranslatableComponent(Items.ELYTRA.getDescriptionId()))) {
+        if (!elytraItem.getHoverName().equals(Component.translatable(Items.ELYTRA.getDescriptionId()))) {
             vanillaElytraItem.setHoverName(elytraItem.getHoverName());
         }
         vanillaElytraItem.setDamageValue(elytraItem.getDamageValue());

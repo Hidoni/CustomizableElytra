@@ -3,6 +3,8 @@ package com.hidoni.customizableelytra.items;
 import com.hidoni.customizableelytra.CustomizableElytra;
 import com.hidoni.customizableelytra.config.Config;
 import com.hidoni.customizableelytra.util.ElytraCustomizationUtil;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.nbt.CompoundTag;
@@ -11,13 +13,14 @@ import net.minecraft.world.level.block.entity.BannerPattern;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.Component;
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BannerPatterns;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Optional;
 
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeableLeatherItem;
@@ -37,11 +40,11 @@ public class CustomizableElytraItem extends ElytraItem implements DyeableLeather
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static ResourceLocation getTextureLocation(BannerPattern bannerIn) {
+    public static ResourceLocation getTextureLocation(ResourceKey<BannerPattern> bannerIn) {
         if (Config.useLowQualityElytraBanners.get()) {
-            return new ResourceLocation(CustomizableElytra.MOD_ID, "entity/elytra_banner_low/" + bannerIn.getFilename());
+            return new ResourceLocation(CustomizableElytra.MOD_ID, "entity/elytra_banner_low/" + bannerIn.location().getPath());
         }
-        return new ResourceLocation(CustomizableElytra.MOD_ID, "entity/elytra_banner/" + bannerIn.getFilename());
+        return new ResourceLocation(CustomizableElytra.MOD_ID, "entity/elytra_banner/" + bannerIn.location().getPath());
     }
 
     @Override
@@ -83,14 +86,14 @@ public class CustomizableElytraItem extends ElytraItem implements DyeableLeather
             if (wingInfo.contains("left")) {
                 CompoundTag leftWing = wingInfo.getCompound("left");
                 if (!leftWing.isEmpty()) {
-                    tooltip.add(new TranslatableComponent(LEFT_WING_TRANSLATION_KEY).withStyle(ChatFormatting.GRAY));
+                    tooltip.add(Component.translatable(LEFT_WING_TRANSLATION_KEY).withStyle(ChatFormatting.GRAY));
                     applyTooltip(tooltip, flagIn, leftWing);
                 }
             }
             if (wingInfo.contains("right")) {
                 CompoundTag rightWing = wingInfo.getCompound("right");
                 if (!rightWing.isEmpty()) {
-                    tooltip.add(new TranslatableComponent(RIGHT_WING_TRANSLATION_KEY).withStyle(ChatFormatting.GRAY));
+                    tooltip.add(Component.translatable(RIGHT_WING_TRANSLATION_KEY).withStyle(ChatFormatting.GRAY));
                     applyTooltip(tooltip, flagIn, rightWing);
                 }
             }
@@ -109,32 +112,33 @@ public class CustomizableElytraItem extends ElytraItem implements DyeableLeather
     public static void applyTooltip(List<Component> tooltip, TooltipFlag flagIn, CompoundTag wingIn, boolean ignoreDisplayTag) {
         CompoundTag wing = ElytraCustomizationUtil.migrateOldSplitWingFormat(wingIn);
         if (wing.getBoolean("HideCapePattern")) {
-            tooltip.add(new TranslatableComponent(HIDDEN_CAPE_TRANSLATION_KEY).withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
+            tooltip.add(Component.translatable(HIDDEN_CAPE_TRANSLATION_KEY).withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
         }
         if (wing.getInt("WingLightLevel") > 0) {
-            tooltip.add(new TranslatableComponent(GLOWING_WING_TRANSLATION_KEY).withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
+            tooltip.add(Component.translatable(GLOWING_WING_TRANSLATION_KEY).withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
         }
         if (!ignoreDisplayTag && wing.contains("display")) {
             CompoundTag displayTag = wing.getCompound("display");
             if (displayTag.contains("color", 99)) {
                 if (flagIn.isAdvanced()) {
-                    tooltip.add((new TranslatableComponent("item.color", String.format("#%06X", displayTag.getInt("color")))).withStyle(ChatFormatting.GRAY));
+                    tooltip.add((Component.translatable("item.color", String.format("#%06X", displayTag.getInt("color")))).withStyle(ChatFormatting.GRAY));
                 } else {
-                    tooltip.add((new TranslatableComponent("item.dyed")).withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
+                    tooltip.add((Component.translatable("item.dyed")).withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
                 }
             }
         } else if (wing.contains("BlockEntityTag")) {
             CompoundTag blockEntityTag = wingIn.getCompound("BlockEntityTag");
             int baseColor = blockEntityTag.getInt("Base");
-            tooltip.add((new TranslatableComponent("block.minecraft.banner." + BannerPattern.BASE.getFilename() + '.' + DyeColor.byId(baseColor).getName())).withStyle(ChatFormatting.GRAY));
+            tooltip.add((Component.translatable("block.minecraft.banner." + BannerPatterns.BASE.location().getPath() + '.' + DyeColor.byId(baseColor).getName())).withStyle(ChatFormatting.GRAY));
             ListTag listnbt = blockEntityTag.getList("Patterns", 10);
 
             for (int i = 0; i < listnbt.size() && i < 6; ++i) {
                 CompoundTag patternNBT = listnbt.getCompound(i);
                 DyeColor dyecolor = DyeColor.byId(patternNBT.getInt("Color"));
-                BannerPattern bannerpattern = BannerPattern.byHash(patternNBT.getString("Pattern"));
+                Holder<BannerPattern> bannerpattern = BannerPattern.byHash(patternNBT.getString("Pattern"));
                 if (bannerpattern != null) {
-                    tooltip.add((new TranslatableComponent("block.minecraft.banner." + bannerpattern.getFilename() + '.' + dyecolor.getName())).withStyle(ChatFormatting.GRAY));
+                    Optional<ResourceKey<BannerPattern>> resourceKey = bannerpattern.unwrapKey();
+                    resourceKey.ifPresent(bannerPatternResourceKey -> tooltip.add((Component.translatable("block.minecraft.banner." + bannerPatternResourceKey.location().getPath() + '.' + dyecolor.getName())).withStyle(ChatFormatting.GRAY)));
                 }
             }
         }
