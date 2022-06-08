@@ -1,15 +1,15 @@
 {
   "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "customizableelytra:item/broken_customizable_elytra",
+      "predicate": {
+        "minecraft:broken_elytra": 1.0
+      }
+    }
+  ],
   "textures": {
     "layer0": "customizableelytra:item/elytra_left",
     "layer1": "customizableelytra:item/elytra_right"
-  },
-  "overrides": [
-    {
-      "predicate": {
-        "minecraft:broken_elytra": 1.0
-      },
-      "model": "customizableelytra:item/broken_customizable_elytra"
-    }
-  ]
+  }
 }

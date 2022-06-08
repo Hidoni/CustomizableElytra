@@ -4,14 +4,14 @@
   "ingredients": [
     {
       "type": "customizableelytra:damaged",
+      "damage": 0,
       "itemlist": {
         "item": "minecraft:elytra"
-      },
-      "damage": 0
+      }
     }
   ],
   "result": {
-    "item": "customizableelytra:elytra_wing",
-    "count": 2
+    "count": 2,
+    "item": "customizableelytra:elytra_wing"
   }
 }
