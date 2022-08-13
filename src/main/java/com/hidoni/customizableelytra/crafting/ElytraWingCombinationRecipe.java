@@ -8,7 +8,11 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+
+import java.util.Map;
 
 public class ElytraWingCombinationRecipe extends CustomRecipe {
     public ElytraWingCombinationRecipe(ResourceLocation idIn) {
@@ -19,6 +23,7 @@ public class ElytraWingCombinationRecipe extends CustomRecipe {
     public boolean matches(CraftingContainer inv, Level worldIn) {
         ItemStack leftWing = ItemStack.EMPTY;
         ItemStack rightWing = ItemStack.EMPTY;
+        boolean isEnchanted = false;
 
         for (int i = 0; i < inv.getContainerSize(); ++i) {
             ItemStack inventoryItem = inv.getItem(i);
@@ -26,10 +31,10 @@ public class ElytraWingCombinationRecipe extends CustomRecipe {
                 if (inventoryItem.getItem() == ModItems.ELYTRA_WING.get()) {
                     if (leftWing == ItemStack.EMPTY) {
                         leftWing = inventoryItem;
-                    } else if (rightWing == ItemStack.EMPTY) {
+                        isEnchanted = !EnchantmentHelper.getEnchantments(inventoryItem).isEmpty();
+                    } else if (rightWing == ItemStack.EMPTY && (!isEnchanted || EnchantmentHelper.getEnchantments(inventoryItem).isEmpty())) {
                         rightWing = inventoryItem;
-                    } else // We've already found two items.
-                    {
+                    } else { // We've already found two items.
                         return false;
                     }
                 }
@@ -42,6 +47,7 @@ public class ElytraWingCombinationRecipe extends CustomRecipe {
     public ItemStack assemble(CraftingContainer inv) {
         ItemStack leftWing = ItemStack.EMPTY;
         ItemStack rightWing = ItemStack.EMPTY;
+        boolean isEnchanted = false;
 
         for (int i = 0; i < inv.getContainerSize(); ++i) {
             ItemStack inventoryItem = inv.getItem(i);
@@ -49,10 +55,10 @@ public class ElytraWingCombinationRecipe extends CustomRecipe {
                 if (inventoryItem.getItem() == ModItems.ELYTRA_WING.get()) {
                     if (leftWing == ItemStack.EMPTY) {
                         leftWing = inventoryItem;
-                    } else if (rightWing == ItemStack.EMPTY) {
+                        isEnchanted = !EnchantmentHelper.getEnchantments(inventoryItem).isEmpty();
+                    } else if (rightWing == ItemStack.EMPTY && (!isEnchanted || EnchantmentHelper.getEnchantments(inventoryItem).isEmpty())) {
                         rightWing = inventoryItem;
-                    } else // We've already found two items.
-                    {
+                    } else { // We've already found two items.
                         return ItemStack.EMPTY;
                     }
                 }
@@ -60,6 +66,18 @@ public class ElytraWingCombinationRecipe extends CustomRecipe {
         }
 
         ItemStack customizedElytra = new ItemStack(ModItems.CUSTOMIZABLE_ELYTRA.get());
+        customizedElytra.setDamageValue((leftWing.getDamageValue() + rightWing.getDamageValue()) / 2);
+        Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(leftWing);
+        if (enchantments.isEmpty()) {
+            enchantments = EnchantmentHelper.getEnchantments(rightWing);
+        }
+        EnchantmentHelper.setEnchantments(enchantments, customizedElytra);
+        customizedElytra.setRepairCost(Math.max(leftWing.getBaseRepairCost(), rightWing.getBaseRepairCost()));
+        if (leftWing.hasCustomHoverName()) {
+            customizedElytra.setHoverName(leftWing.getHoverName());
+        } else if (rightWing.hasCustomHoverName()) {
+            customizedElytra.setHoverName(rightWing.getHoverName());
+        }
         CompoundTag leftWingNBT = convertWingToNBT(leftWing);
         CompoundTag rightWingNBT = convertWingToNBT(rightWing);
         CompoundTag wingInfo = new CompoundTag();
