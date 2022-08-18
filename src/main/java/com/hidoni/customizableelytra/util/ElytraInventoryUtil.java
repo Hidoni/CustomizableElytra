@@ -6,8 +6,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import org.apache.commons.lang3.tuple.ImmutableTriple;
 import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.SlotResult;
 
 import java.util.Optional;
 
@@ -24,9 +24,9 @@ public class ElytraInventoryUtil {
     }
 
     public static ItemStack getCurioElytra(LivingEntity entity) {
-        Optional<ImmutableTriple<String, Integer, ItemStack>> curio = CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.CUSTOMIZABLE_ELYTRA.get(), entity);
+        Optional<SlotResult> curio = CuriosApi.getCuriosHelper().findFirstCurio(entity, ModItems.CUSTOMIZABLE_ELYTRA.get());
         if (curio.isPresent()) {
-            return curio.get().getRight();
+            return curio.get().stack();
         }
         return ItemStack.EMPTY;
     }
