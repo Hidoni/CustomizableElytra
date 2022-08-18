@@ -16,7 +16,7 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
-version = '1.19.0-1.7.0'
+version = '1.19.0-1.7.1'
 group = 'com.hidoni.customizableelytra' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'customizableelytra'
 def curios_version = '1.19-5.1.0.4'
