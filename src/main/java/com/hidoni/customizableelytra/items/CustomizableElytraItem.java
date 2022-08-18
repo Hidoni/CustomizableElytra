@@ -135,10 +135,13 @@ public class CustomizableElytraItem extends ElytraItem implements DyeableLeather
             for (int i = 0; i < listnbt.size() && i < 6; ++i) {
                 CompoundTag patternNBT = listnbt.getCompound(i);
                 DyeColor dyecolor = DyeColor.byId(patternNBT.getInt("Color"));
-                Holder<BannerPattern> bannerpattern = BannerPattern.byHash(patternNBT.getString("Pattern"));
-                if (bannerpattern != null) {
-                    Optional<ResourceKey<BannerPattern>> resourceKey = bannerpattern.unwrapKey();
-                    resourceKey.ifPresent(bannerPatternResourceKey -> tooltip.add((Component.translatable("block.minecraft.banner." + bannerPatternResourceKey.location().getPath() + '.' + dyecolor.getName())).withStyle(ChatFormatting.GRAY)));
+                Holder<BannerPattern> bannerPatternHolder = BannerPattern.byHash(patternNBT.getString("Pattern"));
+                if (bannerPatternHolder != null) {
+                    bannerPatternHolder.unwrapKey().map(bannerPatternResourceKey -> bannerPatternResourceKey.location().toShortLanguageKey())
+                    .ifPresent(bannerPatternLoc -> {
+                        ResourceLocation fileLoc = new ResourceLocation(bannerPatternLoc);
+                        tooltip.add((Component.translatable("block." + fileLoc.getNamespace() + ".banner." + fileLoc.getPath() + '.' + dyecolor.getName())).withStyle(ChatFormatting.GRAY));
+                    });
                 }
             }
         }
