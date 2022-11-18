@@ -47,6 +47,11 @@ public class DyeCustomizationHandler extends CustomizationHandler {
     }
 
     @Override
+    public boolean isModified() {
+        return true;
+    }
+
+    @Override
     public <T extends LivingEntity, M extends AgeableListModel<T>> void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, M renderModel, ResourceLocation textureLocation, boolean hasGlint) {
         List<Float> colors = getColors(color);
         renderModel.setupAnim(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);

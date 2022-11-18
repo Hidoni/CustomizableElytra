@@ -2,6 +2,7 @@ package com.hidoni.customizableelytra.items;
 
 import com.hidoni.customizableelytra.CustomizableElytra;
 import com.hidoni.customizableelytra.config.Config;
+import com.hidoni.customizableelytra.util.ElytraCustomizationData;
 import com.hidoni.customizableelytra.util.ElytraCustomizationUtil;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
@@ -20,7 +21,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Optional;
 
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeableLeatherItem;
@@ -85,14 +85,16 @@ public class CustomizableElytraItem extends ElytraItem implements DyeableLeather
         if (wingInfo != null) {
             if (wingInfo.contains("left")) {
                 CompoundTag leftWing = wingInfo.getCompound("left");
-                if (!leftWing.isEmpty()) {
+                ElytraCustomizationData leftWingData = ElytraCustomizationUtil.getData(leftWing);
+                if (leftWingData.handler.isModified()) {
                     tooltip.add(Component.translatable(LEFT_WING_TRANSLATION_KEY).withStyle(ChatFormatting.GRAY));
                     applyTooltip(tooltip, flagIn, leftWing);
                 }
             }
             if (wingInfo.contains("right")) {
                 CompoundTag rightWing = wingInfo.getCompound("right");
-                if (!rightWing.isEmpty()) {
+                ElytraCustomizationData rightWingData = ElytraCustomizationUtil.getData(rightWing);
+                if (rightWingData.handler.isModified()) {
                     tooltip.add(Component.translatable(RIGHT_WING_TRANSLATION_KEY).withStyle(ChatFormatting.GRAY));
                     applyTooltip(tooltip, flagIn, rightWing);
                 }

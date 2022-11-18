@@ -39,6 +39,10 @@ public class CustomizationHandler {
         return lightLevel;
     }
 
+    public boolean isModified() {
+        return wingLightLevel != 0 || wingCapeHidden;
+    }
+
     @OnlyIn(Dist.CLIENT)
     public <T extends LivingEntity, M extends AgeableListModel<T>> void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, M renderModel, ResourceLocation textureLocation, boolean hasGlint) {
         renderModel.setupAnim(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);

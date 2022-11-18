@@ -48,6 +48,11 @@ public class BannerCustomizationHandler extends CustomizationHandler {
     }
 
     @Override
+    public boolean isModified() {
+        return true;
+    }
+
+    @Override
     public <T extends LivingEntity, M extends AgeableListModel<T>> void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, M renderModel, ResourceLocation textureLocation, boolean hasGlint) {
         renderModel.setupAnim(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
         VertexConsumer ivertexbuilder = ItemRenderer.getFoilBufferDirect(bufferIn, RenderType.entityNoOutline(textureLocation), false, hasGlint);
