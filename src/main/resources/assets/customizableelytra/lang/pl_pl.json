@@ -1,0 +1,23 @@
+{
+  "block.minecraft.banner.base.black": "Czarne tło",
+  "block.minecraft.banner.base.blue": "Niebieskie tło",
+  "block.minecraft.banner.base.brown": "Brązowe tło",
+  "block.minecraft.banner.base.cyan": "Błękitne tło",
+  "block.minecraft.banner.base.gray": "Szare tło",
+  "block.minecraft.banner.base.green": "Zielone tło",
+  "block.minecraft.banner.base.light_blue": "Jasnoniebieskie tło",
+  "block.minecraft.banner.base.light_gray": "Jasnoszare tło",
+  "block.minecraft.banner.base.lime": "Jasnozielone tło",
+  "block.minecraft.banner.base.magenta": "Karmazynowe tło",
+  "block.minecraft.banner.base.orange": "Pomarańczowe tło",
+  "block.minecraft.banner.base.pink": "Różowe tło",
+  "block.minecraft.banner.base.purple": "Fioletowe tło",
+  "block.minecraft.banner.base.red": "Czerwone tło",
+  "block.minecraft.banner.base.white": "Białe tło",
+  "block.minecraft.banner.base.yellow": "Żółte tło",
+  "item.customizableelytra.cape_hidden": "Ukryto wzór peleryny",
+  "item.customizableelytra.elytra_wing": "Skrzydło elytr",
+  "item.customizableelytra.glowing_wing": "Świecące",
+  "item.customizableelytra.left_wing": "Lewe skrzydło:",
+  "item.customizableelytra.right_wing": "Prawe skrzydło:"
+}
