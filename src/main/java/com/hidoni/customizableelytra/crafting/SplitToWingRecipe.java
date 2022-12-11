@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ElytraItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -18,8 +19,8 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 public class SplitToWingRecipe extends CustomRecipe {
-    public SplitToWingRecipe(ResourceLocation id) {
-        super(id);
+    public SplitToWingRecipe(ResourceLocation idIn, CraftingBookCategory categoryIn) {
+        super(idIn, categoryIn);
     }
     Predicate<ItemStack> IS_ELYTRA_ITEM = stack -> stack.getItem() instanceof ElytraItem;
 

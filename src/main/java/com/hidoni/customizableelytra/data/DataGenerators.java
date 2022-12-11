@@ -22,10 +22,7 @@ public class DataGenerators {
         ExistingFileHelper fileHelper = event.getExistingFileHelper();
         generator.addProvider(true, new ModItemModelProvider(generator, fileHelper));
         generator.addProvider(true, new ModLanguageProvider(generator));
-        generator.addProvider(true, new ModRecipeProvider(generator));
-        ModBlockTagsProvider modBlockTagsProvider = new ModBlockTagsProvider(generator, fileHelper); // Dummy for Item Tag Provider
-        generator.addProvider(true, modBlockTagsProvider);
-        generator.addProvider(true, new ModItemTagsProvider(generator, modBlockTagsProvider, fileHelper));
+        generator.addProvider(true, new ModRecipeProvider(generator.getPackOutput()));
         CustomizableElytra.LOGGER.info("Finished Data Generation Registration!");
     }
 }

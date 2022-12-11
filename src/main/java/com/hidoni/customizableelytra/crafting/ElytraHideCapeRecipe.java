@@ -3,6 +3,7 @@ package com.hidoni.customizableelytra.crafting;
 import com.hidoni.customizableelytra.setup.ModItems;
 import com.hidoni.customizableelytra.setup.ModRecipes;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
@@ -13,8 +14,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 
 public class ElytraHideCapeRecipe extends CustomRecipe {
-    public ElytraHideCapeRecipe(ResourceLocation idIn) {
-        super(idIn);
+    public ElytraHideCapeRecipe(ResourceLocation idIn, CraftingBookCategory categoryIn) {
+        super(idIn, categoryIn);
     }
 
     @Override

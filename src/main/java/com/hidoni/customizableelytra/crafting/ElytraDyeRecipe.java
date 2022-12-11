@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.hidoni.customizableelytra.setup.ModItems;
 import com.hidoni.customizableelytra.setup.ModRecipes;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -20,8 +21,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 public class ElytraDyeRecipe extends CustomRecipe {
-    public ElytraDyeRecipe(ResourceLocation idIn) {
-        super(idIn);
+    public ElytraDyeRecipe(ResourceLocation idIn, CraftingBookCategory categoryIn) {
+        super(idIn, categoryIn);
     }
 
     @Override
