@@ -1,6 +1,5 @@
 package com.hidoni.customizableelytra;
 
-import com.hidoni.customizableelytra.config.Config;
 import com.hidoni.customizableelytra.events.ClientEventHandler;
 import com.hidoni.customizableelytra.integration.curios.CuriosIntegration;
 import com.hidoni.customizableelytra.setup.Registration;
@@ -27,8 +26,6 @@ public class CustomizableElytra {
         Registration.register();
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientLoadingEvent);
-
-        Config.init();
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);

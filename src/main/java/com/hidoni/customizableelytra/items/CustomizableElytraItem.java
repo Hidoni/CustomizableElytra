@@ -1,7 +1,6 @@
 package com.hidoni.customizableelytra.items;
 
 import com.hidoni.customizableelytra.CustomizableElytra;
-import com.hidoni.customizableelytra.config.Config;
 import com.hidoni.customizableelytra.util.ElytraCustomizationData;
 import com.hidoni.customizableelytra.util.ElytraCustomizationUtil;
 import net.minecraft.core.Holder;
@@ -41,9 +40,6 @@ public class CustomizableElytraItem extends ElytraItem implements DyeableLeather
 
     @OnlyIn(Dist.CLIENT)
     public static ResourceLocation getTextureLocation(ResourceKey<BannerPattern> bannerIn) {
-        if (Config.useLowQualityElytraBanners.get()) {
-            return new ResourceLocation(CustomizableElytra.MOD_ID, "entity/elytra_banner_low/" + bannerIn.location().getPath());
-        }
         return new ResourceLocation(CustomizableElytra.MOD_ID, "entity/elytra_banner/" + bannerIn.location().getPath());
     }
 
