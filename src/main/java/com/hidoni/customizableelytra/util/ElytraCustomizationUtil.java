@@ -1,9 +1,13 @@
 package com.hidoni.customizableelytra.util;
 
+import com.hidoni.customizableelytra.CustomizableElytra;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 
 public class ElytraCustomizationUtil {
+    public static final ResourceLocation ELYTRA_TEXTURE_ATLAS = new ResourceLocation(CustomizableElytra.MOD_ID, "textures/atlas/elytra_patterns.png");
+
     public static ElytraCustomizationData getData(ItemStack elytraIn) {
         if (elytraIn.getTagElement("WingInfo") != null) {
             return new ElytraCustomizationData(ElytraCustomizationData.CustomizationType.Split, new SplitCustomizationHandler(elytraIn));

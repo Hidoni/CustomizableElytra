@@ -1,0 +1,9 @@
+{
+  "sources": [
+    {
+      "type": "directory",
+      "source": "entity/elytra_banner",
+      "prefix": "entity/elytra_banner/"
+    }
+  ]
+}

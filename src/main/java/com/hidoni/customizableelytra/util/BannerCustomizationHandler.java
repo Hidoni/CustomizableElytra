@@ -67,7 +67,7 @@ public class BannerCustomizationHandler extends CustomizationHandler {
             float[] afloat = pair.getSecond().getTextureDiffuseColors();
             Optional<ResourceKey<BannerPattern>> resourceKey = pair.getFirst().unwrapKey();
             if (resourceKey.isPresent()) {
-                Material rendermaterial = new Material(TextureAtlas.LOCATION_BLOCKS, CustomizableElytraItem.getTextureLocation(resourceKey.get()));
+                Material rendermaterial = new Material(ElytraCustomizationUtil.ELYTRA_TEXTURE_ATLAS, CustomizableElytraItem.getTextureLocation(resourceKey.get()));
                 Map<ResourceLocation, TextureAtlasSprite> texturesByName = ((TextureAtlasAccessor)Minecraft.getInstance().getModelManager().getAtlas(rendermaterial.atlasLocation())).getTexturesByName();
                 if (texturesByName.get(rendermaterial.texture()) != null) // Don't render this banner pattern if it's missing, silently hide the pattern
                 {
