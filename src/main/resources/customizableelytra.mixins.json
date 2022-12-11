@@ -12,7 +12,8 @@
     "DownloadingTextureInvoker",
     "ElytraLayerAccessor",
     "PlayerRendererMixin",
-    "SimpleTextureInvoker"
+    "SimpleTextureInvoker",
+    "TextureAtlasAccessor"
   ],
   "minVersion": "0.8"
 }

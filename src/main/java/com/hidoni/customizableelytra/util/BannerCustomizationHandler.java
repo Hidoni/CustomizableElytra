@@ -1,9 +1,11 @@
 package com.hidoni.customizableelytra.util;
 
 import com.hidoni.customizableelytra.items.CustomizableElytraItem;
+import com.hidoni.customizableelytra.mixin.TextureAtlasAccessor;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.RenderType;
@@ -25,6 +27,7 @@ import net.minecraft.world.level.block.entity.BannerBlockEntity;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class BannerCustomizationHandler extends CustomizationHandler {
@@ -65,11 +68,10 @@ public class BannerCustomizationHandler extends CustomizationHandler {
             Optional<ResourceKey<BannerPattern>> resourceKey = pair.getFirst().unwrapKey();
             if (resourceKey.isPresent()) {
                 Material rendermaterial = new Material(TextureAtlas.LOCATION_BLOCKS, CustomizableElytraItem.getTextureLocation(resourceKey.get()));
-                try (TextureAtlasSprite sprite = rendermaterial.sprite()) {
-                    if (sprite.getName() != MissingTextureAtlasSprite.getLocation()) // Don't render this banner pattern if it's missing, silently hide the pattern
-                    {
-                        renderModel.renderToBuffer(matrixStackIn, rendermaterial.buffer(bufferIn, RenderType::entityTranslucent), packedLightIn, OverlayTexture.NO_OVERLAY, afloat[0], afloat[1], afloat[2], 1.0F);
-                    }
+                Map<ResourceLocation, TextureAtlasSprite> texturesByName = ((TextureAtlasAccessor)Minecraft.getInstance().getModelManager().getAtlas(rendermaterial.atlasLocation())).getTexturesByName();
+                if (texturesByName.get(rendermaterial.texture()) != null) // Don't render this banner pattern if it's missing, silently hide the pattern
+                {
+                    renderModel.renderToBuffer(matrixStackIn, rendermaterial.buffer(bufferIn, RenderType::entityTranslucent), packedLightIn, OverlayTexture.NO_OVERLAY, afloat[0], afloat[1], afloat[2], 1.0F);
                 }
             }
         }
