@@ -1,5 +1,6 @@
 package com.hidoni.customizableelytra.integration.curios;
 
+import com.hidoni.customizableelytra.setup.ModItems;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -45,9 +46,7 @@ public class CustomizableElytraCurio implements ICurio {
         LivingEntity livingEntity = slotContext.entity();
         ICuriosHelper curiosHelper = CuriosApi.getCuriosHelper();
         return !(livingEntity.getItemBySlot(EquipmentSlot.CHEST).getItem() instanceof ElytraItem) &&
-                curiosHelper.findEquippedCurio(
-                        stack -> curiosHelper.getCurio(stack).map(curio -> curio instanceof CustomizableElytraCurio)
-                                .orElse(false), livingEntity).isEmpty();
+                curiosHelper.findFirstCurio(livingEntity, ModItems.CUSTOMIZABLE_ELYTRA.get()).isEmpty();
     }
 
     @Nonnull

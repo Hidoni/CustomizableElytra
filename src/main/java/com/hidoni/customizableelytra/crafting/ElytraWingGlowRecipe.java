@@ -2,6 +2,7 @@ package com.hidoni.customizableelytra.crafting;
 
 import com.hidoni.customizableelytra.setup.ModItems;
 import com.hidoni.customizableelytra.setup.ModRecipes;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
@@ -49,7 +50,7 @@ public class ElytraWingGlowRecipe extends CustomRecipe {
         return !elytraItem.isEmpty() && !glowInkSacItem.isEmpty();    }
 
     @Override
-    public ItemStack assemble(CraftingContainer inv) {
+    public ItemStack assemble(CraftingContainer inv, RegistryAccess registryAccess) {
         ItemStack glowInkSacItem = ItemStack.EMPTY;
         ItemStack elytraItem = ItemStack.EMPTY;
 

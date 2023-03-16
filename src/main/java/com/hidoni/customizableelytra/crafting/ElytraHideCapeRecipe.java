@@ -2,6 +2,7 @@ package com.hidoni.customizableelytra.crafting;
 
 import com.hidoni.customizableelytra.setup.ModItems;
 import com.hidoni.customizableelytra.setup.ModRecipes;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -50,7 +51,7 @@ public class ElytraHideCapeRecipe extends CustomRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingContainer inv) {
+    public ItemStack assemble(CraftingContainer inv, RegistryAccess registryAccess) {
         ItemStack paperItem = ItemStack.EMPTY;
         ItemStack elytraItem = ItemStack.EMPTY;
 

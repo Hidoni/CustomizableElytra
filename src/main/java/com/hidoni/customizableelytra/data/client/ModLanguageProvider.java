@@ -5,14 +5,15 @@ import com.hidoni.customizableelytra.items.CustomizableElytraItem;
 import com.hidoni.customizableelytra.setup.ModItems;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.entity.BannerPattern;
 import net.minecraft.world.level.block.entity.BannerPatterns;
 import net.minecraftforge.common.data.LanguageProvider;
 
 public class ModLanguageProvider extends LanguageProvider {
-    public ModLanguageProvider(DataGenerator gen) {
-        super(gen, CustomizableElytra.MOD_ID, "en_us");
+    public ModLanguageProvider(PackOutput packOutput) {
+        super(packOutput, CustomizableElytra.MOD_ID, "en_us");
     }
 
     @Override

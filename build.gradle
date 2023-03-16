@@ -16,11 +16,11 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
-version = '1.19.3-1.7.5'
+version = '1.19.4-1.7.6'
 group = 'com.hidoni.customizableelytra' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'customizableelytra'
-def curios_version = '1.19.3-5.1.1.2'
-def caelus_version = '1.19.3-3.0.0.7'
+def curios_version = '1.19.4-5.1.4.2'
+def caelus_version = '1.19.4-3.0.0.10'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
@@ -31,7 +31,7 @@ minecraft {
     // stable_#            Stables are built at the discretion of the MCP team.
     // Use non-default mappings at your own risk. they may not always work.
     // Simply re-run your setup task after changing the mappings to update your workspace.
-    mappings channel: 'official', version: '1.19.3'
+    mappings channel: 'official', version: '1.19.4'
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
@@ -102,7 +102,7 @@ minecraft {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.19.3-44.0.6'
+    minecraft 'net.minecraftforge:forge:1.19.4-45.0.8'
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 

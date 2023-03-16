@@ -3,6 +3,7 @@ package com.hidoni.customizableelytra.crafting;
 import com.hidoni.customizableelytra.setup.ModItems;
 import com.hidoni.customizableelytra.setup.ModRecipes;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
@@ -30,7 +31,7 @@ public class SplitToWingRecipe extends CustomRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingContainer inv) {
+    public ItemStack assemble(CraftingContainer inv, RegistryAccess registryAccess) {
         ItemStack elytraItem = getElytraItem(inv, IS_ELYTRA_ITEM);
         if (elytraItem.isEmpty())
             return ItemStack.EMPTY;

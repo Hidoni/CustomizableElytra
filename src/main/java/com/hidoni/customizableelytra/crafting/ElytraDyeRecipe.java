@@ -3,6 +3,7 @@ package com.hidoni.customizableelytra.crafting;
 import com.google.common.collect.Lists;
 import com.hidoni.customizableelytra.setup.ModItems;
 import com.hidoni.customizableelytra.setup.ModRecipes;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -53,7 +54,7 @@ public class ElytraDyeRecipe extends CustomRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingContainer inv) {
+    public ItemStack assemble(CraftingContainer inv, RegistryAccess registryAccess) {
         List<DyeItem> list = Lists.newArrayList();
         ItemStack elytraItem = ItemStack.EMPTY;
 

@@ -2,6 +2,7 @@ package com.hidoni.customizableelytra.crafting;
 
 import com.hidoni.customizableelytra.setup.ModItems;
 import com.hidoni.customizableelytra.setup.ModRecipes;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
@@ -45,7 +46,7 @@ public class ElytraWingCombinationRecipe extends CustomRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingContainer inv) {
+    public ItemStack assemble(CraftingContainer inv, RegistryAccess registryAccess) {
         ItemStack leftWing = ItemStack.EMPTY;
         ItemStack rightWing = ItemStack.EMPTY;
         boolean isEnchanted = false;
