@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "customizableelytra",
+  "version": "${version}",
+  "name": "Customizable Elytra",
+  "description": "Adds a variety of colorful ways to customize your elytra!",
+  "authors": [
+    "Hidoni"
+  ],
+  "contact": {
+    "sources": "https://github.com/Hidoni/CustomizableElytra"
+  },
+  "license": "MIT",
+  "icon": "icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.hidoni.customizableelytra.CustomizableElytraFabric"
+    ],
+    "client": [
+      "com.hidoni.customizableelytra.CustomizableElytraFabricClient"
+    ]
+  },
+  "mixins": [
+    "mixins.customizableelytra.common.json",
+    "mixins.customizableelytra.fabric.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14",
+    "fabric": "*",
+    "minecraft": [
+      "1.20",
+      "1.20.1"
+    ],
+    "java": ">=17"
+  }
+}
+  

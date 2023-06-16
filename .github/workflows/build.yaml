@@ -1,0 +1,48 @@
+on:
+  push:
+    tags:
+      - '*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+      - uses: gradle/wrapper-validation-action@v1
+      - run: chmod +x ./gradlew
+      - run: ./gradlew build curseforge modrinth
+        name: Build and publish to Curseforge and Modrinth
+        env:
+          CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+      - uses: actions/upload-artifact@v3
+        with:
+          name: jars
+          path: ./**/build/libs/*
+  make-github-release:
+    runs-on: ubuntu-latest
+    needs: build-and-publish
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+        with:
+          name: jars
+      - name: Set Changelog
+        run: |  # This is very ugly, but it works and I don't want the gradle build to also be dependent on GitHub
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          echo "changelog<<$EOF" >> $GITHUB_ENV
+          python3 -c 'import pathlib; print("# " + pathlib.Path("CHANGELOG.md").read_text().split("#")[1].strip());' >> $GITHUB_ENV
+          echo "$EOF" >> $GITHUB_ENV
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "./Forge/build/libs/*.jar,./Fabric/build/libs/*.jar,./Quilt/build/libs/*.jar"
+          body: "${{ env.changelog }}"

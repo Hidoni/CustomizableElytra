@@ -1,0 +1,30 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.hidoni.customizableelytra.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "ArmorDyeRecipeMixin",
+    "ArmorTrimMixin",
+    "ElytraItemMixin",
+    "ItemStackMixin"
+  ],
+  "client": [
+    "ElytraLayerMixin",
+    "ElytraModelAccessor",
+    "HttpTextureAccessor",
+    "HttpTextureInvoker",
+    "ItemColorsMixin",
+    "ItemPropertiesInvoker",
+    "ModelManagerMixin",
+    "SimpleTextureMixin",
+    "SmithingScreenMixin",
+    "TextureAtlasAccessor",
+    "TextureImageInvoker"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "refmap": "${mixin_refmap}"
+}
+  

@@ -1,0 +1,14 @@
+project.ext.changelog = "No changelog provided for this release."
+
+try {
+    def changelog_contents = rootProject.file("CHANGELOG.md").text
+
+    def endOfLatestChangeLog = changelog_contents.substring(1).indexOf('#') + 1
+    if (endOfLatestChangeLog == 0) {
+        endOfLatestChangeLog = changelog_contents.length()
+    }
+
+    project.ext.changelog = changelog_contents.substring(0, endOfLatestChangeLog).stripTrailing()
+} catch (Exception e) {
+    project.logger.error("Failed to generate changelog.", e)
+}

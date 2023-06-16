@@ -1,0 +1,23 @@
+{
+  "block.minecraft.banner.base.black": "Base negra",
+  "block.minecraft.banner.base.blue": "Base azul",
+  "block.minecraft.banner.base.brown": "Base marrón",
+  "block.minecraft.banner.base.cyan": "Base cian",
+  "block.minecraft.banner.base.gray": "Base gris",
+  "block.minecraft.banner.base.green": "Base verde",
+  "block.minecraft.banner.base.light_blue": "Base azul claro",
+  "block.minecraft.banner.base.light_gray": "Base gris claro",
+  "block.minecraft.banner.base.lime": "Base verde lima",
+  "block.minecraft.banner.base.magenta": "Base magenta",
+  "block.minecraft.banner.base.orange": "Base naranja",
+  "block.minecraft.banner.base.pink": "Base rosa",
+  "block.minecraft.banner.base.purple": "Base morada",
+  "block.minecraft.banner.base.red": "Base roja",
+  "block.minecraft.banner.base.white": "Base blanca",
+  "block.minecraft.banner.base.yellow": "Base amarilla",
+  "item.customizableelytra.cape_hidden": "Patrón de capa oculto",
+  "item.customizableelytra.elytra_wing": "Ala de élitros",
+  "item.customizableelytra.glowing_wing": "Luminoso",
+  "item.customizableelytra.left_wing": "Ala izquierda:",
+  "item.customizableelytra.right_wing": "Ala derecha:"
+}

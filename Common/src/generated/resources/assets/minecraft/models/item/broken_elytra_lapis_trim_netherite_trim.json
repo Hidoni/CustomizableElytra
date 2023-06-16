@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "customizableelytra:item/broken_elytra_left",
+    "layer1": "customizableelytra:item/broken_elytra_right",
+    "layer2": "minecraft:trims/items/broken_elytra_left_wing_trim_lapis",
+    "layer3": "minecraft:trims/items/broken_elytra_right_wing_trim_netherite"
+  }
+}

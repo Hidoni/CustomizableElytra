@@ -1,0 +1,829 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "minecraft:item/broken_elytra_quartz_trim_no_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.1
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_iron_trim_no_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.2
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_netherite_trim_no_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.3
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_redstone_trim_no_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.4
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_copper_trim_no_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.5
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_gold_trim_no_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.6
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_emerald_trim_no_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.7
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_diamond_trim_no_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.8
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_lapis_trim_no_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.9
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_amethyst_trim_no_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 1.0
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_no_trim_quartz_trim",
+      "predicate": {
+        "customizableelytra:right_wing_trim_type": 0.1
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_no_trim_iron_trim",
+      "predicate": {
+        "customizableelytra:right_wing_trim_type": 0.2
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_no_trim_netherite_trim",
+      "predicate": {
+        "customizableelytra:right_wing_trim_type": 0.3
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_no_trim_redstone_trim",
+      "predicate": {
+        "customizableelytra:right_wing_trim_type": 0.4
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_no_trim_copper_trim",
+      "predicate": {
+        "customizableelytra:right_wing_trim_type": 0.5
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_no_trim_gold_trim",
+      "predicate": {
+        "customizableelytra:right_wing_trim_type": 0.6
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_no_trim_emerald_trim",
+      "predicate": {
+        "customizableelytra:right_wing_trim_type": 0.7
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_no_trim_diamond_trim",
+      "predicate": {
+        "customizableelytra:right_wing_trim_type": 0.8
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_no_trim_lapis_trim",
+      "predicate": {
+        "customizableelytra:right_wing_trim_type": 0.9
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_no_trim_amethyst_trim",
+      "predicate": {
+        "customizableelytra:right_wing_trim_type": 1.0
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_quartz_trim_quartz_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.1,
+        "customizableelytra:right_wing_trim_type": 0.1
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_quartz_trim_iron_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.1,
+        "customizableelytra:right_wing_trim_type": 0.2
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_quartz_trim_netherite_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.1,
+        "customizableelytra:right_wing_trim_type": 0.3
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_quartz_trim_redstone_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.1,
+        "customizableelytra:right_wing_trim_type": 0.4
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_quartz_trim_copper_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.1,
+        "customizableelytra:right_wing_trim_type": 0.5
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_quartz_trim_gold_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.1,
+        "customizableelytra:right_wing_trim_type": 0.6
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_quartz_trim_emerald_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.1,
+        "customizableelytra:right_wing_trim_type": 0.7
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_quartz_trim_diamond_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.1,
+        "customizableelytra:right_wing_trim_type": 0.8
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_quartz_trim_lapis_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.1,
+        "customizableelytra:right_wing_trim_type": 0.9
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_quartz_trim_amethyst_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.1,
+        "customizableelytra:right_wing_trim_type": 1.0
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_iron_trim_quartz_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.2,
+        "customizableelytra:right_wing_trim_type": 0.1
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_iron_trim_iron_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.2,
+        "customizableelytra:right_wing_trim_type": 0.2
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_iron_trim_netherite_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.2,
+        "customizableelytra:right_wing_trim_type": 0.3
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_iron_trim_redstone_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.2,
+        "customizableelytra:right_wing_trim_type": 0.4
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_iron_trim_copper_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.2,
+        "customizableelytra:right_wing_trim_type": 0.5
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_iron_trim_gold_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.2,
+        "customizableelytra:right_wing_trim_type": 0.6
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_iron_trim_emerald_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.2,
+        "customizableelytra:right_wing_trim_type": 0.7
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_iron_trim_diamond_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.2,
+        "customizableelytra:right_wing_trim_type": 0.8
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_iron_trim_lapis_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.2,
+        "customizableelytra:right_wing_trim_type": 0.9
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_iron_trim_amethyst_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.2,
+        "customizableelytra:right_wing_trim_type": 1.0
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_netherite_trim_quartz_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.3,
+        "customizableelytra:right_wing_trim_type": 0.1
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_netherite_trim_iron_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.3,
+        "customizableelytra:right_wing_trim_type": 0.2
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_netherite_trim_netherite_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.3,
+        "customizableelytra:right_wing_trim_type": 0.3
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_netherite_trim_redstone_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.3,
+        "customizableelytra:right_wing_trim_type": 0.4
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_netherite_trim_copper_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.3,
+        "customizableelytra:right_wing_trim_type": 0.5
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_netherite_trim_gold_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.3,
+        "customizableelytra:right_wing_trim_type": 0.6
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_netherite_trim_emerald_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.3,
+        "customizableelytra:right_wing_trim_type": 0.7
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_netherite_trim_diamond_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.3,
+        "customizableelytra:right_wing_trim_type": 0.8
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_netherite_trim_lapis_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.3,
+        "customizableelytra:right_wing_trim_type": 0.9
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_netherite_trim_amethyst_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.3,
+        "customizableelytra:right_wing_trim_type": 1.0
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_redstone_trim_quartz_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.4,
+        "customizableelytra:right_wing_trim_type": 0.1
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_redstone_trim_iron_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.4,
+        "customizableelytra:right_wing_trim_type": 0.2
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_redstone_trim_netherite_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.4,
+        "customizableelytra:right_wing_trim_type": 0.3
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_redstone_trim_redstone_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.4,
+        "customizableelytra:right_wing_trim_type": 0.4
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_redstone_trim_copper_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.4,
+        "customizableelytra:right_wing_trim_type": 0.5
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_redstone_trim_gold_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.4,
+        "customizableelytra:right_wing_trim_type": 0.6
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_redstone_trim_emerald_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.4,
+        "customizableelytra:right_wing_trim_type": 0.7
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_redstone_trim_diamond_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.4,
+        "customizableelytra:right_wing_trim_type": 0.8
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_redstone_trim_lapis_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.4,
+        "customizableelytra:right_wing_trim_type": 0.9
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_redstone_trim_amethyst_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.4,
+        "customizableelytra:right_wing_trim_type": 1.0
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_copper_trim_quartz_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.5,
+        "customizableelytra:right_wing_trim_type": 0.1
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_copper_trim_iron_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.5,
+        "customizableelytra:right_wing_trim_type": 0.2
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_copper_trim_netherite_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.5,
+        "customizableelytra:right_wing_trim_type": 0.3
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_copper_trim_redstone_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.5,
+        "customizableelytra:right_wing_trim_type": 0.4
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_copper_trim_copper_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.5,
+        "customizableelytra:right_wing_trim_type": 0.5
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_copper_trim_gold_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.5,
+        "customizableelytra:right_wing_trim_type": 0.6
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_copper_trim_emerald_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.5,
+        "customizableelytra:right_wing_trim_type": 0.7
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_copper_trim_diamond_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.5,
+        "customizableelytra:right_wing_trim_type": 0.8
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_copper_trim_lapis_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.5,
+        "customizableelytra:right_wing_trim_type": 0.9
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_copper_trim_amethyst_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.5,
+        "customizableelytra:right_wing_trim_type": 1.0
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_gold_trim_quartz_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.6,
+        "customizableelytra:right_wing_trim_type": 0.1
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_gold_trim_iron_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.6,
+        "customizableelytra:right_wing_trim_type": 0.2
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_gold_trim_netherite_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.6,
+        "customizableelytra:right_wing_trim_type": 0.3
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_gold_trim_redstone_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.6,
+        "customizableelytra:right_wing_trim_type": 0.4
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_gold_trim_copper_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.6,
+        "customizableelytra:right_wing_trim_type": 0.5
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_gold_trim_gold_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.6,
+        "customizableelytra:right_wing_trim_type": 0.6
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_gold_trim_emerald_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.6,
+        "customizableelytra:right_wing_trim_type": 0.7
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_gold_trim_diamond_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.6,
+        "customizableelytra:right_wing_trim_type": 0.8
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_gold_trim_lapis_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.6,
+        "customizableelytra:right_wing_trim_type": 0.9
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_gold_trim_amethyst_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.6,
+        "customizableelytra:right_wing_trim_type": 1.0
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_emerald_trim_quartz_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.7,
+        "customizableelytra:right_wing_trim_type": 0.1
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_emerald_trim_iron_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.7,
+        "customizableelytra:right_wing_trim_type": 0.2
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_emerald_trim_netherite_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.7,
+        "customizableelytra:right_wing_trim_type": 0.3
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_emerald_trim_redstone_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.7,
+        "customizableelytra:right_wing_trim_type": 0.4
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_emerald_trim_copper_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.7,
+        "customizableelytra:right_wing_trim_type": 0.5
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_emerald_trim_gold_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.7,
+        "customizableelytra:right_wing_trim_type": 0.6
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_emerald_trim_emerald_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.7,
+        "customizableelytra:right_wing_trim_type": 0.7
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_emerald_trim_diamond_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.7,
+        "customizableelytra:right_wing_trim_type": 0.8
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_emerald_trim_lapis_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.7,
+        "customizableelytra:right_wing_trim_type": 0.9
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_emerald_trim_amethyst_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.7,
+        "customizableelytra:right_wing_trim_type": 1.0
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_diamond_trim_quartz_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.8,
+        "customizableelytra:right_wing_trim_type": 0.1
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_diamond_trim_iron_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.8,
+        "customizableelytra:right_wing_trim_type": 0.2
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_diamond_trim_netherite_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.8,
+        "customizableelytra:right_wing_trim_type": 0.3
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_diamond_trim_redstone_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.8,
+        "customizableelytra:right_wing_trim_type": 0.4
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_diamond_trim_copper_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.8,
+        "customizableelytra:right_wing_trim_type": 0.5
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_diamond_trim_gold_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.8,
+        "customizableelytra:right_wing_trim_type": 0.6
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_diamond_trim_emerald_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.8,
+        "customizableelytra:right_wing_trim_type": 0.7
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_diamond_trim_diamond_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.8,
+        "customizableelytra:right_wing_trim_type": 0.8
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_diamond_trim_lapis_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.8,
+        "customizableelytra:right_wing_trim_type": 0.9
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_diamond_trim_amethyst_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.8,
+        "customizableelytra:right_wing_trim_type": 1.0
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_lapis_trim_quartz_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.9,
+        "customizableelytra:right_wing_trim_type": 0.1
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_lapis_trim_iron_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.9,
+        "customizableelytra:right_wing_trim_type": 0.2
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_lapis_trim_netherite_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.9,
+        "customizableelytra:right_wing_trim_type": 0.3
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_lapis_trim_redstone_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.9,
+        "customizableelytra:right_wing_trim_type": 0.4
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_lapis_trim_copper_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.9,
+        "customizableelytra:right_wing_trim_type": 0.5
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_lapis_trim_gold_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.9,
+        "customizableelytra:right_wing_trim_type": 0.6
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_lapis_trim_emerald_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.9,
+        "customizableelytra:right_wing_trim_type": 0.7
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_lapis_trim_diamond_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.9,
+        "customizableelytra:right_wing_trim_type": 0.8
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_lapis_trim_lapis_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.9,
+        "customizableelytra:right_wing_trim_type": 0.9
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_lapis_trim_amethyst_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 0.9,
+        "customizableelytra:right_wing_trim_type": 1.0
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_amethyst_trim_quartz_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 1.0,
+        "customizableelytra:right_wing_trim_type": 0.1
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_amethyst_trim_iron_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 1.0,
+        "customizableelytra:right_wing_trim_type": 0.2
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_amethyst_trim_netherite_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 1.0,
+        "customizableelytra:right_wing_trim_type": 0.3
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_amethyst_trim_redstone_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 1.0,
+        "customizableelytra:right_wing_trim_type": 0.4
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_amethyst_trim_copper_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 1.0,
+        "customizableelytra:right_wing_trim_type": 0.5
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_amethyst_trim_gold_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 1.0,
+        "customizableelytra:right_wing_trim_type": 0.6
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_amethyst_trim_emerald_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 1.0,
+        "customizableelytra:right_wing_trim_type": 0.7
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_amethyst_trim_diamond_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 1.0,
+        "customizableelytra:right_wing_trim_type": 0.8
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_amethyst_trim_lapis_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 1.0,
+        "customizableelytra:right_wing_trim_type": 0.9
+      }
+    },
+    {
+      "model": "minecraft:item/broken_elytra_amethyst_trim_amethyst_trim",
+      "predicate": {
+        "customizableelytra:left_wing_trim_type": 1.0,
+        "customizableelytra:right_wing_trim_type": 1.0
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "customizableelytra:item/broken_elytra_left",
+    "layer1": "customizableelytra:item/broken_elytra_right"
+  }
+}

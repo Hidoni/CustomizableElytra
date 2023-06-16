@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "customizableelytra:item/elytra_wing",
+    "layer1": "minecraft:trims/items/elytra_wing_trim_gold"
+  }
+}
