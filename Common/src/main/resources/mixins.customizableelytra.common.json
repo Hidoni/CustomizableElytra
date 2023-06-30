@@ -14,7 +14,6 @@
     "ElytraModelAccessor",
     "HttpTextureAccessor",
     "HttpTextureInvoker",
-    "ItemColorsMixin",
     "ItemPropertiesInvoker",
     "ModelManagerMixin",
     "SimpleTextureMixin",

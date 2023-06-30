@@ -1,6 +1,7 @@
 package com.hidoni.customizableelytra.platform;
 
 import com.hidoni.customizableelytra.Constants;
+import com.hidoni.customizableelytra.platform.services.IEventHelper;
 import com.hidoni.customizableelytra.platform.services.IPlatformHelper;
 import com.hidoni.customizableelytra.platform.services.IRegistryHelper;
 
@@ -16,6 +17,7 @@ public class Services {
     // mod is loaded.
     public static final IPlatformHelper PLATFORM = load(IPlatformHelper.class);
     public static final IRegistryHelper REGISTRY = load(IRegistryHelper.class);
+    public static final IEventHelper EVENT = load(IEventHelper.class);
 
     // This code is used to load a service for the current environment. Your implementation of the service must be defined
     // manually by including a text file in META-INF/services named with the fully qualified class name of the service.
