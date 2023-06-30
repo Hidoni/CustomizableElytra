@@ -2,7 +2,7 @@ package com.hidoni.customizableelytra.customization;
 
 import com.hidoni.customizableelytra.Constants;
 import com.hidoni.customizableelytra.item.CustomizableElytraItem;
-import com.hidoni.customizableelytra.language.Translationkeys;
+import com.hidoni.customizableelytra.language.TranslationKeys;
 import com.hidoni.customizableelytra.registry.ModItems;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.ChatFormatting;
@@ -104,12 +104,12 @@ public class CustomizationUtils {
 
     @NotNull
     private static Component getCapeHiddenComponent() {
-        return Component.translatable(Translationkeys.HIDDEN_CAPE_TRANSLATION_KEY).withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC);
+        return Component.translatable(TranslationKeys.HIDDEN_CAPE_TRANSLATION_KEY).withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC);
     }
 
     @NotNull
     private static Component getGlowingComponent() {
-        return Component.translatable(Translationkeys.GLOWING_WING_TRANSLATION_KEY).withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC);
+        return Component.translatable(TranslationKeys.GLOWING_WING_TRANSLATION_KEY).withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC);
     }
 
     @NotNull
@@ -256,11 +256,11 @@ public class CustomizationUtils {
         }*/
 
         if (!leftWingLines.isEmpty()) {
-            outputLines.add(Component.translatable(Translationkeys.LEFT_WING_TRANSLATION_KEY).withStyle(ChatFormatting.GRAY));
+            outputLines.add(Component.translatable(TranslationKeys.LEFT_WING_TRANSLATION_KEY).withStyle(ChatFormatting.GRAY));
             outputLines.addAll(leftWingLines);
         }
         if (!rightWingLines.isEmpty()) {
-            outputLines.add(Component.translatable(Translationkeys.RIGHT_WING_TRANSLATION_KEY).withStyle(ChatFormatting.GRAY));
+            outputLines.add(Component.translatable(TranslationKeys.RIGHT_WING_TRANSLATION_KEY).withStyle(ChatFormatting.GRAY));
             outputLines.addAll(rightWingLines);
         }
         return outputLines;
