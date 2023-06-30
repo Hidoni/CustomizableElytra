@@ -23,5 +23,6 @@ public class ModLanguageProvider extends LanguageProvider {
         for (DyeColor dye : DyeColor.values()) {
             add("block.minecraft.banner." + BannerPatterns.BASE.location().getPath() + '.' + dye.getName(), I18n.get("item.minecraft.firework_star." + dye.getName()) + " Base");
         }
+        add(Translationkeys.CREATIVE_TAB_TRANSLATION_KEY, "Customizable Elytra");
     }
 }
