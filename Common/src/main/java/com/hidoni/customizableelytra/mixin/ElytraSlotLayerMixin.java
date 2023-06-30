@@ -11,21 +11,23 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
-import net.minecraft.client.renderer.entity.layers.ElytraLayer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(ElytraLayer.class)
-public abstract class ElytraLayerMixin<T extends LivingEntity, M extends EntityModel<T>> extends RenderLayer<T, M> {
+@SuppressWarnings("UnresolvedMixinReference")
+@Pseudo
+@Mixin(targets = "com.illusivesoulworks.elytraslot.client.ElytraSlotLayer")
+public abstract class ElytraSlotLayerMixin<T extends LivingEntity, M extends EntityModel<T>> extends RenderLayer<T, M> {
     @Shadow
     @Final
     private ElytraModel<T> elytraModel;
@@ -33,7 +35,7 @@ public abstract class ElytraLayerMixin<T extends LivingEntity, M extends EntityM
     private ElytraWingModel<T> rightWing;
     private CustomizableElytraLayerHelper<T> helper;
 
-    public ElytraLayerMixin(RenderLayerParent<T, M> parent) {
+    public ElytraSlotLayerMixin(RenderLayerParent<T, M> parent) {
         super(parent);
     }
 
@@ -50,13 +52,14 @@ public abstract class ElytraLayerMixin<T extends LivingEntity, M extends EntityM
         helper.setDefaultBuffer(buffer);
     }
 
-    @ModifyVariable(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/LivingEntity;FFFFFF)V", at = @At("STORE"), ordinal = 0)
-    private ItemStack storeElytraStack(ItemStack elytra) {
+    // Elytra Slot runs everything in a lambda, so to make life easy we target all methods to inject (should still only be one match!)
+    @Redirect(method = "*", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getItem()Lnet/minecraft/world/item/Item;"))
+    private Item storeElytraStack(ItemStack elytra) {
         helper.setElytra(elytra);
-        return elytra;
+        return elytra.getItem();
     }
 
-    @Redirect(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/LivingEntity;FFFFFF)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/ElytraModel;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;IIFFFF)V"))
+    @Redirect(method = "*", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/ElytraModel;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;IIFFFF)V"))
     private void renderCustomizedElytraWings(ElytraModel<T> elytraModel, PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int overlayTexture, float red, float green, float blue, float alpha) {
         ElytraCustomization customization = CustomizationUtils.getElytraCustomization(helper.getElytra());
         if (!customization.isCustomized()) {

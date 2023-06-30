@@ -10,8 +10,10 @@
     "ItemStackMixin"
   ],
   "client": [
+    "ColytraLayerMixin",
     "ElytraLayerMixin",
     "ElytraModelAccessor",
+    "ElytraSlotLayerMixin",
     "HttpTextureAccessor",
     "HttpTextureInvoker",
     "ItemPropertiesInvoker",
