@@ -10,10 +10,6 @@ pluginManagement {
             url = 'https://maven.fabricmc.net/'
         }
         maven {
-            name = "Quilt"
-            url = "https://maven.quiltmc.org/repository/release"
-        }
-        maven {
             name = 'Sponge Snapshots'
             url = 'https://repo.spongepowered.org/repository/maven-public/'
         }
@@ -25,4 +21,4 @@ pluginManagement {
 }
 
 rootProject.name = 'Customizable Elytra'
-include("Common", "Fabric", "Forge", "Quilt")
+include("Common", "Fabric", "Forge")
