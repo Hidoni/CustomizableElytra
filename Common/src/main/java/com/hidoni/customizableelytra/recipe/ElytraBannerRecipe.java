@@ -6,7 +6,6 @@ import com.hidoni.customizableelytra.customization.ElytraCustomization;
 import com.hidoni.customizableelytra.item.CustomizableElytraItem;
 import com.hidoni.customizableelytra.registry.ModRecipes;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.ItemStack;
@@ -17,8 +16,8 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 public class ElytraBannerRecipe extends CustomRecipe {
-    public ElytraBannerRecipe(ResourceLocation id, CraftingBookCategory category) {
-        super(id, category);
+    public ElytraBannerRecipe(CraftingBookCategory category) {
+        super(category);
     }
 
     @Override

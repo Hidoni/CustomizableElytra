@@ -1,4 +1,4 @@
-package com.hidoni.customizableelytra.mixin;
+package com.hidoni.customizableelytra.mixin.datagen;
 
 import net.minecraftforge.client.model.generators.ModelBuilder;
 import org.spongepowered.asm.mixin.Mixin;

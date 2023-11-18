@@ -6,7 +6,6 @@ import com.hidoni.customizableelytra.customization.ElytraCustomization;
 import com.hidoni.customizableelytra.item.CustomizableElytraItem;
 import com.hidoni.customizableelytra.registry.ModRecipes;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -20,8 +19,8 @@ import org.jetbrains.annotations.NotNull;
 public class ElytraMiscellaneousCustomizationRecipe extends CustomRecipe {
     private static final Ingredient CUSTOMIZATION_INGREDIENT = Ingredient.of(Items.GLOW_INK_SAC, Items.PAPER);
 
-    public ElytraMiscellaneousCustomizationRecipe(ResourceLocation id, CraftingBookCategory category) {
-        super(id, category);
+    public ElytraMiscellaneousCustomizationRecipe(CraftingBookCategory category) {
+        super(category);
     }
 
     @Override

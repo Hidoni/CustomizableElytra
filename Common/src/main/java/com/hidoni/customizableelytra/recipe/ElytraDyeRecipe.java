@@ -6,7 +6,6 @@ import com.hidoni.customizableelytra.customization.ElytraCustomization;
 import com.hidoni.customizableelytra.item.CustomizableElytraItem;
 import com.hidoni.customizableelytra.registry.ModRecipes;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.DyeableLeatherItem;
@@ -21,8 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ElytraDyeRecipe extends CustomRecipe {
-    public ElytraDyeRecipe(ResourceLocation id, CraftingBookCategory category) {
-        super(id, category);
+    public ElytraDyeRecipe(CraftingBookCategory category) {
+        super(category);
     }
 
     @Override

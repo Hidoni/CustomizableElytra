@@ -5,7 +5,6 @@ import com.hidoni.customizableelytra.customization.ElytraCustomization;
 import com.hidoni.customizableelytra.item.ElytraWingItem;
 import com.hidoni.customizableelytra.registry.ModRecipes;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -17,8 +16,8 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 public class CombineWingsRecipe extends CustomRecipe {
-    public CombineWingsRecipe(ResourceLocation id, CraftingBookCategory category) {
-        super(id, category);
+    public CombineWingsRecipe(CraftingBookCategory category) {
+        super(category);
     }
 
     private static void copyWingAttributesToElytra(ItemStack leftWing, ItemStack rightWing, ItemStack elytra) {

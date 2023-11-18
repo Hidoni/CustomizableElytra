@@ -1,4 +1,4 @@
-package com.hidoni.customizableelytra.mixin;
+package com.hidoni.customizableelytra.mixin.datagen;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;

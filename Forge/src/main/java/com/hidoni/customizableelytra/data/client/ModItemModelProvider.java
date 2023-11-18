@@ -1,9 +1,9 @@
 package com.hidoni.customizableelytra.data.client;
 
 import com.hidoni.customizableelytra.Constants;
-import com.hidoni.customizableelytra.mixin.ItemModelBuilderAccessor;
-import com.hidoni.customizableelytra.mixin.ModelBuilderAccessor;
-import com.hidoni.customizableelytra.mixin.OverrideBuilderAccessor;
+import com.hidoni.customizableelytra.mixin.datagen.ItemModelBuilderAccessor;
+import com.hidoni.customizableelytra.mixin.datagen.ModelBuilderAccessor;
+import com.hidoni.customizableelytra.mixin.datagen.OverrideBuilderAccessor;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.models.ItemModelGenerators;
 import net.minecraft.resources.ResourceLocation;

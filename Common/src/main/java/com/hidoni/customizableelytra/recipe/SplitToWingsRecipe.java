@@ -6,7 +6,6 @@ import com.hidoni.customizableelytra.customization.ElytraCustomization;
 import com.hidoni.customizableelytra.registry.ModRecipes;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
@@ -17,8 +16,8 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 public class SplitToWingsRecipe extends CustomRecipe {
-    public SplitToWingsRecipe(ResourceLocation id, CraftingBookCategory category) {
-        super(id, category);
+    public SplitToWingsRecipe(CraftingBookCategory category) {
+        super(category);
     }
 
     private ItemStack getElytraItem(@NotNull CraftingContainer inv) {

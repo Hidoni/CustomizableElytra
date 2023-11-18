@@ -35,7 +35,7 @@ public class ArmorTrimMixin {
     }
 
     @Inject(method = "getTrim", at = @At(value = "HEAD"), cancellable = true)
-    private static void getArmorTrimForElytra(RegistryAccess access, ItemStack stack, CallbackInfoReturnable<Optional<ArmorTrim>> cir) {
+    private static void getArmorTrimForElytra(RegistryAccess access, ItemStack stack, boolean bool, CallbackInfoReturnable<Optional<ArmorTrim>> cir) {
         if (stack.getItem() instanceof CustomizableElytraItem customizableElytraItem) {
             cir.setReturnValue(customizableElytraItem.getArmorTrim(stack, access));
         }

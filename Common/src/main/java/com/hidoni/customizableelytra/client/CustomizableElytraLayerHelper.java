@@ -19,6 +19,7 @@ import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
@@ -140,7 +141,7 @@ public class CustomizableElytraLayerHelper<T extends LivingEntity> {
         armorTrim.ifPresent((trim) -> {
             ResourceLocation trimLocation = elytraTrimLookup.apply(trim);
             TextureAtlasSprite sprite = armorTrimAtlas.getSprite(trimLocation);
-            VertexConsumer consumer = sprite.wrap(ItemRenderer.getFoilBufferDirect(defaultBuffer, Sheets.armorTrimsSheet(), true, hasFoil));
+            VertexConsumer consumer = sprite.wrap(ItemRenderer.getFoilBufferDirect(defaultBuffer, Sheets.armorTrimsSheet(trim.pattern().value().decal()), true, hasFoil));
             wingModel.renderToBuffer(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         });
     }
@@ -159,10 +160,11 @@ public class CustomizableElytraLayerHelper<T extends LivingEntity> {
 
     private ResourceLocation getCapeTexture() {
         if (entity instanceof AbstractClientPlayer clientPlayer) {
-            if (clientPlayer.isElytraLoaded() && clientPlayer.getElytraTextureLocation() != null) {
-                return clientPlayer.getElytraTextureLocation();
-            } else if (clientPlayer.isCapeLoaded() && clientPlayer.getCloakTextureLocation() != null && clientPlayer.isModelPartShown(PlayerModelPart.CAPE)) {
-                return clientPlayer.getCloakTextureLocation();
+            PlayerSkin skin = clientPlayer.getSkin();
+            if (skin.elytraTexture() != null) {
+                return skin.elytraTexture();
+            } else if (skin.capeTexture() != null && clientPlayer.isModelPartShown(PlayerModelPart.CAPE)) {
+                return skin.capeTexture();
             }
         }
         return null;
