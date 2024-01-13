@@ -22,10 +22,10 @@ public class FabricRegistryHelper implements IRegistryHelper {
         }
         return new RegistryProvider<>() {
             @Override
-            public <I extends T> RegistryEntry<I> register(ResourceLocation location, Supplier<? extends I> entrySupplier) {
+            public <I extends T> RegistryEntry<T, I> register(ResourceLocation location, Supplier<? extends I> entrySupplier) {
                 I registered = Registry.register(registry, location, entrySupplier.get());
                 return new RegistryEntry<>() {
-                    private final ResourceKey<I> resourceKey = ResourceKey.create((ResourceKey<? extends Registry<I>>) registry.key(), location);
+                    private final ResourceKey<T> resourceKey = ResourceKey.create(registry.key(), location);
 
                     @Override
                     public ResourceLocation getResourceLocation() {
@@ -33,13 +33,13 @@ public class FabricRegistryHelper implements IRegistryHelper {
                     }
 
                     @Override
-                    public @Nullable ResourceKey<I> getResourceKey() {
+                    public @Nullable ResourceKey<T> getResourceKey() {
                         return resourceKey;
                     }
 
                     @Override
-                    public Holder<I> getHolder() {
-                        return (Holder<I>) registry.getHolderOrThrow((ResourceKey<T>) this.getResourceKey());
+                    public Holder<T> getHolder() {
+                        return registry.getHolderOrThrow(this.getResourceKey());
                     }
 
                     @Override

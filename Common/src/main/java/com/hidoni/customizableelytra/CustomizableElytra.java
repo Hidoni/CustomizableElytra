@@ -22,8 +22,8 @@ public class CustomizableElytra {
                 return InteractionResult.sidedSuccess(world.isClientSide);
 
             };
-            CauldronInteraction.WATER.put(ModItems.ELYTRA_WING.get(), clearElytraCustomization);
-            CauldronInteraction.WATER.put(Items.ELYTRA, clearElytraCustomization);
+            CauldronInteraction.WATER.map().put(ModItems.ELYTRA_WING.get(), clearElytraCustomization);
+            CauldronInteraction.WATER.map().put(Items.ELYTRA, clearElytraCustomization);
         });
     }
 }

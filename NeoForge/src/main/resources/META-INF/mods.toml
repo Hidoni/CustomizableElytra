@@ -45,9 +45,9 @@ config="mixins.customizableelytra.neoforge.json"
     # the modid of the dependency
     modId="neoforge" #mandatory
     # Does this dependency have to exist - if not, ordering below must be specified
-    mandatory=true #mandatory
+    type="required" #mandatory
     # The version range of the dependency
-    versionRange="[20.2,)" #mandatory
+    versionRange="[20.4,)" #mandatory
     # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
     ordering="NONE"
     # Side this dependency is applied on - BOTH, CLIENT or SERVER
@@ -55,8 +55,8 @@ config="mixins.customizableelytra.neoforge.json"
 # Here's another dependency
 [[dependencies.customizableelytra]]
     modId="minecraft"
-    mandatory=true
+    type="required"
 # This version range declares a minimum of the current minecraft version up to but not including the next major version
-    versionRange="[1.20.2,1.21)"
+    versionRange="[1.20.4,1.21)"
     ordering="NONE"
     side="BOTH"
