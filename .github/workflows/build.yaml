@@ -44,5 +44,5 @@ jobs:
           echo "$EOF" >> $GITHUB_ENV
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "./Fabric/build/libs/*.jar,./NeoForge/build/libs/*.jar"
+          artifacts: "./Forge/build/libs/*.jar,./Fabric/build/libs/*.jar,./NeoForge/build/libs/*.jar"
           body: "${{ env.changelog }}"
