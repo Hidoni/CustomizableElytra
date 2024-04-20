@@ -7,7 +7,8 @@
     "ArmorDyeRecipeMixin",
     "ArmorTrimMixin",
     "ElytraItemMixin",
-    "ItemStackMixin"
+    "ItemStackMixin",
+    "RepairItemRecipeMixin"
   ],
   "client": [
     "ColytraLayerMixin",
