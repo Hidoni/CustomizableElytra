@@ -22,8 +22,7 @@ public class ElytraItemMixin extends Item {
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> components, TooltipFlag flag) {
-        RegistryAccess access = level != null ? level.registryAccess() : null;
-        components.addAll(CustomizationUtils.getElytraTooltipLines(stack, flag, access));
+    public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext tooltipContext, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
+        components.addAll(CustomizationUtils.getElytraTooltipLines(stack, tooltipContext, flag));
     }
 }

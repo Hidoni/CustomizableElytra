@@ -3,8 +3,11 @@ package com.hidoni.customizableelytra.recipe;
 import com.hidoni.customizableelytra.customization.CustomizationUtils;
 import com.hidoni.customizableelytra.customization.ElytraCustomization;
 import com.hidoni.customizableelytra.item.ElytraWingItem;
+import com.hidoni.customizableelytra.registry.ModDataComponents;
 import com.hidoni.customizableelytra.registry.ModRecipes;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -22,17 +25,19 @@ public class CombineWingsRecipe extends CustomRecipe {
 
     private static void copyWingAttributesToElytra(ItemStack leftWing, ItemStack rightWing, ItemStack elytra) {
         elytra.setDamageValue((leftWing.getDamageValue() + rightWing.getDamageValue()) / 2);
-        elytra.setRepairCost((leftWing.getBaseRepairCost() + rightWing.getBaseRepairCost()) / 2);
-        elytra.resetHoverName();
-        if (leftWing.hasCustomHoverName()) {
-            elytra.setHoverName(leftWing.getHoverName());
-        } else if (rightWing.hasCustomHoverName()) {
-            elytra.setHoverName(rightWing.getHoverName());
+        int repairCost = (leftWing.getOrDefault(DataComponents.REPAIR_COST, 0) + rightWing.getOrDefault(DataComponents.REPAIR_COST, 0)) / 2;
+        if (repairCost != 0) {
+            elytra.set(DataComponents.REPAIR_COST, repairCost);
         }
-        if (!EnchantmentHelper.getEnchantments(leftWing).isEmpty()) {
-            EnchantmentHelper.setEnchantments(EnchantmentHelper.getEnchantments(leftWing), elytra);
-        } else if (!EnchantmentHelper.getEnchantments(rightWing).isEmpty()) {
-            EnchantmentHelper.setEnchantments(EnchantmentHelper.getEnchantments(rightWing), elytra);
+        if (leftWing.has(DataComponents.CUSTOM_NAME)) {
+            elytra.set(DataComponents.CUSTOM_NAME, leftWing.get(DataComponents.CUSTOM_NAME));
+        } else if (rightWing.has(DataComponents.CUSTOM_NAME)) {
+            elytra.set(DataComponents.CUSTOM_NAME, rightWing.get(DataComponents.CUSTOM_NAME));
+        }
+        if (!EnchantmentHelper.getEnchantmentsForCrafting(leftWing).isEmpty()) {
+            EnchantmentHelper.setEnchantments(elytra, EnchantmentHelper.getEnchantmentsForCrafting(leftWing));
+        } else if (!EnchantmentHelper.getEnchantmentsForCrafting(rightWing).isEmpty()) {
+            EnchantmentHelper.setEnchantments(elytra, EnchantmentHelper.getEnchantmentsForCrafting(rightWing));
         }
     }
 
@@ -61,7 +66,7 @@ public class CombineWingsRecipe extends CustomRecipe {
     }
 
     @Override
-    public @NotNull ItemStack assemble(@NotNull CraftingContainer inv, @NotNull RegistryAccess access) {
+    public @NotNull ItemStack assemble(@NotNull CraftingContainer inv, HolderLookup.@NotNull Provider provider) {
         ItemStack leftWing = ItemStack.EMPTY;
         ItemStack rightWing = ItemStack.EMPTY;
         for (int i = 0; i < inv.getContainerSize(); i++) {
@@ -81,10 +86,10 @@ public class CombineWingsRecipe extends CustomRecipe {
                 leftWing = stack;
             }
         }
-        ElytraCustomization customization = new ElytraCustomization(CustomizationUtils.copyCustomizationTagToNewStack(leftWing), CustomizationUtils.copyCustomizationTagToNewStack(rightWing));
+        ElytraCustomization customization = new ElytraCustomization(leftWing.copyWithCount(1), rightWing.copyWithCount(1));
         ItemStack elytra = new ItemStack(Items.ELYTRA);
         copyWingAttributesToElytra(leftWing, rightWing, elytra);
-        customization.saveToElytra(elytra);
+        elytra.set(ModDataComponents.ELYTRA_CUSTOMIZATION.get(), customization);
         return elytra;
     }
 

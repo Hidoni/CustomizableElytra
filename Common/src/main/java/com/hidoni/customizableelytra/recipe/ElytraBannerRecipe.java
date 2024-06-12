@@ -4,8 +4,11 @@ import com.hidoni.customizableelytra.ElytraUtils;
 import com.hidoni.customizableelytra.customization.CustomizationUtils;
 import com.hidoni.customizableelytra.customization.ElytraCustomization;
 import com.hidoni.customizableelytra.item.CustomizableElytraItem;
+import com.hidoni.customizableelytra.registry.ModDataComponents;
 import com.hidoni.customizableelytra.registry.ModRecipes;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.ItemStack;
@@ -13,6 +16,7 @@ import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BannerPatternLayers;
 import org.jetbrains.annotations.NotNull;
 
 public class ElytraBannerRecipe extends CustomRecipe {
@@ -31,6 +35,10 @@ public class ElytraBannerRecipe extends CustomRecipe {
             }
             if (ElytraUtils.isElytra(stack) || stack.getItem() instanceof CustomizableElytraItem) {
                 if (!customizableStack.isEmpty()) {
+                    return false;
+                }
+                BannerPatternLayers bannerpatternlayers = customizableStack.getOrDefault(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY);
+                if (!bannerpatternlayers.layers().isEmpty()) {
                     return false;
                 }
                 customizableStack = stack;
@@ -56,7 +64,7 @@ public class ElytraBannerRecipe extends CustomRecipe {
     }
 
     @Override
-    public @NotNull ItemStack assemble(@NotNull CraftingContainer inv, @NotNull RegistryAccess access) {
+    public @NotNull ItemStack assemble(@NotNull CraftingContainer inv, @NotNull HolderLookup.Provider provider) {
         ItemStack customizableStack = ItemStack.EMPTY;
         ItemStack bannerStack = ItemStack.EMPTY;
         for (int i = 0; i < inv.getContainerSize(); i++) {
@@ -85,7 +93,7 @@ public class ElytraBannerRecipe extends CustomRecipe {
             }
             modifyWing(customizableStack, bannerStack, wingItem);
         } else {
-            ElytraCustomization customization = CustomizationUtils.getElytraCustomization(customizableStack);
+            ElytraCustomization customization = CustomizationUtils.getElytraCustomization(customizableStack).copy();
             ItemStack leftWing = customization.leftWing();
             ItemStack rightWing = customization.rightWing();
             CustomizableElytraItem leftWingItem = (CustomizableElytraItem) leftWing.getItem();
@@ -95,7 +103,7 @@ public class ElytraBannerRecipe extends CustomRecipe {
             }
             modifyWing(leftWing, bannerStack, leftWingItem);
             modifyWing(rightWing, bannerStack, rightWingItem);
-            customization.saveToElytra(customizableStack);
+            customizableStack.set(ModDataComponents.ELYTRA_CUSTOMIZATION.get(), customization);
         }
         return customizableStack;
     }

@@ -3,7 +3,6 @@ package com.hidoni.customizableelytra;
 import com.hidoni.customizableelytra.customization.CustomizationUtils;
 import com.hidoni.customizableelytra.customization.ElytraCustomization;
 import com.hidoni.customizableelytra.item.CustomizableElytraItem;
-import com.hidoni.customizableelytra.mixin.ItemPropertiesInvoker;
 import com.hidoni.customizableelytra.platform.Services;
 import com.hidoni.customizableelytra.registry.ModItems;
 import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
@@ -15,9 +14,10 @@ import net.minecraft.world.item.armortrim.TrimMaterial;
 
 public class CustomizableElytraClient {
     public static void init() {
-        // These have to be generic as we have two of them but an item may only have one specialized property...
-        ItemPropertiesInvoker.invokeRegisterGeneric(Constants.ELYTRA_LEFT_WING_TRIM_TYPE_PREDICATE, getWingTrimPropertyFunction(false));
-        ItemPropertiesInvoker.invokeRegisterGeneric(Constants.ELYTRA_RIGHT_WING_TRIM_TYPE_PREDICATE, getWingTrimPropertyFunction(true));
+        Services.EVENT.registerItemPropertiesEventHandler((itemProperties) -> {
+            itemProperties.registerGeneric(Constants.ELYTRA_LEFT_WING_TRIM_TYPE_PREDICATE, getWingTrimPropertyFunction(false));
+            itemProperties.registerGeneric(Constants.ELYTRA_RIGHT_WING_TRIM_TYPE_PREDICATE, getWingTrimPropertyFunction(true));
+        });
         Services.EVENT.registerItemColorEventHandler((itemColors -> {
             itemColors.register((stack, index) -> index == 0 ? ((CustomizableElytraItem) stack.getItem()).getColor(stack) : -1, ModItems.ELYTRA_WING.get());
 
@@ -40,12 +40,9 @@ public class CustomizableElytraClient {
             if (!ElytraUtils.isElytra(itemStack)) {
                 return Float.NEGATIVE_INFINITY;
             }
-            if (clientLevel == null) {
-                return 0.0F;
-            }
             ElytraCustomization customization = CustomizationUtils.getElytraCustomization(itemStack);
             ItemStack wingStack = rightWing ? customization.rightWing() : customization.leftWing();
-            return (Float) ((CustomizableElytraItem) wingStack.getItem()).getArmorTrim(wingStack, clientLevel.registryAccess()).map(ArmorTrim::material).map(Holder::value).map(TrimMaterial::itemModelIndex).orElse(0.0F);
+            return (Float) ((CustomizableElytraItem) wingStack.getItem()).getArmorTrim(wingStack).map(ArmorTrim::material).map(Holder::value).map(TrimMaterial::itemModelIndex).orElse(0.0F);
         };
     }
 }

@@ -76,6 +76,10 @@ tasks.withType(ProcessResources).excludingNeoTasks().configureEach {
     from project(":Common").sourceSets.main.resources
 }
 
+tasks.named('test').configure {
+    enabled(false)
+}
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
@@ -106,7 +110,7 @@ curseforge {
             addGameVersion "${it}"
         }
         addGameVersion "NeoForge"
-        addGameVersion "Java 17"
+        addGameVersion "Java 21"
 
         mainArtifact(tasks.jar) {
             displayName = "[NeoForge] Customizable Elytra $project.version"

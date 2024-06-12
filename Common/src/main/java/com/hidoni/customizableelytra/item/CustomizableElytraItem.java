@@ -1,26 +1,17 @@
 package com.hidoni.customizableelytra.item;
 
-import com.mojang.datafixers.util.Pair;
-import net.minecraft.core.Holder;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.armortrim.ArmorTrim;
-import net.minecraft.world.level.block.entity.BannerPattern;
+import net.minecraft.world.level.block.entity.BannerPatternLayers;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.Optional;
 
-public interface CustomizableElytraItem extends DyeableLeatherItem {
-    String TAG_VERSION = "version";
-    String TAG_GLOWING = "glowing";
-    String TAG_CAPE_HIDDEN = "cape_hidden";
-    String TAG_TRIM = "trim";
-    String TAG_BANNER_BASE_COLOR = "base";
-    String TAG_BANNER_PATTERNS = "patterns";
+public interface CustomizableElytraItem {
+    boolean isDyed(@NotNull ItemStack stack);
 
+    int getColor(@NotNull ItemStack stack);
 
     boolean isCustomized(@NotNull ItemStack stack);
 
@@ -31,7 +22,9 @@ public interface CustomizableElytraItem extends DyeableLeatherItem {
 
     boolean hasBanner(@NotNull ItemStack stack);
 
-    List<Pair<Holder<BannerPattern>, DyeColor>> getBannerPatterns(@NotNull ItemStack stack);
+    DyeColor getBaseColor(@NotNull ItemStack stack);
+
+    BannerPatternLayers getBannerPatterns(@NotNull ItemStack stack);
 
     void setBanner(@NotNull ItemStack stack, @NotNull ItemStack banner);
 
@@ -45,7 +38,7 @@ public interface CustomizableElytraItem extends DyeableLeatherItem {
 
     boolean hasArmorTrim(@NotNull ItemStack stack);
 
-    Optional<ArmorTrim> getArmorTrim(@NotNull ItemStack stack, RegistryAccess registryAccess);
+    Optional<ArmorTrim> getArmorTrim(@NotNull ItemStack stack);
 
-    void setArmorTrim(@NotNull ItemStack stack, RegistryAccess registryAccess, @NotNull ArmorTrim trim);
+    void setArmorTrim(@NotNull ItemStack stack, @NotNull ArmorTrim trim);
 }

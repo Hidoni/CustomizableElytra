@@ -5,10 +5,10 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "ArmorDyeRecipeMixin",
-    "ArmorTrimMixin",
     "ElytraItemMixin",
-    "ItemStackMixin",
-    "RepairItemRecipeMixin"
+    "ItemStackInvoker",
+    "RepairItemRecipeMixin",
+    "SmithingTrimRecipeMixin"
   ],
   "client": [
     "ColytraLayerMixin",
@@ -17,7 +17,6 @@
     "ElytraSlotLayerMixin",
     "HttpTextureAccessor",
     "HttpTextureInvoker",
-    "ItemPropertiesInvoker",
     "ModelManagerMixin",
     "SimpleTextureMixin",
     "SmithingScreenMixin",

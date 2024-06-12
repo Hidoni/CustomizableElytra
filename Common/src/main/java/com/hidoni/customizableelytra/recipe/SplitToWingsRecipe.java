@@ -4,8 +4,10 @@ import com.hidoni.customizableelytra.ElytraUtils;
 import com.hidoni.customizableelytra.customization.CustomizationUtils;
 import com.hidoni.customizableelytra.customization.ElytraCustomization;
 import com.hidoni.customizableelytra.registry.ModRecipes;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
@@ -40,8 +42,7 @@ public class SplitToWingsRecipe extends CustomRecipe {
 
     private static void copyElytraAttributesToWing(ItemStack wing, ItemStack elytra) {
         wing.setDamageValue(elytra.getDamageValue());
-        wing.setRepairCost(elytra.getBaseRepairCost());
-        wing.resetHoverName();
+        wing.set(DataComponents.REPAIR_COST, elytra.get(DataComponents.REPAIR_COST));
     }
 
     @Override
@@ -50,17 +51,17 @@ public class SplitToWingsRecipe extends CustomRecipe {
     }
 
     @Override
-    public @NotNull ItemStack assemble(@NotNull CraftingContainer inv, @NotNull RegistryAccess registryAccess) {
+    public @NotNull ItemStack assemble(@NotNull CraftingContainer inv, @NotNull HolderLookup.Provider provider) {
         ItemStack elytraItem = getElytraItem(inv);
         if (elytraItem.isEmpty()) {
             return ItemStack.EMPTY;
         }
-        ElytraCustomization customization = CustomizationUtils.getElytraCustomization(elytraItem);
+        ElytraCustomization customization = CustomizationUtils.getElytraCustomization(elytraItem).copy();
         ItemStack leftWing = customization.leftWing();
         copyElytraAttributesToWing(leftWing, elytraItem);
-        EnchantmentHelper.setEnchantments(EnchantmentHelper.getEnchantments(elytraItem), leftWing);
-        if (elytraItem.hasCustomHoverName()) {
-            leftWing.setHoverName(elytraItem.getHoverName());
+        EnchantmentHelper.setEnchantments(leftWing, EnchantmentHelper.getEnchantmentsForCrafting(elytraItem));
+        if (elytraItem.has(DataComponents.CUSTOM_NAME)) {
+            leftWing.set(DataComponents.CUSTOM_NAME, elytraItem.get(DataComponents.CUSTOM_NAME));
         }
         return leftWing;
     }
@@ -73,7 +74,7 @@ public class SplitToWingsRecipe extends CustomRecipe {
             if (!ElytraUtils.isElytra(elytraItem) || remainingItems.get(i) != ItemStack.EMPTY) {
                 continue;
             }
-            ElytraCustomization customization = CustomizationUtils.getElytraCustomization(elytraItem);
+            ElytraCustomization customization = CustomizationUtils.getElytraCustomization(elytraItem).copy();
             ItemStack rightWing = customization.rightWing();
             copyElytraAttributesToWing(rightWing, elytraItem);
             remainingItems.set(i, rightWing);

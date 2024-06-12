@@ -4,12 +4,15 @@ import com.hidoni.customizableelytra.ElytraUtils;
 import com.hidoni.customizableelytra.customization.CustomizationUtils;
 import com.hidoni.customizableelytra.customization.ElytraCustomization;
 import com.hidoni.customizableelytra.item.CustomizableElytraItem;
+import com.hidoni.customizableelytra.registry.ModDataComponents;
 import com.hidoni.customizableelytra.registry.ModRecipes;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.DyeItem;
-import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -54,7 +57,7 @@ public class ElytraDyeRecipe extends CustomRecipe {
     }
 
     @Override
-    public @NotNull ItemStack assemble(@NotNull CraftingContainer inv, @NotNull RegistryAccess access) {
+    public @NotNull ItemStack assemble(@NotNull CraftingContainer inv, @NotNull HolderLookup.Provider provider) {
         ItemStack customizableStack = ItemStack.EMPTY;
         List<DyeItem> dyes = new ArrayList<>();
         for (int i = 0; i < inv.getContainerSize(); i++) {
@@ -82,14 +85,12 @@ public class ElytraDyeRecipe extends CustomRecipe {
         if (!canWingBeCustomized(leftWing, leftWingItem) || !canWingBeCustomized(rightWing, rightWingItem)) {
             return ItemStack.EMPTY;
         }
-        modifyWing(leftWing, dyes);
-        modifyWing(rightWing, dyes);
-        customization.saveToElytra(customizableStack);
+        customizableStack.set(ModDataComponents.ELYTRA_CUSTOMIZATION.get(), new ElytraCustomization(modifyWing(leftWing, dyes), modifyWing(rightWing, dyes)));
         return customizableStack;
     }
 
-    private static void modifyWing(ItemStack wingStack, List<DyeItem> modifiers) {
-        wingStack.setTag(DyeableLeatherItem.dyeArmor(wingStack, modifiers).getTag());
+    private static ItemStack modifyWing(ItemStack wingStack, List<DyeItem> modifiers) {
+        return DyedItemColor.applyDyes(wingStack, modifiers);
     }
 
     private static boolean canWingBeCustomized(ItemStack wingStack, CustomizableElytraItem wingItem) {

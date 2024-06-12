@@ -1,7 +1,9 @@
 package com.hidoni.customizableelytra.platform;
 
 import com.hidoni.customizableelytra.platform.services.IEventHelper;
+import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
@@ -16,5 +18,10 @@ public class ForgeEventHelper implements IEventHelper {
     @Override
     public void registerCauldronBehaviorEventHandler(Runnable handler) {
         FMLJavaModLoadingContext.get().getModEventBus().addListener((Consumer<FMLCommonSetupEvent>) fmlCommonSetupEvent -> handler.run());
+    }
+
+    @Override
+    public void registerItemPropertiesEventHandler(Consumer<ItemPropertiesRegistrar> handler) {
+        FMLJavaModLoadingContext.get().getModEventBus().addListener((Consumer<FMLClientSetupEvent>) fmlClientSetupEvent -> handler.accept(ItemProperties::registerGeneric));
     }
 }

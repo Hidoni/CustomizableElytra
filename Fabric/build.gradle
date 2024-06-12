@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.2+'
+    id 'fabric-loom' version '1.6+'
     id 'maven-publish'
     id 'idea'
     id "com.matthewprenger.cursegradle" version "1.4.+"
@@ -102,7 +102,7 @@ curseforge {
             addGameVersion "${it}"
         }
         addGameVersion "Fabric"
-        addGameVersion "Java 17"
+        addGameVersion "Java 21"
 
         mainArtifact(remapJar) {
             displayName = "[Fabric] Customizable Elytra $project.version"

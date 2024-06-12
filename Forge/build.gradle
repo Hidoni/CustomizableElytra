@@ -68,7 +68,6 @@ minecraft {
             taskName 'Data'
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-            arg "-mixin.config=mixins.${mod_id}.forge-data-gen.json"
             mods {
                 modDataRun {
                     source sourceSets.main
@@ -82,6 +81,8 @@ minecraft {
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+
+    implementation('net.sf.jopt-simple:jopt-simple:5.0.4') { version { strictly '5.0.4' } }
 
     compileOnly project(":Common")
 }
@@ -140,7 +141,7 @@ curseforge {
             addGameVersion "${it}"
         }
         addGameVersion "Forge"
-        addGameVersion "Java 17"
+        addGameVersion "Java 21"
 
         mainArtifact(tasks.jar) {
             displayName = "[Forge] Customizable Elytra $project.version"

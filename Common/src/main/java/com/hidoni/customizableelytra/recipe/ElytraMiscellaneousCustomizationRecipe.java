@@ -4,7 +4,9 @@ import com.hidoni.customizableelytra.ElytraUtils;
 import com.hidoni.customizableelytra.customization.CustomizationUtils;
 import com.hidoni.customizableelytra.customization.ElytraCustomization;
 import com.hidoni.customizableelytra.item.CustomizableElytraItem;
+import com.hidoni.customizableelytra.registry.ModDataComponents;
 import com.hidoni.customizableelytra.registry.ModRecipes;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
@@ -59,7 +61,7 @@ public class ElytraMiscellaneousCustomizationRecipe extends CustomRecipe {
     }
 
     @Override
-    public @NotNull ItemStack assemble(@NotNull CraftingContainer inv, @NotNull RegistryAccess access) {
+    public @NotNull ItemStack assemble(@NotNull CraftingContainer inv, @NotNull HolderLookup.Provider provider) {
         ItemStack customizableStack = ItemStack.EMPTY;
         ItemStack modifierStack = ItemStack.EMPTY;
         for (int i = 0; i < inv.getContainerSize(); i++) {
@@ -88,7 +90,7 @@ public class ElytraMiscellaneousCustomizationRecipe extends CustomRecipe {
             }
             modifyWing(customizableStack, modifierStack, wingItem);
         } else {
-            ElytraCustomization customization = CustomizationUtils.getElytraCustomization(customizableStack);
+            ElytraCustomization customization = CustomizationUtils.getElytraCustomization(customizableStack).copy();
             ItemStack leftWing = customization.leftWing();
             ItemStack rightWing = customization.rightWing();
             CustomizableElytraItem leftWingItem = (CustomizableElytraItem) leftWing.getItem();
@@ -98,7 +100,7 @@ public class ElytraMiscellaneousCustomizationRecipe extends CustomRecipe {
             }
             modifyWing(leftWing, modifierStack, (CustomizableElytraItem) leftWing.getItem());
             modifyWing(rightWing, modifierStack, (CustomizableElytraItem) rightWing.getItem());
-            customization.saveToElytra(customizableStack);
+            customizableStack.set(ModDataComponents.ELYTRA_CUSTOMIZATION.get(), customization);
         }
         return customizableStack;
     }

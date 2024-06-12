@@ -19,7 +19,7 @@ public class DataGenerators {
         DataGenerator generator = event.getGenerator();
         generator.addProvider(true, new ModItemModelProvider(generator.getPackOutput(), Constants.MOD_ID, event.getExistingFileHelper()));
         generator.addProvider(true, new ModLanguageProvider(generator.getPackOutput(), Constants.MOD_ID));
-        generator.addProvider(true, new ModRecipeProvider(generator.getPackOutput()));
+        generator.addProvider(true, new ModRecipeProvider(generator.getPackOutput(), event.getLookupProvider()));
         ModBlockTagsProvider modBlockTagsProvider = new ModBlockTagsProvider(generator.getPackOutput(), event.getLookupProvider(), Constants.MOD_ID, event.getExistingFileHelper());
         generator.addProvider(true, modBlockTagsProvider);
         generator.addProvider(true, new ModItemTagsProvider(generator.getPackOutput(), event.getLookupProvider(), modBlockTagsProvider.contentsGetter(), Constants.MOD_ID, event.getExistingFileHelper()));
