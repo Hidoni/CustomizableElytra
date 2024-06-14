@@ -100,7 +100,7 @@ public class CustomizableElytraLayerHelper<T extends LivingEntity> {
         float[] baseColor = wingItem.getBaseColor(wingStack).getTextureDiffuseColors();
         // Second render: Base Layer
         wingModel.renderToBuffer(poseStack, ItemRenderer.getFoilBuffer(defaultBuffer, RenderType.entityTranslucent(elytraTexture), false, false), packedLight, OverlayTexture.NO_OVERLAY, baseColor[0], baseColor[1], baseColor[2], 1.0F);
-        for (int i = 1; i < 17 && i < bannerPatterns.layers().size(); i++) {
+        for (int i = 0; i < bannerPatterns.layers().size(); i++) {
             BannerPatternLayers.Layer bannerAndColor = bannerPatterns.layers().get(i);
             float[] colors = bannerAndColor.color().getTextureDiffuseColors();
             Optional<ResourceKey<BannerPattern>> resourceKey = bannerAndColor.pattern().unwrapKey();
