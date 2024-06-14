@@ -33,8 +33,7 @@ public class ElytraWingItem extends Item implements CustomizableElytraItem {
             return DyedItemColor.getOrDefault(stack, 0xFFFFFFFF);
         }
         if (this.hasBanner(stack)) {
-            DyeColor baseDyeColor = Objects.requireNonNull(stack.get(DataComponents.BASE_COLOR));
-            return CustomizationUtils.convertDyeColorToInt(baseDyeColor);
+            return Objects.requireNonNull(stack.get(DataComponents.BASE_COLOR)).getTextureDiffuseColor();
         }
         return 0xFFFFFFFF;
     }

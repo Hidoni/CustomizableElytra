@@ -8,7 +8,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.jetbrains.annotations.Nullable;
@@ -16,11 +16,16 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Supplier;
 
 public class NeoForgeRegistryHelper implements IRegistryHelper {
+    private static IEventBus eventBus;
+
+    public static void setEventBus(IEventBus eventBus) {
+        NeoForgeRegistryHelper.eventBus = eventBus;
+    }
 
     @Override
     public <T> RegistryProvider<T> getRegistry(ResourceKey<? extends Registry<T>> resourceKey) {
         DeferredRegister<T> deferredRegister = DeferredRegister.create(resourceKey, Constants.MOD_ID);
-        deferredRegister.register(FMLJavaModLoadingContext.get().getModEventBus());
+        deferredRegister.register(eventBus);
         return new RegistryProvider<>() {
             @Override
             public <I extends T> RegistryEntry<T, I> register(ResourceLocation location, Supplier<? extends I> entrySupplier) {

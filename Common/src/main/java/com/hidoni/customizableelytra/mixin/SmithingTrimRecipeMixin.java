@@ -11,6 +11,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.armortrim.*;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.SmithingRecipeInput;
 import net.minecraft.world.item.crafting.SmithingTrimRecipe;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Final;
@@ -29,14 +30,14 @@ public class SmithingTrimRecipeMixin {
     @Final
     Ingredient base;
 
-    @Inject(method = "assemble", at = @At("RETURN"), cancellable = true)
-    private void replaceTrimComponentOnElytra(Container container, HolderLookup.Provider lookupProvider, CallbackInfoReturnable<ItemStack> cir) {
+    @Inject(method = "assemble(Lnet/minecraft/world/item/crafting/SmithingRecipeInput;Lnet/minecraft/core/HolderLookup$Provider;)Lnet/minecraft/world/item/ItemStack;", at = @At("RETURN"), cancellable = true)
+    private void replaceTrimComponentOnElytra(SmithingRecipeInput inv, HolderLookup.Provider lookupProvider, CallbackInfoReturnable<ItemStack> cir) {
         ItemStack returnStack = cir.getReturnValue();
         if (returnStack.isEmpty() || !ElytraUtils.isElytra(returnStack) || !returnStack.has(DataComponents.TRIM)) {
             return;
         }
-        Optional<Holder.Reference<TrimPattern>> trimPattern = TrimPatterns.getFromTemplate(lookupProvider, container.getItem(0));
-        Optional<Holder.Reference<TrimMaterial>> trimMaterial = TrimMaterials.getFromIngredient(lookupProvider, container.getItem(2));
+        Optional<Holder.Reference<TrimPattern>> trimPattern = TrimPatterns.getFromTemplate(lookupProvider, inv.getItem(0));
+        Optional<Holder.Reference<TrimMaterial>> trimMaterial = TrimMaterials.getFromIngredient(lookupProvider, inv.getItem(2));
         if (trimPattern.isEmpty() || trimMaterial.isEmpty()) {
             return;
         }

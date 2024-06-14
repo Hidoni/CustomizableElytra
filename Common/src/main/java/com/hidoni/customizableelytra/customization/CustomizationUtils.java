@@ -9,7 +9,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.FastColor;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -29,22 +28,6 @@ public class CustomizationUtils {
             return new ElytraCustomization(emptyWing, emptyWing);
         }
         return elytra.get(ModDataComponents.ELYTRA_CUSTOMIZATION.get());
-    }
-
-    public static int convertDyeColorToInt(DyeColor dyeColor) {
-        float[] colorValues = dyeColor.getTextureDiffuseColors();
-        int red = (int) (colorValues[0] * 255) << 16;
-        int green = (int) (colorValues[1] * 255) << 8;
-        int blue = (int) (colorValues[2] * 255);
-        return FastColor.ARGB32.opaque(red | green | blue);
-    }
-
-    public static float[] convertIntToRGBA(int color) {
-        float alphaValue = (float) (color >> 24 & 255) / 255.0F;
-        float redValue = (float) (color >> 16 & 255) / 255.0F;
-        float greenValue = (float) (color >> 8 & 255) / 255.0F;
-        float blueValue = (float) (color & 255) / 255.0F;
-        return new float[]{redValue, greenValue, blueValue, alphaValue};
     }
 
     public static List<Component> getElytraWingTooltipLines(ItemStack wing, Item.TooltipContext tooltipContext, TooltipFlag tooltipFlag) {
@@ -85,7 +68,7 @@ public class CustomizationUtils {
             layer.pattern().unwrapKey()
                     .map(bannerPatternResourceKey -> bannerPatternResourceKey.location().toShortLanguageKey())
                     .ifPresent(location -> {
-                        ResourceLocation bannerPatternLocation = new ResourceLocation(location);
+                        ResourceLocation bannerPatternLocation = ResourceLocation.parse(location);
                         componentConsumer.accept(Component.translatable("block." + bannerPatternLocation.getNamespace() + ".banner." + bannerPatternLocation.getPath() + "." + layer.color().getName()).withStyle(ChatFormatting.GRAY)
                         );
                     });

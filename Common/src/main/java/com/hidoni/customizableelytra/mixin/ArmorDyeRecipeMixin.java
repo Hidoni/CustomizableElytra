@@ -7,6 +7,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.ArmorDyeRecipe;
+import net.minecraft.world.item.crafting.CraftingInput;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -14,8 +15,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ArmorDyeRecipe.class)
 public class ArmorDyeRecipeMixin {
-    @Inject(method = "assemble(Lnet/minecraft/world/inventory/CraftingContainer;Lnet/minecraft/core/HolderLookup$Provider;)Lnet/minecraft/world/item/ItemStack;", at=@At(value = "RETURN"), cancellable = true)
-    private void handleCustomizableElytraItemDye(CraftingContainer $$0, HolderLookup.Provider $$1, CallbackInfoReturnable<ItemStack> cir) {
+    @Inject(method = "assemble(Lnet/minecraft/world/item/crafting/CraftingInput;Lnet/minecraft/core/HolderLookup$Provider;)Lnet/minecraft/world/item/ItemStack;", at=@At(value = "RETURN"), cancellable = true)
+    private void handleCustomizableElytraItemDye(CraftingInput inv, HolderLookup.Provider lookupProvider, CallbackInfoReturnable<ItemStack> cir) {
         ItemStack stack = cir.getReturnValue();
         if (stack.getItem() instanceof CustomizableElytraItem customizableElytraItem) {
             if (!customizableElytraItem.canDye(stack)) {

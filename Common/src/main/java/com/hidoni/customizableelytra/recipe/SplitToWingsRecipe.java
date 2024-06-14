@@ -11,6 +11,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -22,9 +23,9 @@ public class SplitToWingsRecipe extends CustomRecipe {
         super(category);
     }
 
-    private ItemStack getElytraItem(@NotNull CraftingContainer inv) {
+    private ItemStack getElytraItem(@NotNull CraftingInput inv) {
         ItemStack elytraItem = ItemStack.EMPTY;
-        for (int i = 0; i < inv.getContainerSize(); i++) {
+        for (int i = 0; i < inv.size(); i++) {
             ItemStack item = inv.getItem(i);
             if (item.isEmpty()) {
                 continue;
@@ -46,12 +47,12 @@ public class SplitToWingsRecipe extends CustomRecipe {
     }
 
     @Override
-    public boolean matches(@NotNull CraftingContainer inv, @NotNull Level level) {
+    public boolean matches(@NotNull CraftingInput inv, @NotNull Level level) {
         return !getElytraItem(inv).isEmpty();
     }
 
     @Override
-    public @NotNull ItemStack assemble(@NotNull CraftingContainer inv, @NotNull HolderLookup.Provider provider) {
+    public @NotNull ItemStack assemble(@NotNull CraftingInput inv, @NotNull HolderLookup.Provider provider) {
         ItemStack elytraItem = getElytraItem(inv);
         if (elytraItem.isEmpty()) {
             return ItemStack.EMPTY;
@@ -67,7 +68,7 @@ public class SplitToWingsRecipe extends CustomRecipe {
     }
 
     @Override
-    public @NotNull NonNullList<ItemStack> getRemainingItems(@NotNull CraftingContainer inv) {
+    public @NotNull NonNullList<ItemStack> getRemainingItems(@NotNull CraftingInput inv) {
         NonNullList<ItemStack> remainingItems = super.getRemainingItems(inv);
         for (int i = 0; i < remainingItems.size(); i++) {
             ItemStack elytraItem = inv.getItem(i);

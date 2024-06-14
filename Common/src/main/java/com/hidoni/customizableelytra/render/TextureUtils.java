@@ -68,7 +68,7 @@ public class TextureUtils {
             return locationIn;
         }
         convertTextureToGrayscale(texture);
-        ResourceLocation locationOut = new ResourceLocation(Constants.MOD_ID, "grayscale_" + locationIn.getPath());
+        ResourceLocation locationOut = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "grayscale_" + locationIn.getPath());
         Minecraft.getInstance().getTextureManager().register(locationOut, new DynamicTexture(texture));
         return locationOut;
     }

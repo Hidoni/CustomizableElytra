@@ -35,9 +35,9 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public class CustomizableElytraLayerHelper<T extends LivingEntity> {
-    private static final ResourceLocation TEXTURE_GRAYSCALE_ELYTRA = new ResourceLocation(Constants.MOD_ID, "textures/entity/elytra.png");
+    private static final ResourceLocation TEXTURE_GRAYSCALE_ELYTRA = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "textures/entity/elytra.png");
     private static final Function<ArmorTrim, ResourceLocation> elytraTrimLookup = Util.memoize(trim -> trim.pattern().value().assetId().withPath((path) -> "trims/models/elytra/" + path + "_" + trim.material().value().assetName()));
-    private static final ResourceLocation VANILLA_WINGS_LOCATION = new ResourceLocation("textures/entity/elytra.png");
+    private static final ResourceLocation VANILLA_WINGS_LOCATION = ResourceLocation.withDefaultNamespace("textures/entity/elytra.png");
 
     private T entity = null;
     private MultiBufferSource defaultBuffer = null;
@@ -88,21 +88,18 @@ public class CustomizableElytraLayerHelper<T extends LivingEntity> {
     }
 
     private void renderDyedWing(ElytraWingModel<T> wingModel, ItemStack wingStack, PoseStack poseStack, int packedLight, CustomizableElytraItem wingItem, ResourceLocation elytraTexture, boolean hasFoil) {
-        VertexConsumer elytraVertexConsumer = ItemRenderer.getArmorFoilBuffer(defaultBuffer, RenderType.armorCutoutNoCull(elytraTexture), false, hasFoil);
-        float[] rgba = CustomizationUtils.convertIntToRGBA(wingItem.getColor(wingStack));
-        wingModel.renderToBuffer(poseStack, elytraVertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, rgba[0], rgba[1], rgba[2], rgba[3]);
+        VertexConsumer elytraVertexConsumer = ItemRenderer.getArmorFoilBuffer(defaultBuffer, RenderType.armorCutoutNoCull(elytraTexture), hasFoil);
+        wingModel.renderToBuffer(poseStack, elytraVertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, wingItem.getColor(wingStack));
     }
 
     private void renderWingBannerPatterns(ElytraWingModel<T> wingModel, ItemStack wingStack, PoseStack poseStack, int packedLight, CustomizableElytraItem wingItem, ResourceLocation elytraTexture, boolean hasFoil) {
         BannerPatternLayers bannerPatterns = wingItem.getBannerPatterns(wingStack);
         // First render: Enchantment Glint
-        wingModel.renderToBuffer(poseStack, ItemRenderer.getFoilBufferDirect(defaultBuffer, RenderType.entityNoOutline(elytraTexture), false, hasFoil), packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
-        float[] baseColor = wingItem.getBaseColor(wingStack).getTextureDiffuseColors();
+        wingModel.renderToBuffer(poseStack, ItemRenderer.getFoilBufferDirect(defaultBuffer, RenderType.entityNoOutline(elytraTexture), false, hasFoil), packedLight, OverlayTexture.NO_OVERLAY);
         // Second render: Base Layer
-        wingModel.renderToBuffer(poseStack, ItemRenderer.getFoilBuffer(defaultBuffer, RenderType.entityTranslucent(elytraTexture), false, false), packedLight, OverlayTexture.NO_OVERLAY, baseColor[0], baseColor[1], baseColor[2], 1.0F);
+        wingModel.renderToBuffer(poseStack, ItemRenderer.getFoilBuffer(defaultBuffer, RenderType.entityTranslucent(elytraTexture), false, false), packedLight, OverlayTexture.NO_OVERLAY, wingItem.getBaseColor(wingStack).getTextureDiffuseColor());
         for (int i = 0; i < bannerPatterns.layers().size(); i++) {
             BannerPatternLayers.Layer bannerAndColor = bannerPatterns.layers().get(i);
-            float[] colors = bannerAndColor.color().getTextureDiffuseColors();
             Optional<ResourceKey<BannerPattern>> resourceKey = bannerAndColor.pattern().unwrapKey();
             if (resourceKey.isPresent()) {
                 Material bannerMaterial = new Material(Constants.ELYTRA_BANNER_SHEET, getTextureLocation(resourceKey.get()));
@@ -110,7 +107,7 @@ public class CustomizableElytraLayerHelper<T extends LivingEntity> {
                 if (texturesByName.get(bannerMaterial.texture()) != null) // Don't render this banner pattern if it's missing, silently hide the pattern
                 {
                     // Final renders: Pattern Layers
-                    wingModel.renderToBuffer(poseStack, bannerMaterial.buffer(defaultBuffer, RenderType::entityTranslucent), packedLight, OverlayTexture.NO_OVERLAY, colors[0], colors[1], colors[2], 1.0F);
+                    wingModel.renderToBuffer(poseStack, bannerMaterial.buffer(defaultBuffer, RenderType::entityTranslucent), packedLight, OverlayTexture.NO_OVERLAY, bannerAndColor.color().getTextureDiffuseColor());
                 }
             }
         }
@@ -124,8 +121,8 @@ public class CustomizableElytraLayerHelper<T extends LivingEntity> {
         if (elytraTexture == null) {
             elytraTexture = VANILLA_WINGS_LOCATION;
         }
-        VertexConsumer vertexConsumer = ItemRenderer.getArmorFoilBuffer(defaultBuffer, RenderType.armorCutoutNoCull(elytraTexture), false, hasFoil);
-        wingModel.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+        VertexConsumer vertexConsumer = ItemRenderer.getArmorFoilBuffer(defaultBuffer, RenderType.armorCutoutNoCull(elytraTexture), hasFoil);
+        wingModel.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
     }
 
     @NotNull
@@ -139,7 +136,7 @@ public class CustomizableElytraLayerHelper<T extends LivingEntity> {
             ResourceLocation trimLocation = elytraTrimLookup.apply(trim);
             TextureAtlasSprite sprite = armorTrimAtlas.getSprite(trimLocation);
             VertexConsumer consumer = sprite.wrap(ItemRenderer.getFoilBufferDirect(defaultBuffer, Sheets.armorTrimsSheet(trim.pattern().value().decal()), true, hasFoil));
-            wingModel.renderToBuffer(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+            wingModel.renderToBuffer(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY);
         });
     }
 
@@ -168,6 +165,6 @@ public class CustomizableElytraLayerHelper<T extends LivingEntity> {
     }
 
     private static ResourceLocation getTextureLocation(ResourceKey<BannerPattern> bannerIn) {
-        return new ResourceLocation(Constants.MOD_ID, "entity/elytra_banner/" + bannerIn.location().getPath());
+        return ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "entity/elytra_banner/" + bannerIn.location().getPath());
     }
 }

@@ -58,11 +58,11 @@ public abstract class ColytraLayerMixin<T extends LivingEntity, M extends Entity
         return elytra;
     }
 
-    @Redirect(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/LivingEntity;FFFFFF)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/ElytraModel;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;IIFFFF)V"))
-    private void renderCustomizedElytraWings(ElytraModel<T> elytraModel, PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int overlayTexture, float red, float green, float blue, float alpha) {
+    @Redirect(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/LivingEntity;FFFFFF)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/ElytraModel;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;II)V"))
+    private void renderCustomizedElytraWings(ElytraModel<T> elytraModel, PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int overlayTexture) {
         ElytraCustomization customization = CustomizationUtils.getElytraCustomization(helper.getElytra());
         if (!customization.isCustomized()) {
-            elytraModel.renderToBuffer(poseStack, vertexConsumer, packedLight, overlayTexture, red, green, blue, alpha);
+            elytraModel.renderToBuffer(poseStack, vertexConsumer, packedLight, overlayTexture);
             return;
         }
         getParentModel().copyPropertiesTo(leftWing);
