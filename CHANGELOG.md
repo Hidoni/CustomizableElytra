@@ -1,3 +1,6 @@
+# 2.2.4+1.20.6 15/06/2024
+- Fix mixin related crash when loading on Forge
+
 # 2.2.3+1.20.6 14/06/2024
 - Fix bug where the first banner pattern would not actually be rendered
 
