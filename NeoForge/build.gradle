@@ -9,7 +9,6 @@ plugins {
 base {
     archivesName = rootProject.archivesBaseName + '-neoforge'
 }
-project.ext.mixin_refmap = "${archivesBaseName}-refmap.json"
 
 // Automatically enable neoforge AccessTransformers if the file exists
 // This location is hardcoded in FML and can not be changed.
@@ -48,10 +47,6 @@ dependencies {
 processResources {
     from project(":Common").sourceSets.main.resources
     inputs.property "version", project.version
-
-    filesMatching("mixins.*.json") {
-        expand "mixin_refmap": project.ext.mixin_refmap
-    }
 }
 
 
