@@ -59,11 +59,11 @@ public abstract class ElytraSlotLayerMixin<T extends LivingEntity, M extends Ent
         return elytra.getItem();
     }
 
-    @Redirect(method = "*", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/ElytraModel;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;II)V"))
-    private void renderCustomizedElytraWings(ElytraModel<T> elytraModel, PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int overlayTexture) {
+    @Redirect(method = "*", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/ElytraModel;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;III)V"))
+    private void renderCustomizedElytraWings(ElytraModel<T> elytraModel, PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int overlayTexture, int argb) {
         ElytraCustomization customization = CustomizationUtils.getElytraCustomization(helper.getElytra());
         if (!customization.isCustomized()) {
-            elytraModel.renderToBuffer(poseStack, vertexConsumer, packedLight, overlayTexture);
+            elytraModel.renderToBuffer(poseStack, vertexConsumer, packedLight, overlayTexture, argb);
             return;
         }
         getParentModel().copyPropertiesTo(leftWing);
