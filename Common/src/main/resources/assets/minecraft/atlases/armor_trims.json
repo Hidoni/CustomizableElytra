@@ -18,7 +18,9 @@
         "trims/models/elytra/shaper",
         "trims/models/elytra/silence",
         "trims/models/elytra/raiser",
-        "trims/models/elytra/host"
+        "trims/models/elytra/host",
+        "trims/models/elytra/flow",
+        "trims/models/elytra/bolt"
       ],
       "palette_key": "trims/color_palettes/trim_palette",
       "permutations": {
