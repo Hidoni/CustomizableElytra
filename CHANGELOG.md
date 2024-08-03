@@ -1,3 +1,6 @@
+# 2.2.6+1.21 03/08/2024
+- Fix missing textures showing up for elytra with flow and bolt armor trims applied to them
+
 # 2.2.5+1.21 27/07/2024
 - Fix mixin related crash when loading with Elytra Slot
 
