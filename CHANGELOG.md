@@ -1,3 +1,6 @@
+# 2.2.7+1.21 14/08/2024
+- Mark version 1.21.1 as supported
+
 # 2.2.6+1.21 03/08/2024
 - Fix missing textures showing up for elytra with flow and bolt armor trims applied to them
 
