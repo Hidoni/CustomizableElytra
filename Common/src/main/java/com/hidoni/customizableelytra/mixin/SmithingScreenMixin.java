@@ -63,5 +63,6 @@ public abstract class SmithingScreenMixin extends ItemCombinerScreen<SmithingMen
         } else {
             this.armorStandPreview.setItemSlot(EquipmentSlot.CHEST, stack);
         }
+        this.armorStandPreview.elytraAnimationState.tick();
     }
 }
