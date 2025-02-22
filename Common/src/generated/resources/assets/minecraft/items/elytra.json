@@ -1,0 +1,656 @@
+{
+  "model": {
+    "type": "minecraft:condition",
+    "on_false": {
+      "type": "minecraft:composite",
+      "models": [
+        {
+          "type": "minecraft:select",
+          "cases": [
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/elytra_left_quartz_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": false
+                  }
+                ]
+              },
+              "when": "minecraft:quartz"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/elytra_left_iron_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": false
+                  }
+                ]
+              },
+              "when": "minecraft:iron"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/elytra_left_netherite_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": false
+                  }
+                ]
+              },
+              "when": "minecraft:netherite"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/elytra_left_redstone_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": false
+                  }
+                ]
+              },
+              "when": "minecraft:redstone"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/elytra_left_copper_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": false
+                  }
+                ]
+              },
+              "when": "minecraft:copper"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/elytra_left_gold_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": false
+                  }
+                ]
+              },
+              "when": "minecraft:gold"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/elytra_left_emerald_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": false
+                  }
+                ]
+              },
+              "when": "minecraft:emerald"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/elytra_left_diamond_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": false
+                  }
+                ]
+              },
+              "when": "minecraft:diamond"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/elytra_left_lapis_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": false
+                  }
+                ]
+              },
+              "when": "minecraft:lapis"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/elytra_left_amethyst_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": false
+                  }
+                ]
+              },
+              "when": "minecraft:amethyst"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/elytra_left_resin_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": false
+                  }
+                ]
+              },
+              "when": "minecraft:resin"
+            }
+          ],
+          "fallback": {
+            "type": "minecraft:model",
+            "model": "minecraft:item/elytra_left",
+            "tints": [
+              {
+                "type": "customizableelytra:dye",
+                "right_wing": false
+              }
+            ]
+          },
+          "property": "customizableelytra:trim",
+          "right_wing": false
+        },
+        {
+          "type": "minecraft:select",
+          "cases": [
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/elytra_right_quartz_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": true
+                  }
+                ]
+              },
+              "when": "minecraft:quartz"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/elytra_right_iron_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": true
+                  }
+                ]
+              },
+              "when": "minecraft:iron"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/elytra_right_netherite_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": true
+                  }
+                ]
+              },
+              "when": "minecraft:netherite"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/elytra_right_redstone_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": true
+                  }
+                ]
+              },
+              "when": "minecraft:redstone"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/elytra_right_copper_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": true
+                  }
+                ]
+              },
+              "when": "minecraft:copper"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/elytra_right_gold_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": true
+                  }
+                ]
+              },
+              "when": "minecraft:gold"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/elytra_right_emerald_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": true
+                  }
+                ]
+              },
+              "when": "minecraft:emerald"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/elytra_right_diamond_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": true
+                  }
+                ]
+              },
+              "when": "minecraft:diamond"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/elytra_right_lapis_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": true
+                  }
+                ]
+              },
+              "when": "minecraft:lapis"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/elytra_right_amethyst_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": true
+                  }
+                ]
+              },
+              "when": "minecraft:amethyst"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/elytra_right_resin_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": true
+                  }
+                ]
+              },
+              "when": "minecraft:resin"
+            }
+          ],
+          "fallback": {
+            "type": "minecraft:model",
+            "model": "minecraft:item/elytra_right",
+            "tints": [
+              {
+                "type": "customizableelytra:dye",
+                "right_wing": true
+              }
+            ]
+          },
+          "property": "customizableelytra:trim",
+          "right_wing": true
+        }
+      ]
+    },
+    "on_true": {
+      "type": "minecraft:composite",
+      "models": [
+        {
+          "type": "minecraft:select",
+          "cases": [
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/broken_elytra_left_quartz_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": false
+                  }
+                ]
+              },
+              "when": "minecraft:quartz"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/broken_elytra_left_iron_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": false
+                  }
+                ]
+              },
+              "when": "minecraft:iron"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/broken_elytra_left_netherite_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": false
+                  }
+                ]
+              },
+              "when": "minecraft:netherite"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/broken_elytra_left_redstone_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": false
+                  }
+                ]
+              },
+              "when": "minecraft:redstone"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/broken_elytra_left_copper_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": false
+                  }
+                ]
+              },
+              "when": "minecraft:copper"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/broken_elytra_left_gold_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": false
+                  }
+                ]
+              },
+              "when": "minecraft:gold"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/broken_elytra_left_emerald_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": false
+                  }
+                ]
+              },
+              "when": "minecraft:emerald"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/broken_elytra_left_diamond_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": false
+                  }
+                ]
+              },
+              "when": "minecraft:diamond"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/broken_elytra_left_lapis_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": false
+                  }
+                ]
+              },
+              "when": "minecraft:lapis"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/broken_elytra_left_amethyst_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": false
+                  }
+                ]
+              },
+              "when": "minecraft:amethyst"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/broken_elytra_left_resin_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": false
+                  }
+                ]
+              },
+              "when": "minecraft:resin"
+            }
+          ],
+          "fallback": {
+            "type": "minecraft:model",
+            "model": "minecraft:item/broken_elytra_left",
+            "tints": [
+              {
+                "type": "customizableelytra:dye",
+                "right_wing": false
+              }
+            ]
+          },
+          "property": "customizableelytra:trim",
+          "right_wing": false
+        },
+        {
+          "type": "minecraft:select",
+          "cases": [
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/broken_elytra_right_quartz_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": true
+                  }
+                ]
+              },
+              "when": "minecraft:quartz"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/broken_elytra_right_iron_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": true
+                  }
+                ]
+              },
+              "when": "minecraft:iron"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/broken_elytra_right_netherite_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": true
+                  }
+                ]
+              },
+              "when": "minecraft:netherite"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/broken_elytra_right_redstone_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": true
+                  }
+                ]
+              },
+              "when": "minecraft:redstone"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/broken_elytra_right_copper_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": true
+                  }
+                ]
+              },
+              "when": "minecraft:copper"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/broken_elytra_right_gold_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": true
+                  }
+                ]
+              },
+              "when": "minecraft:gold"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/broken_elytra_right_emerald_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": true
+                  }
+                ]
+              },
+              "when": "minecraft:emerald"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/broken_elytra_right_diamond_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": true
+                  }
+                ]
+              },
+              "when": "minecraft:diamond"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/broken_elytra_right_lapis_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": true
+                  }
+                ]
+              },
+              "when": "minecraft:lapis"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/broken_elytra_right_amethyst_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": true
+                  }
+                ]
+              },
+              "when": "minecraft:amethyst"
+            },
+            {
+              "model": {
+                "type": "minecraft:model",
+                "model": "minecraft:item/broken_elytra_right_resin_trim",
+                "tints": [
+                  {
+                    "type": "customizableelytra:dye",
+                    "right_wing": true
+                  }
+                ]
+              },
+              "when": "minecraft:resin"
+            }
+          ],
+          "fallback": {
+            "type": "minecraft:model",
+            "model": "minecraft:item/broken_elytra_right",
+            "tints": [
+              {
+                "type": "customizableelytra:dye",
+                "right_wing": true
+              }
+            ]
+          },
+          "property": "customizableelytra:trim",
+          "right_wing": true
+        }
+      ]
+    },
+    "property": "minecraft:broken"
+  }
+}

@@ -12,6 +12,4 @@ public class Constants {
 
     public static final ResourceLocation ELYTRA_BANNER_SHEET = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "textures/atlas/elytra_patterns.png");
     public static final ResourceLocation ELYTRA_BANNER_ATLAS = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "elytra_patterns");
-    public static final ResourceLocation ELYTRA_LEFT_WING_TRIM_TYPE_PREDICATE = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "left_wing_trim_type");
-    public static final ResourceLocation ELYTRA_RIGHT_WING_TRIM_TYPE_PREDICATE = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "right_wing_trim_type");
 }

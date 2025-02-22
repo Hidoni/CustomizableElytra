@@ -1,11 +1,10 @@
 package com.hidoni.customizableelytra.platform;
 
 import com.hidoni.customizableelytra.platform.services.IEventHelper;
-import net.minecraft.client.renderer.item.ItemProperties;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import net.neoforged.neoforge.client.event.RegisterSelectItemModelPropertyEvent;
 
 import java.util.function.Consumer;
 
@@ -17,8 +16,8 @@ public class NeoForgeEventHelper implements IEventHelper {
     }
 
     @Override
-    public void registerItemColorEventHandler(Consumer<ItemColorRegistrar> handler) {
-        eventBus.addListener((Consumer<RegisterColorHandlersEvent.Item>) item -> handler.accept(item::register));
+    public void registerItemTintSourcesEventHandler(Consumer<ItemTintSourceRegistrar> handler) {
+        eventBus.addListener((Consumer<RegisterColorHandlersEvent.ItemTintSources>) item -> handler.accept(item::register));
     }
 
     @Override
@@ -27,7 +26,7 @@ public class NeoForgeEventHelper implements IEventHelper {
     }
 
     @Override
-    public void registerItemPropertiesEventHandler(Consumer<ItemPropertiesRegistrar> handler) {
-        eventBus.addListener((Consumer<FMLClientSetupEvent>) fmlClientSetupEvent -> handler.accept(ItemProperties::registerGeneric));
+    public void registerSelectItemModelPropertiesEventHandler(Consumer<SelectItemModelPropertiesRegistrar> handler) {
+        eventBus.addListener((Consumer<RegisterSelectItemModelPropertyEvent>) registerSelectItemModelPropertyEvent -> handler.accept(registerSelectItemModelPropertyEvent::register));
     }
 }

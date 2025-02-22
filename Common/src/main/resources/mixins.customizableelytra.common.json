@@ -12,14 +12,9 @@
   ],
   "client": [
     "ElytraModelAccessor",
-    "HttpTextureAccessor",
-    "HttpTextureInvoker",
     "ModelManagerMixin",
-    "SimpleTextureMixin",
     "SmithingScreenMixin",
     "TextureAtlasAccessor",
-    "TextureImageInvoker",
-    ,
     "WingsLayerMixin"
   ],
   "injectors": {

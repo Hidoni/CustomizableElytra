@@ -50,7 +50,7 @@ minecraft {
         data {
             workingDirectory file('runs/data')
             ideaModule "${rootProject.name}.${project.name}.main"
-            args '--mod', mod_id, '--all', '--output', file('../Common/src/generated/resources/'), '--existing', file('src/main/resources/'), '--existing', file('/../Common/src/main/resources')
+            args '--mod', mod_id, '--client', '--output', file('../Common/src/generated/resources/'), '--existing', file('src/main/resources/'), '--existing', file('/../Common/src/main/resources')
             taskName 'Data'
             mods {
                 modDataRun {

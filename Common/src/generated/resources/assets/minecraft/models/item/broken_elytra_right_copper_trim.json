@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "customizableelytra:item/broken_elytra_right",
+    "layer1": "minecraft:trims/items/elytra_right_wing_trim_copper"
+  }
+}

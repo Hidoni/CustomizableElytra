@@ -1,18 +1,13 @@
 package com.hidoni.customizableelytra.render;
 
 import com.hidoni.customizableelytra.Constants;
-import com.hidoni.customizableelytra.mixin.*;
 import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.client.renderer.texture.HttpTexture;
 import net.minecraft.client.renderer.texture.SimpleTexture;
 import net.minecraft.resources.ResourceLocation;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,28 +27,22 @@ public class TextureUtils {
         }
     }
 
+    private static NativeImage copyNativeImage(NativeImage nativeImage) {
+        NativeImage returnTexture = new NativeImage(nativeImage.getWidth(), nativeImage.getHeight(), false);
+        returnTexture.copyFrom(nativeImage);
+        return returnTexture;
+    }
+
     private static NativeImage getNativeImageFromTexture(ResourceLocation locationIn) {
         AbstractTexture texture = Minecraft.getInstance().getTextureManager().getTexture(locationIn);
         if (texture instanceof DynamicTexture dynamicTexture) {
             NativeImage dynamicTextureData = dynamicTexture.getPixels();
             if (dynamicTextureData != null) {
-                NativeImage returnTexture = new NativeImage(dynamicTextureData.getWidth(), dynamicTextureData.getHeight(), false);
-                returnTexture.copyFrom(dynamicTextureData);
-                return returnTexture;
+                return copyNativeImage(dynamicTextureData);
             }
-        } else if (texture instanceof HttpTexture) {
-            File cacheFile = ((HttpTextureAccessor) texture).getCacheFile();
-            if (cacheFile != null) {
-                try {
-                    return ((HttpTextureInvoker) texture).callLoadTexture(new FileInputStream(cacheFile));
-                } catch (FileNotFoundException e) {
-                    return null;
-                }
-            }
-            return null;
-        } else if (texture instanceof SimpleTexture) {
+        } else if (texture instanceof SimpleTexture simpleTexture) {
             try {
-                return ((ImageTextureProvider)texture).getImageTexture(Minecraft.getInstance().getResourceManager()).invokeGetImage();
+                return copyNativeImage(simpleTexture.loadContents(Minecraft.getInstance().getResourceManager()).image());
             } catch (IOException e) {
                 return null;
             }

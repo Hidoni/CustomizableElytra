@@ -1,0 +1,161 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "cases": [
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "customizableelytra:item/elytra_wing_quartz_trim",
+          "tints": [
+            {
+              "type": "minecraft:dye",
+              "default": -1
+            }
+          ]
+        },
+        "when": "minecraft:quartz"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "customizableelytra:item/elytra_wing_iron_trim",
+          "tints": [
+            {
+              "type": "minecraft:dye",
+              "default": -1
+            }
+          ]
+        },
+        "when": "minecraft:iron"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "customizableelytra:item/elytra_wing_netherite_trim",
+          "tints": [
+            {
+              "type": "minecraft:dye",
+              "default": -1
+            }
+          ]
+        },
+        "when": "minecraft:netherite"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "customizableelytra:item/elytra_wing_redstone_trim",
+          "tints": [
+            {
+              "type": "minecraft:dye",
+              "default": -1
+            }
+          ]
+        },
+        "when": "minecraft:redstone"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "customizableelytra:item/elytra_wing_copper_trim",
+          "tints": [
+            {
+              "type": "minecraft:dye",
+              "default": -1
+            }
+          ]
+        },
+        "when": "minecraft:copper"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "customizableelytra:item/elytra_wing_gold_trim",
+          "tints": [
+            {
+              "type": "minecraft:dye",
+              "default": -1
+            }
+          ]
+        },
+        "when": "minecraft:gold"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "customizableelytra:item/elytra_wing_emerald_trim",
+          "tints": [
+            {
+              "type": "minecraft:dye",
+              "default": -1
+            }
+          ]
+        },
+        "when": "minecraft:emerald"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "customizableelytra:item/elytra_wing_diamond_trim",
+          "tints": [
+            {
+              "type": "minecraft:dye",
+              "default": -1
+            }
+          ]
+        },
+        "when": "minecraft:diamond"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "customizableelytra:item/elytra_wing_lapis_trim",
+          "tints": [
+            {
+              "type": "minecraft:dye",
+              "default": -1
+            }
+          ]
+        },
+        "when": "minecraft:lapis"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "customizableelytra:item/elytra_wing_amethyst_trim",
+          "tints": [
+            {
+              "type": "minecraft:dye",
+              "default": -1
+            }
+          ]
+        },
+        "when": "minecraft:amethyst"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "customizableelytra:item/elytra_wing_resin_trim",
+          "tints": [
+            {
+              "type": "minecraft:dye",
+              "default": -1
+            }
+          ]
+        },
+        "when": "minecraft:resin"
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "customizableelytra:item/elytra_wing",
+      "tints": [
+        {
+          "type": "minecraft:dye",
+          "default": -1
+        }
+      ]
+    },
+    "property": "minecraft:trim_material"
+  }
+}

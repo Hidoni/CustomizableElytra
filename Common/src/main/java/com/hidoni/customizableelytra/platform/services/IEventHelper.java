@@ -1,24 +1,24 @@
 package com.hidoni.customizableelytra.platform.services;
 
-import net.minecraft.client.color.item.ItemColor;
-import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.client.color.item.ItemTintSource;
+import net.minecraft.client.renderer.item.properties.select.SelectItemModelProperty;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.ItemLike;
 
 import java.util.function.Consumer;
 
 public interface IEventHelper {
-    void registerItemColorEventHandler(Consumer<ItemColorRegistrar> handler);
+    void registerItemTintSourcesEventHandler(Consumer<ItemTintSourceRegistrar> handler);
 
     void registerCauldronBehaviorEventHandler(Runnable handler);
 
-    void registerItemPropertiesEventHandler(Consumer<ItemPropertiesRegistrar> handler);
+    void registerSelectItemModelPropertiesEventHandler(Consumer<SelectItemModelPropertiesRegistrar> handler);
 
-    interface ItemColorRegistrar {
-        void register(ItemColor provider, ItemLike... items);
+    interface ItemTintSourceRegistrar {
+        void register(ResourceLocation resourceLocation, MapCodec<? extends ItemTintSource> itemTintSource);
     }
 
-    interface ItemPropertiesRegistrar {
-        void registerGeneric(ResourceLocation resourceLocation, ClampedItemPropertyFunction function);
+    interface SelectItemModelPropertiesRegistrar {
+        void register(ResourceLocation resourceLocation, SelectItemModelProperty.Type<?, ?> type);
     }
 }

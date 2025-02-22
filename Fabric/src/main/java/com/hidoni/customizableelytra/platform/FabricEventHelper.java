@@ -1,15 +1,15 @@
 package com.hidoni.customizableelytra.platform;
 
 import com.hidoni.customizableelytra.platform.services.IEventHelper;
-import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
-import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.client.color.item.ItemTintSources;
+import net.minecraft.client.renderer.item.properties.select.SelectItemModelProperties;
 
 import java.util.function.Consumer;
 
 public class FabricEventHelper implements IEventHelper {
     @Override
-    public void registerItemColorEventHandler(Consumer<ItemColorRegistrar> handler) {
-        handler.accept(ColorProviderRegistry.ITEM::register);
+    public void registerItemTintSourcesEventHandler(Consumer<ItemTintSourceRegistrar> handler) {
+        handler.accept(ItemTintSources.ID_MAPPER::put);
     }
 
     @Override
@@ -18,7 +18,7 @@ public class FabricEventHelper implements IEventHelper {
     }
 
     @Override
-    public void registerItemPropertiesEventHandler(Consumer<ItemPropertiesRegistrar> handler) {
-        handler.accept(ItemProperties::registerGeneric);
+    public void registerSelectItemModelPropertiesEventHandler(Consumer<SelectItemModelPropertiesRegistrar> handler) {
+        handler.accept(SelectItemModelProperties.ID_MAPPER::put);
     }
 }
