@@ -16,10 +16,7 @@ public class FabricRegistryHelper implements IRegistryHelper {
     @SuppressWarnings("unchecked")
     @Override
     public <T> RegistryProvider<T> getRegistry(ResourceKey<? extends Registry<T>> resourceKey) {
-        Registry<T> registry = (Registry<T>) BuiltInRegistries.REGISTRY.get(resourceKey.location());
-        if (registry == null) {
-            throw new RuntimeException("Registry " + resourceKey + " not found!");
-        }
+        Registry<T> registry = (Registry<T>) BuiltInRegistries.REGISTRY.get(resourceKey.location()).orElseThrow(() -> new RuntimeException("Registry " + resourceKey + " not found!")).value();
         return new RegistryProvider<>() {
             @Override
             public <I extends T> RegistryEntry<T, I> register(ResourceLocation location, Supplier<? extends I> entrySupplier) {
@@ -39,7 +36,7 @@ public class FabricRegistryHelper implements IRegistryHelper {
 
                     @Override
                     public Holder<T> getHolder() {
-                        return registry.getHolderOrThrow(this.getResourceKey());
+                        return registry.getOrThrow(this.getResourceKey());
                     }
 
                     @Override

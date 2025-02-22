@@ -2,15 +2,18 @@ package com.hidoni.customizableelytra.client;
 
 import com.hidoni.customizableelytra.Constants;
 import com.hidoni.customizableelytra.customization.CustomizationUtils;
+import com.hidoni.customizableelytra.customization.ElytraCustomization;
 import com.hidoni.customizableelytra.item.CustomizableElytraItem;
+import com.hidoni.customizableelytra.mixin.ElytraModelAccessor;
 import com.hidoni.customizableelytra.mixin.TextureAtlasAccessor;
-import com.hidoni.customizableelytra.render.ElytraWingModel;
 import com.hidoni.customizableelytra.render.TextureUtils;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.model.ElytraModel;
+import net.minecraft.client.model.Model;
+import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
@@ -18,86 +21,62 @@ import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.PlayerModelPart;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.armortrim.ArmorTrim;
+import net.minecraft.world.item.equipment.trim.ArmorTrim;
 import net.minecraft.world.level.block.entity.BannerPattern;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
-public class CustomizableElytraLayerHelper<T extends LivingEntity> {
+public class CustomizableElytraLayerHelper {
     private static final ResourceLocation TEXTURE_GRAYSCALE_ELYTRA = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "textures/entity/elytra.png");
     private static final Function<ArmorTrim, ResourceLocation> elytraTrimLookup = Util.memoize(trim -> trim.pattern().value().assetId().withPath((path) -> "trims/models/elytra/" + path + "_" + trim.material().value().assetName()));
-    private static final ResourceLocation VANILLA_WINGS_LOCATION = ResourceLocation.withDefaultNamespace("textures/entity/elytra.png");
+    private static final ResourceLocation VANILLA_WINGS_LOCATION = ResourceLocation.withDefaultNamespace("textures/entity/equipment/wings/elytra.png");
 
-    private T entity = null;
-    private MultiBufferSource defaultBuffer = null;
-    private ItemStack elytra = null;
-    private final TextureAtlas bannerPatternAtlas;
-    private final TextureAtlas armorTrimAtlas;
+    private static final TextureAtlas bannerPatternAtlas = getAtlas(Constants.ELYTRA_BANNER_SHEET);
+    private static final TextureAtlas armorTrimAtlas = getAtlas(Sheets.ARMOR_TRIMS_SHEET);
 
-    public CustomizableElytraLayerHelper() {
-        bannerPatternAtlas = getAtlas(Constants.ELYTRA_BANNER_SHEET);
-        armorTrimAtlas = getAtlas(Sheets.ARMOR_TRIMS_SHEET);
+    public static void render(ElytraModel elytraModel, ItemStack elytraStack, PoseStack poseStack, MultiBufferSource multiBufferSource, int packedLight, @Nullable ResourceLocation playerTexture) {
+        ElytraCustomization customization = CustomizationUtils.getElytraCustomization(elytraStack);
+        renderWing(((ElytraModelAccessor)elytraModel).getLeftWing(), customization.leftWing(), poseStack, multiBufferSource, packedLight, elytraStack.hasFoil(), ((CustomizableElytraItem)customization.leftWing().getItem()).isCapeHidden(customization.leftWing()) ? null : playerTexture);
+        renderWing(((ElytraModelAccessor)elytraModel).getRightWing(), customization.rightWing(), poseStack, multiBufferSource, packedLight, elytraStack.hasFoil(), ((CustomizableElytraItem)customization.rightWing().getItem()).isCapeHidden(customization.rightWing()) ? null : playerTexture);
     }
 
-    public void setEntity(T entity) {
-        this.entity = entity;
-    }
-
-    public T getEntity() {
-        return entity;
-    }
-
-    public void setDefaultBuffer(MultiBufferSource defaultBuffer) {
-        this.defaultBuffer = defaultBuffer;
-    }
-
-    public void setElytra(ItemStack elytra) {
-        this.elytra = elytra;
-    }
-
-    public ItemStack getElytra() {
-        return elytra;
-    }
-
-    public void renderWing(ElytraWingModel<T> wingModel, ItemStack wingStack, PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, boolean hasFoil) {
+    private static void renderWing(ModelPart wingModel, ItemStack wingStack, PoseStack poseStack, MultiBufferSource multiBufferSource, int packedLight, boolean hasFoil, @Nullable ResourceLocation playerTexture) {
         CustomizableElytraItem wingItem = (CustomizableElytraItem) wingStack.getItem();
         if (wingItem.isGlowing(wingStack)) {
             packedLight |= 0xFF;
         }
         if (wingItem.isDyed(wingStack)) {
-            renderDyedWing(wingModel, wingStack, poseStack, packedLight, wingItem, getGrayscaleTexture(wingItem.isCapeHidden(wingStack)), hasFoil);
+            renderDyedWing(wingModel, wingStack, poseStack, multiBufferSource, packedLight, wingItem, getGrayscaleTexture(playerTexture), hasFoil);
         } else if (wingItem.hasBanner(wingStack)) {
-            renderWingBannerPatterns(wingModel, wingStack, poseStack, packedLight, wingItem, getGrayscaleTexture(wingItem.isCapeHidden(wingStack)), hasFoil);
+            renderWingBannerPatterns(wingModel, wingStack, poseStack, multiBufferSource, packedLight, wingItem, getGrayscaleTexture(playerTexture), hasFoil);
         } else {
-            renderBasicWing(wingModel, wingStack, poseStack, packedLight, wingItem, hasFoil);
+            renderBasicWing(wingModel, wingStack, poseStack, multiBufferSource, packedLight, wingItem, hasFoil, playerTexture);
         }
         if (wingItem.hasArmorTrim(wingStack)) {
-            renderWingTrim(wingModel, wingStack, poseStack, packedLight, wingItem, hasFoil);
+            renderWingTrim(wingModel, wingStack, poseStack, multiBufferSource, packedLight, wingItem, hasFoil);
         }
     }
 
-    private void renderDyedWing(ElytraWingModel<T> wingModel, ItemStack wingStack, PoseStack poseStack, int packedLight, CustomizableElytraItem wingItem, ResourceLocation elytraTexture, boolean hasFoil) {
-        VertexConsumer elytraVertexConsumer = ItemRenderer.getArmorFoilBuffer(defaultBuffer, RenderType.armorCutoutNoCull(elytraTexture), hasFoil);
-        wingModel.renderToBuffer(poseStack, elytraVertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, wingItem.getColor(wingStack));
+    private static void renderDyedWing(ModelPart wingModel, ItemStack wingStack, PoseStack poseStack, MultiBufferSource multiBufferSource, int packedLight, CustomizableElytraItem wingItem, ResourceLocation elytraTexture, boolean hasFoil) {
+        VertexConsumer elytraVertexConsumer = ItemRenderer.getArmorFoilBuffer(multiBufferSource, RenderType.armorCutoutNoCull(elytraTexture), hasFoil);
+        wingModel.render(poseStack, elytraVertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, wingItem.getColor(wingStack));
     }
 
-    private void renderWingBannerPatterns(ElytraWingModel<T> wingModel, ItemStack wingStack, PoseStack poseStack, int packedLight, CustomizableElytraItem wingItem, ResourceLocation elytraTexture, boolean hasFoil) {
+    private static void renderWingBannerPatterns(ModelPart wingModel, ItemStack wingStack, PoseStack poseStack, MultiBufferSource multiBufferSource, int packedLight, CustomizableElytraItem wingItem, ResourceLocation elytraTexture, boolean hasFoil) {
         BannerPatternLayers bannerPatterns = wingItem.getBannerPatterns(wingStack);
         // First render: Enchantment Glint
-        wingModel.renderToBuffer(poseStack, ItemRenderer.getFoilBufferDirect(defaultBuffer, RenderType.entityNoOutline(elytraTexture), false, hasFoil), packedLight, OverlayTexture.NO_OVERLAY);
+        wingModel.render(poseStack, ItemRenderer.getFoilBuffer(multiBufferSource, RenderType.entityNoOutline(elytraTexture), false, hasFoil), packedLight, OverlayTexture.NO_OVERLAY);
         // Second render: Base Layer
-        wingModel.renderToBuffer(poseStack, ItemRenderer.getFoilBuffer(defaultBuffer, RenderType.entityTranslucent(elytraTexture), false, false), packedLight, OverlayTexture.NO_OVERLAY, wingItem.getBaseColor(wingStack).getTextureDiffuseColor());
+        wingModel.render(poseStack, ItemRenderer.getFoilBuffer(multiBufferSource, RenderType.entityTranslucent(elytraTexture), false, false), packedLight, OverlayTexture.NO_OVERLAY, wingItem.getBaseColor(wingStack).getTextureDiffuseColor());
         for (int i = 0; i < bannerPatterns.layers().size(); i++) {
             BannerPatternLayers.Layer bannerAndColor = bannerPatterns.layers().get(i);
             Optional<ResourceKey<BannerPattern>> resourceKey = bannerAndColor.pattern().unwrapKey();
@@ -107,22 +86,15 @@ public class CustomizableElytraLayerHelper<T extends LivingEntity> {
                 if (texturesByName.get(bannerMaterial.texture()) != null) // Don't render this banner pattern if it's missing, silently hide the pattern
                 {
                     // Final renders: Pattern Layers
-                    wingModel.renderToBuffer(poseStack, bannerMaterial.buffer(defaultBuffer, RenderType::entityTranslucent), packedLight, OverlayTexture.NO_OVERLAY, bannerAndColor.color().getTextureDiffuseColor());
+                    wingModel.render(poseStack, bannerMaterial.buffer(multiBufferSource, RenderType::entityTranslucent), packedLight, OverlayTexture.NO_OVERLAY, bannerAndColor.color().getTextureDiffuseColor());
                 }
             }
         }
     }
 
-    private void renderBasicWing(ElytraWingModel<T> wingModel, ItemStack wingStack, PoseStack poseStack, int packedLight, CustomizableElytraItem wingItem, boolean hasFoil) {
-        ResourceLocation elytraTexture = null;
-        if (!wingItem.isCapeHidden(wingStack)) {
-            elytraTexture = getCapeTexture();
-        }
-        if (elytraTexture == null) {
-            elytraTexture = VANILLA_WINGS_LOCATION;
-        }
-        VertexConsumer vertexConsumer = ItemRenderer.getArmorFoilBuffer(defaultBuffer, RenderType.armorCutoutNoCull(elytraTexture), hasFoil);
-        wingModel.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
+    private static void renderBasicWing(ModelPart wingModel, ItemStack wingStack, PoseStack poseStack, MultiBufferSource multiBufferSource, int packedLight, CustomizableElytraItem wingItem, boolean hasFoil, @Nullable ResourceLocation playerTexture) {
+        VertexConsumer vertexConsumer = ItemRenderer.getArmorFoilBuffer(multiBufferSource, RenderType.armorCutoutNoCull(playerTexture == null ? VANILLA_WINGS_LOCATION : playerTexture), hasFoil);
+        wingModel.render(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
     }
 
     @NotNull
@@ -130,38 +102,22 @@ public class CustomizableElytraLayerHelper<T extends LivingEntity> {
         return Minecraft.getInstance().getModelManager().getAtlas(location);
     }
 
-    private void renderWingTrim(ElytraWingModel<T> wingModel, ItemStack wingStack, PoseStack poseStack, int packedLight, CustomizableElytraItem wingItem, boolean hasFoil) {
+    private static void renderWingTrim(ModelPart wingModel, ItemStack wingStack, PoseStack poseStack, MultiBufferSource multiBufferSource, int packedLight, CustomizableElytraItem wingItem, boolean hasFoil) {
         Optional<ArmorTrim> armorTrim = wingItem.getArmorTrim(wingStack);
         armorTrim.ifPresent((trim) -> {
             ResourceLocation trimLocation = elytraTrimLookup.apply(trim);
             TextureAtlasSprite sprite = armorTrimAtlas.getSprite(trimLocation);
-            VertexConsumer consumer = sprite.wrap(ItemRenderer.getFoilBufferDirect(defaultBuffer, Sheets.armorTrimsSheet(trim.pattern().value().decal()), true, hasFoil));
-            wingModel.renderToBuffer(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY);
+            VertexConsumer consumer = sprite.wrap(ItemRenderer.getFoilBuffer(multiBufferSource, Sheets.armorTrimsSheet(trim.pattern().value().decal()), true, hasFoil));
+            wingModel.render(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY);
         });
     }
 
 
-    private ResourceLocation getGrayscaleTexture(boolean capeHidden) {
-        ResourceLocation elytraTexture = null;
-        if (!capeHidden) {
-            elytraTexture = getCapeTexture();
-        }
-        if (elytraTexture != null) {
-            return TextureUtils.getGrayscale(elytraTexture);
+    private static ResourceLocation getGrayscaleTexture(@Nullable ResourceLocation playerTexture) {
+        if (playerTexture != null) {
+            return TextureUtils.getGrayscale(playerTexture);
         }
         return TEXTURE_GRAYSCALE_ELYTRA;
-    }
-
-    private ResourceLocation getCapeTexture() {
-        if (entity instanceof AbstractClientPlayer clientPlayer) {
-            PlayerSkin skin = clientPlayer.getSkin();
-            if (skin.elytraTexture() != null) {
-                return skin.elytraTexture();
-            } else if (skin.capeTexture() != null && clientPlayer.isModelPartShown(PlayerModelPart.CAPE)) {
-                return skin.capeTexture();
-            }
-        }
-        return null;
     }
 
     private static ResourceLocation getTextureLocation(ResourceKey<BannerPattern> bannerIn) {

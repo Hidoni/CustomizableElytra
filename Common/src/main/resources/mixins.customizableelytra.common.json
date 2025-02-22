@@ -5,27 +5,26 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "ArmorDyeRecipeMixin",
-    "ElytraItemMixin",
     "ItemStackInvoker",
+    "ItemStackMixin",
     "RepairItemRecipeMixin",
     "SmithingTrimRecipeMixin"
   ],
   "client": [
-    "ColytraLayerMixin",
-    "ElytraLayerMixin",
     "ElytraModelAccessor",
-    "ElytraSlotLayerMixin",
     "HttpTextureAccessor",
     "HttpTextureInvoker",
     "ModelManagerMixin",
     "SimpleTextureMixin",
     "SmithingScreenMixin",
     "TextureAtlasAccessor",
-    "TextureImageInvoker"
+    "TextureImageInvoker",
+    ,
+    "WingsLayerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
-  "refmap": "${mixin_refmap}"
+  "refmap": "${archivesName}-refmap.json"
 }
   

@@ -1,38 +1,28 @@
-buildscript {
-    dependencies {
-        classpath 'org.spongepowered:mixingradle:0.7.+'
-    }
-}
-
 plugins {
-    id 'java'
-    id 'eclipse'
-    id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    id 'multiloader-loader'
     id "com.matthewprenger.cursegradle" version "1.4.+"
     id "com.modrinth.minotaur" version "2.+"
-    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    id 'org.spongepowered.mixin' version '0.7-SNAPSHOT'
 }
-
-archivesBaseName = rootProject.archivesBaseName + '-forge'
 
 minecraft {
     mappings channel: 'official', version: minecraft_version
+
+    copyIdeResources = true
+
     reobf false
-    if (project.hasProperty('forge_ats_enabled') && project.findProperty('forge_ats_enabled').toBoolean()) {
-        // This location is hardcoded in Forge and can not be changed.
-        // https://github.com/MinecraftForge/MinecraftForge/blob/be1698bb1554f9c8fa2f58e32b9ab70bc4385e60/fmlloader/src/main/java/net/minecraftforge/fml/loading/moddiscovery/ModFile.java#L123
-        accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-        project.logger.debug('Forge Access Transformers are enabled for this project.')
+
+    def at = file('src/main/resources/META-INF/accesstransformer.cfg')
+    if (at.exists()) {
+        accessTransformer = at
     }
 
     runs {
         client {
-            workingDirectory project.file('run')
+            workingDirectory file('runs/client')
             ideaModule "${rootProject.name}.${project.name}.main"
             taskName 'Client'
-            property 'mixin.env.remapRefMap', 'false'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             arg "-mixin.config=mixins.${mod_id}.common.json"
             arg "-mixin.config=mixins.${mod_id}.forge.json"
             mods {
@@ -44,11 +34,9 @@ minecraft {
         }
 
         server {
-            workingDirectory project.file('run')
+            workingDirectory file('runs/server')
             ideaModule "${rootProject.name}.${project.name}.main"
             taskName 'Server'
-            property 'mixin.env.remapRefMap', 'false'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             arg "-mixin.config=mixins.${mod_id}.common.json"
             arg "-mixin.config=mixins.${mod_id}.forge.json"
             mods {
@@ -60,16 +48,13 @@ minecraft {
         }
 
         data {
-            workingDirectory project.file('run')
+            workingDirectory file('runs/data')
             ideaModule "${rootProject.name}.${project.name}.main"
             args '--mod', mod_id, '--all', '--output', file('../Common/src/generated/resources/'), '--existing', file('src/main/resources/'), '--existing', file('/../Common/src/main/resources')
             taskName 'Data'
-            property 'mixin.env.remapRefMap', 'false'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             mods {
                 modDataRun {
                     source sourceSets.main
-                    source project(":Common").sourceSets.main
                 }
             }
         }
@@ -82,10 +67,12 @@ dependencies {
 
     implementation('net.sf.jopt-simple:jopt-simple:5.0.4') { version { strictly '5.0.4' } }
 
-    compileOnly project(":Common")
+    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:${mixinextras_version}"))
+    implementation(jarJar("io.github.llamalad7:mixinextras-forge:${mixinextras_version}")) {
+        jarJar.ranged(it, "[${mixinextras_version},)")
+    }
 }
 
-apply plugin: 'org.spongepowered.mixin'
 mixin {
     config 'mixins.customizableelytra.common.json'
     config 'mixins.customizableelytra.forge.json'
@@ -96,30 +83,21 @@ jar {
                 "MixinConfigs": "mixins.customizableelytra.common.json,mixins.customizableelytra.forge.json"
         ])
     }
-}
-
-tasks.withType(JavaCompile) {
-    source(project(":Common").sourceSets.main.allSource)
-}
-
-processResources {
-    from project(":Common").sourceSets.main.resources
+    finalizedBy(tasks.jarJar)
 }
 
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            groupId project.group
-            artifactId project.archivesBaseName
-            version project.version
-            artifact jar
+            fg.component(it)
         }
     }
-    repositories {
-        maven {
-            url "file://" + System.getenv("local_maven")
-        }
-    }
+}
+
+sourceSets.each {
+    def dir = layout.buildDirectory.dir("sourcesSets/$it.name")
+    it.output.resourcesDir = dir
+    it.java.destinationDirectory = dir
 }
 
 curseforge {
@@ -140,8 +118,8 @@ curseforge {
         addGameVersion "Forge"
         addGameVersion "Java 21"
 
-        mainArtifact(tasks.jar) {
-            displayName = "[Forge] Customizable Elytra $project.version"
+        mainArtifact(tasks.jarJar) {
+            displayName = "[Forge] $project.mod_name $project.mod_version+$project.minecraft_version"
         }
         addArtifact(sourcesJar)
     }
@@ -149,11 +127,11 @@ curseforge {
 
 modrinth {
     projectId = project.modrinth_project_id
-    versionName = "[Forge] Customizable Elytra $project.version"
-    versionNumber = "forge-${project.version}"
+    versionName = "[Forge] $project.mod_name $project.mod_version+$project.minecraft_version"
+    versionNumber = "forge-${project.mod_version}+${project.minecraft_version}"
     versionType = project.release_type
     changelog = project.ext.changelog
-    uploadFile = jar
+    uploadFile = tasks.jarJar
     additionalFiles = [sourcesJar]
     gameVersions = "${project.supported_versions}".split(',') as List<String>
     loaders = ["forge"]

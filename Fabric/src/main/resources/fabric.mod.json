@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
-  "id": "customizableelytra",
+  "id": "${mod_id}",
   "version": "${version}",
-  "name": "Customizable Elytra",
-  "description": "Adds a variety of colorful ways to customize your elytra!",
+  "name": "${mod_name}",
+  "description": "${description}",
   "authors": [
-    "Hidoni"
+    "${mod_author}"
   ],
   "contact": {
     "sources": "https://github.com/Hidoni/CustomizableElytra"
   },
-  "license": "MIT",
+  "license": "${license}",
   "icon": "icon.png",
   "environment": "*",
   "entrypoints": {
@@ -26,13 +26,10 @@
     "mixins.customizableelytra.fabric.json"
   ],
   "depends": {
-    "fabricloader": ">=0.15.11",
-    "fabric": "*",
-    "minecraft": [
-      "1.21",
-      "1.21.1"
-    ],
-    "java": ">=21"
+    "fabricloader": ">=${fabric_loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}",
+    "java": ">=${java_version}"
   }
 }
   

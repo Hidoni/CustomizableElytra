@@ -1,13 +1,9 @@
 plugins {
-    id 'fabric-loom' version '1.6+'
-    id 'maven-publish'
-    id 'idea'
+    id 'multiloader-loader'
+    id 'fabric-loom'
     id "com.matthewprenger.cursegradle" version "1.4.+"
     id "com.modrinth.minotaur" version "2.+"
 }
-
-archivesBaseName = rootProject.archivesBaseName + '-fabric'
-project.ext.mixin_refmap = "${archivesBaseName}-refmap.json"
 
 repositories {
     maven {
@@ -23,65 +19,31 @@ dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"
     mappings loom.layered {
         officialMojangMappings()
-        parchment("org.parchmentmc.data:parchment-${project.parchment_minecraft_version}:${project.parchment_mappings_version}@zip")
+        parchment("org.parchmentmc.data:parchment-${parchment_minecraft_version}:${parchment_mappings_version}@zip")
     }
     modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
     modCompileOnly "com.terraformersmc:modmenu:${mod_menu_version}"
     modLocalRuntime "com.terraformersmc:modmenu:${mod_menu_version}"
-
-    implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
-    implementation project(":Common")
 }
 
 loom {
+    def aw = project(":Common").file("src/main/resources/${mod_id}.accesswidener")
+    if (aw.exists()) {
+        accessWidenerPath.set(aw)
+    }
     runs {
         client {
             client()
             setConfigName("Fabric Client")
             ideConfigGenerated(true)
-            runDir("run")
+            runDir("runs/client")
         }
         server {
             server()
             setConfigName("Fabric Server")
             ideConfigGenerated(true)
-            runDir("run")
-        }
-    }
-}
-
-
-processResources {
-    from project(":Common").sourceSets.main.resources
-    inputs.property "version", project.version
-
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version
-    }
-
-    filesMatching("mixins.*.json") {
-        expand "mixin_refmap": project.ext.mixin_refmap
-    }
-}
-
-tasks.withType(JavaCompile) {
-    source(project(":Common").sourceSets.main.allSource)
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            groupId project.group
-            artifactId project.archivesBaseName
-            version project.version
-            from components.java
-        }
-    }
-
-    repositories {
-        maven {
-            url "file://" + System.getenv("local_maven")
+            runDir("runs/server")
         }
     }
 }
@@ -105,7 +67,7 @@ curseforge {
         addGameVersion "Java 21"
 
         mainArtifact(remapJar) {
-            displayName = "[Fabric] Customizable Elytra $project.version"
+            displayName = "[Fabric] $project.mod_name $project.mod_version+$project.minecraft_version"
         }
         addArtifact(sourcesJar)
         relations {
@@ -125,8 +87,8 @@ curseforge {
 
 modrinth {
     projectId = project.modrinth_project_id
-    versionName = "[Fabric] Customizable Elytra $project.version"
-    versionNumber = "fabric-${project.version}"
+    versionName = "[Fabric] $project.mod_name $project.mod_version+$project.minecraft_version"
+    versionNumber = "fabric-${project.mod_version}+${project.minecraft_version}"
     versionType = project.release_type
     changelog = project.ext.changelog
     uploadFile = remapJar

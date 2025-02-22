@@ -4,7 +4,6 @@ import com.hidoni.customizableelytra.Constants;
 import com.hidoni.customizableelytra.customization.ElytraCustomization;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.component.DataComponentType;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.resources.ResourceLocation;
 

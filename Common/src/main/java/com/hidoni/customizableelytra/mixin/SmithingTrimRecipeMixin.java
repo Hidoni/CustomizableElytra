@@ -7,16 +7,11 @@ import com.hidoni.customizableelytra.registry.ModDataComponents;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.armortrim.*;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.SmithingRecipeInput;
 import net.minecraft.world.item.crafting.SmithingTrimRecipe;
-import net.minecraft.world.level.Level;
-import org.spongepowered.asm.mixin.Final;
+import net.minecraft.world.item.equipment.trim.*;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -26,10 +21,6 @@ import java.util.Optional;
 
 @Mixin(SmithingTrimRecipe.class)
 public class SmithingTrimRecipeMixin {
-    @Shadow
-    @Final
-    Ingredient base;
-
     @Inject(method = "assemble(Lnet/minecraft/world/item/crafting/SmithingRecipeInput;Lnet/minecraft/core/HolderLookup$Provider;)Lnet/minecraft/world/item/ItemStack;", at = @At("RETURN"), cancellable = true)
     private void replaceTrimComponentOnElytra(SmithingRecipeInput inv, HolderLookup.Provider lookupProvider, CallbackInfoReturnable<ItemStack> cir) {
         ItemStack returnStack = cir.getReturnValue();
