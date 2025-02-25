@@ -4,6 +4,7 @@ import com.hidoni.customizableelytra.client.CustomizableElytraLayerHelper;
 import com.hidoni.customizableelytra.customization.CustomizationUtils;
 import com.hidoni.customizableelytra.customization.ElytraCustomization;
 import com.hidoni.customizableelytra.render.ElytraWingModel;
+import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.ElytraModel;
@@ -21,7 +22,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
@@ -48,28 +48,17 @@ public abstract class ElytraLayerMixin<T extends LivingEntity, M extends EntityM
         helper = new CustomizableElytraLayerHelper<>();
     }
 
-    @Inject(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/LivingEntity;FFFFFF)V", at = @At("HEAD"))
-    private void storeRenderArguments(PoseStack matrixStack, MultiBufferSource buffer, int packedLight, T livingEntity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, CallbackInfo ci) {
-        helper.setEntity(livingEntity);
-        helper.setDefaultBuffer(buffer);
-    }
-
-    @ModifyVariable(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/LivingEntity;FFFFFF)V", at = @At("STORE"), ordinal = 0)
-    private ItemStack storeElytraStack(ItemStack elytra) {
-        helper.setElytra(elytra);
-        return elytra;
-    }
-
     @Redirect(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/LivingEntity;FFFFFF)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/ElytraModel;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;II)V"))
-    private void renderCustomizedElytraWings(ElytraModel<T> elytraModel, PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int overlayTexture) {
-        ElytraCustomization customization = CustomizationUtils.getElytraCustomization(helper.getElytra());
+    private void renderCustomizedElytraWings(ElytraModel<T> elytraModel, PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int overlayTexture,
+                                             @Local(argsOnly = true) MultiBufferSource buffer, @Local(argsOnly = true) LivingEntity entity, @Local ItemStack elytra) {
+        ElytraCustomization customization = CustomizationUtils.getElytraCustomization(elytra);
         if (!customization.isCustomized()) {
             elytraModel.renderToBuffer(poseStack, vertexConsumer, packedLight, overlayTexture);
             return;
         }
         getParentModel().copyPropertiesTo(leftWing);
         getParentModel().copyPropertiesTo(rightWing);
-        helper.renderWing(leftWing, customization.leftWing(), poseStack, vertexConsumer, packedLight, helper.getElytra().hasFoil());
-        helper.renderWing(rightWing, customization.rightWing(), poseStack, vertexConsumer, packedLight, helper.getElytra().hasFoil());
+        helper.renderWing(leftWing, customization.leftWing(), poseStack, vertexConsumer, buffer, packedLight, elytra.hasFoil(), entity);
+        helper.renderWing(rightWing, customization.rightWing(), poseStack, vertexConsumer, buffer, packedLight, elytra.hasFoil(), entity);
     }
 }
