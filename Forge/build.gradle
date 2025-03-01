@@ -101,6 +101,7 @@ jar {
                 "MixinConfigs": "mixins.customizableelytra.common.json,mixins.customizableelytra.forge.json"
         ])
     }
+    finalizedBy(tasks.jarJar)
 }
 
 tasks.withType(JavaCompile) {
@@ -145,7 +146,7 @@ curseforge {
         addGameVersion "Forge"
         addGameVersion "Java 21"
 
-        mainArtifact(tasks.jar) {
+        mainArtifact(tasks.jarJar) {
             displayName = "[Forge] Customizable Elytra $project.version"
         }
         addArtifact(sourcesJar)
@@ -158,7 +159,7 @@ modrinth {
     versionNumber = "forge-${project.version}"
     versionType = project.release_type
     changelog = project.ext.changelog
-    uploadFile = jar
+    uploadFile = tasks.jarJar
     additionalFiles = [sourcesJar]
     gameVersions = "${project.supported_versions}".split(',') as List<String>
     loaders = ["forge"]
