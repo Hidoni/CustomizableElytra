@@ -31,6 +31,7 @@ logoFile="icon.png" #optional
 # A text field displayed in the mod UI
 authors="Hidoni" #optional
 credits='''
+Ampflower - Mixin optimizations
 '''
 # The description text for the mod (multi line!) (#mandatory)
 description='''

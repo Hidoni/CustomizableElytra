@@ -1,3 +1,6 @@
+# 2.2.8+1.21 01/03/2025
+- Mixin optimizations (By [Ampflower](https://github.com/Ampflower))
+
 # 2.2.7+1.21 14/08/2024
 - Mark version 1.21.1 as supported
 
