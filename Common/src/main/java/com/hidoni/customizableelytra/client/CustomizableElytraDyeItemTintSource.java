@@ -1,7 +1,7 @@
 package com.hidoni.customizableelytra.client;
 
 import com.hidoni.customizableelytra.customization.CustomizationUtils;
-import com.hidoni.customizableelytra.customization.ElytraCustomization;
+import com.hidoni.customizableelytra.item.components.ElytraCustomization;
 import com.hidoni.customizableelytra.item.CustomizableElytraItem;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;

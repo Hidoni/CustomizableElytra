@@ -2,14 +2,12 @@ package com.hidoni.customizableelytra.recipe;
 
 import com.hidoni.customizableelytra.ElytraUtils;
 import com.hidoni.customizableelytra.customization.CustomizationUtils;
-import com.hidoni.customizableelytra.customization.ElytraCustomization;
+import com.hidoni.customizableelytra.item.components.ElytraCustomization;
 import com.hidoni.customizableelytra.item.CustomizableElytraItem;
 import com.hidoni.customizableelytra.registry.ModDataComponents;
 import com.hidoni.customizableelytra.registry.ModRecipes;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;

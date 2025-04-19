@@ -2,7 +2,7 @@ package com.hidoni.customizableelytra.client;
 
 import com.hidoni.customizableelytra.Constants;
 import com.hidoni.customizableelytra.customization.CustomizationUtils;
-import com.hidoni.customizableelytra.customization.ElytraCustomization;
+import com.hidoni.customizableelytra.item.components.ElytraCustomization;
 import com.hidoni.customizableelytra.item.CustomizableElytraItem;
 import com.hidoni.customizableelytra.mixin.ElytraModelAccessor;
 import com.hidoni.customizableelytra.mixin.TextureAtlasAccessor;
@@ -12,7 +12,6 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ElytraModel;
-import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -25,6 +24,7 @@ import net.minecraft.client.resources.model.Material;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.equipment.EquipmentAssets;
 import net.minecraft.world.item.equipment.trim.ArmorTrim;
 import net.minecraft.world.level.block.entity.BannerPattern;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
@@ -36,17 +36,17 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public class CustomizableElytraLayerHelper {
-    private static final ResourceLocation TEXTURE_GRAYSCALE_ELYTRA = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "textures/entity/elytra.png");
-    private static final Function<ArmorTrim, ResourceLocation> elytraTrimLookup = Util.memoize(trim -> trim.pattern().value().assetId().withPath((path) -> "trims/models/elytra/" + path + "_" + trim.material().value().assetName()));
-    private static final ResourceLocation VANILLA_WINGS_LOCATION = ResourceLocation.withDefaultNamespace("textures/entity/equipment/wings/elytra.png");
-
     private static final TextureAtlas bannerPatternAtlas = getAtlas(Constants.ELYTRA_BANNER_SHEET);
     private static final TextureAtlas armorTrimAtlas = getAtlas(Sheets.ARMOR_TRIMS_SHEET);
 
+    private static final ResourceLocation TEXTURE_GRAYSCALE_ELYTRA = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "textures/entity/elytra.png");
+    private static final Function<ArmorTrim, TextureAtlasSprite> elytraTrimLookup = Util.memoize(trim -> armorTrimAtlas.getSprite(trim.layerAssetId("trims/models/elytra", EquipmentAssets.ELYTRA)));
+    private static final ResourceLocation VANILLA_WINGS_LOCATION = ResourceLocation.withDefaultNamespace("textures/entity/equipment/wings/elytra.png");
+
     public static void render(ElytraModel elytraModel, ItemStack elytraStack, PoseStack poseStack, MultiBufferSource multiBufferSource, int packedLight, @Nullable ResourceLocation playerTexture) {
         ElytraCustomization customization = CustomizationUtils.getElytraCustomization(elytraStack);
-        renderWing(((ElytraModelAccessor)elytraModel).getLeftWing(), customization.leftWing(), poseStack, multiBufferSource, packedLight, elytraStack.hasFoil(), ((CustomizableElytraItem)customization.leftWing().getItem()).isCapeHidden(customization.leftWing()) ? null : playerTexture);
-        renderWing(((ElytraModelAccessor)elytraModel).getRightWing(), customization.rightWing(), poseStack, multiBufferSource, packedLight, elytraStack.hasFoil(), ((CustomizableElytraItem)customization.rightWing().getItem()).isCapeHidden(customization.rightWing()) ? null : playerTexture);
+        renderWing(((ElytraModelAccessor) elytraModel).getLeftWing(), customization.leftWing(), poseStack, multiBufferSource, packedLight, elytraStack.hasFoil(), ((CustomizableElytraItem) customization.leftWing().getItem()).isCapeHidden(customization.leftWing()) ? null : playerTexture);
+        renderWing(((ElytraModelAccessor) elytraModel).getRightWing(), customization.rightWing(), poseStack, multiBufferSource, packedLight, elytraStack.hasFoil(), ((CustomizableElytraItem) customization.rightWing().getItem()).isCapeHidden(customization.rightWing()) ? null : playerTexture);
     }
 
     private static void renderWing(ModelPart wingModel, ItemStack wingStack, PoseStack poseStack, MultiBufferSource multiBufferSource, int packedLight, boolean hasFoil, @Nullable ResourceLocation playerTexture) {
@@ -105,8 +105,7 @@ public class CustomizableElytraLayerHelper {
     private static void renderWingTrim(ModelPart wingModel, ItemStack wingStack, PoseStack poseStack, MultiBufferSource multiBufferSource, int packedLight, CustomizableElytraItem wingItem, boolean hasFoil) {
         Optional<ArmorTrim> armorTrim = wingItem.getArmorTrim(wingStack);
         armorTrim.ifPresent((trim) -> {
-            ResourceLocation trimLocation = elytraTrimLookup.apply(trim);
-            TextureAtlasSprite sprite = armorTrimAtlas.getSprite(trimLocation);
+            TextureAtlasSprite sprite = elytraTrimLookup.apply(trim);
             VertexConsumer consumer = sprite.wrap(ItemRenderer.getFoilBuffer(multiBufferSource, Sheets.armorTrimsSheet(trim.pattern().value().decal()), true, hasFoil));
             wingModel.render(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY);
         });

@@ -1,7 +1,7 @@
 package com.hidoni.customizableelytra.client;
 
 import com.hidoni.customizableelytra.customization.CustomizationUtils;
-import com.hidoni.customizableelytra.customization.ElytraCustomization;
+import com.hidoni.customizableelytra.item.components.ElytraCustomization;
 import com.hidoni.customizableelytra.item.CustomizableElytraItem;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -20,7 +20,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 
 public record CustomizableElytraTrimMaterialProperty(boolean rightWing) implements SelectItemModelProperty<ResourceKey<TrimMaterial>> {
-    public static final SelectItemModelProperty.Type<CustomizableElytraTrimMaterialProperty, ResourceKey<TrimMaterial>> TYPE = Type.create(RecordCodecBuilder.mapCodec(((instance) -> instance.group(Codec.BOOL.fieldOf("right_wing").forGetter(CustomizableElytraTrimMaterialProperty::rightWing)).apply(instance, CustomizableElytraTrimMaterialProperty::new))), ResourceKey.codec(Registries.TRIM_MATERIAL));
+    public static final Codec<ResourceKey<TrimMaterial>> VALUE_CODEC = ResourceKey.codec(Registries.TRIM_MATERIAL);
+    public static final SelectItemModelProperty.Type<CustomizableElytraTrimMaterialProperty, ResourceKey<TrimMaterial>> TYPE = Type.create(RecordCodecBuilder.mapCodec(((instance) -> instance.group(Codec.BOOL.fieldOf("right_wing").forGetter(CustomizableElytraTrimMaterialProperty::rightWing)).apply(instance, CustomizableElytraTrimMaterialProperty::new))), VALUE_CODEC);
 
     @Override
     public @Nullable ResourceKey<TrimMaterial> get(@NotNull ItemStack itemStack, @Nullable ClientLevel clientLevel, @Nullable LivingEntity livingEntity, int i, @NotNull ItemDisplayContext itemDisplayContext) {
@@ -28,6 +29,11 @@ public record CustomizableElytraTrimMaterialProperty(boolean rightWing) implemen
         ItemStack wingItemStack = rightWing ? customization.rightWing() : customization.leftWing();
         Optional<ArmorTrim> armorTrim = ((CustomizableElytraItem) wingItemStack.getItem()).getArmorTrim(wingItemStack);
         return armorTrim.flatMap(trim -> trim.material().unwrapKey()).orElse(null);
+    }
+
+    @Override
+    public @NotNull Codec<ResourceKey<TrimMaterial>> valueCodec() {
+        return VALUE_CODEC;
     }
 
     @Override

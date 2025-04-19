@@ -1,12 +1,11 @@
 package com.hidoni.customizableelytra.mixin;
 
 import com.hidoni.customizableelytra.ElytraUtils;
-import com.hidoni.customizableelytra.customization.ElytraCustomization;
+import com.hidoni.customizableelytra.item.components.ElytraCustomization;
 import com.hidoni.customizableelytra.item.ElytraWingItem;
 import com.hidoni.customizableelytra.registry.ModDataComponents;
 import net.minecraft.client.gui.screens.inventory.ItemCombinerScreen;
 import net.minecraft.client.gui.screens.inventory.SmithingScreen;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;

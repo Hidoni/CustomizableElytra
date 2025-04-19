@@ -2,7 +2,7 @@ package com.hidoni.customizableelytra.mixin;
 
 import com.hidoni.customizableelytra.client.CustomizableElytraLayerHelper;
 import com.hidoni.customizableelytra.customization.CustomizationUtils;
-import com.hidoni.customizableelytra.customization.ElytraCustomization;
+import com.hidoni.customizableelytra.item.components.ElytraCustomization;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.ElytraModel;
 import net.minecraft.client.model.Model;

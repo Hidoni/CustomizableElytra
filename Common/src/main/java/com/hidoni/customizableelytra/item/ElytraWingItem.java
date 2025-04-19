@@ -1,27 +1,21 @@
 package com.hidoni.customizableelytra.item;
 
-import com.hidoni.customizableelytra.customization.CustomizationUtils;
+import com.hidoni.customizableelytra.item.components.GlowingWing;
+import com.hidoni.customizableelytra.item.components.HiddenCape;
 import com.hidoni.customizableelytra.registry.ModDataComponents;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.equipment.trim.ArmorTrim;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 public class ElytraWingItem extends Item implements CustomizableElytraItem {
     public ElytraWingItem(Properties properties) {
         super(properties);
-    }
-
-    @Override
-    public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext tooltipContext, List<Component> lines, @NotNull TooltipFlag flag) {
-        lines.addAll(CustomizationUtils.getElytraWingTooltipLines(stack, tooltipContext, flag));
     }
 
     public boolean isDyed(@NotNull ItemStack stack) {
@@ -76,7 +70,7 @@ public class ElytraWingItem extends Item implements CustomizableElytraItem {
     }
 
     public void setGlowing(@NotNull ItemStack stack, boolean glowing) {
-        stack.set(ModDataComponents.GLOWING.get(), glowing);
+        stack.set(ModDataComponents.GLOWING.get(), new GlowingWing(glowing));
     }
 
     public boolean isCapeHidden(@NotNull ItemStack stack) {
@@ -84,7 +78,7 @@ public class ElytraWingItem extends Item implements CustomizableElytraItem {
     }
 
     public void setCapeHidden(@NotNull ItemStack stack, boolean capeHidden) {
-        stack.set(ModDataComponents.CAPE_HIDDEN.get(), capeHidden);
+        stack.set(ModDataComponents.CAPE_HIDDEN.get(), new HiddenCape(capeHidden));
     }
 
     public boolean hasArmorTrim(@NotNull ItemStack stack) {

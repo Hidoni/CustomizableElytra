@@ -17,6 +17,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.equipment.EquipmentAssets;
 import net.minecraft.world.item.equipment.trim.TrimMaterial;
 
 import java.util.ArrayList;
@@ -35,8 +36,8 @@ public class ModItemModelGenerators extends ItemModelGenerators  {
         List<SelectItemModel.SwitchCase<ResourceKey<TrimMaterial>>> trims = new ArrayList<>(TRIM_MATERIAL_MODELS.size());
 
         for(TrimMaterialData trim : TRIM_MATERIAL_MODELS) {
-            ResourceLocation trimModelLocation = modelLocation.withSuffix("_" + trim.name() + "_trim");
-            ResourceLocation trimItemTexture = ResourceLocation.withDefaultNamespace("trims/items/" + itemPath + "_trim_" + trim.name());
+            ResourceLocation trimModelLocation = modelLocation.withSuffix("_" + trim.assets().base().suffix() + "_trim");
+            ResourceLocation trimItemTexture = ResourceLocation.withDefaultNamespace("trims/items/" + itemPath + "_trim_" + trim.assets().assetId(EquipmentAssets.ELYTRA).suffix());
             this.generateLayeredItem(trimModelLocation, itemTexture, trimItemTexture);
             ItemModel.Unbaked trimModel = ItemModelUtils.tintedModel(trimModelLocation, new Dye(0xFFFFFFFF));
             trims.add(ItemModelUtils.when(trim.materialKey(), trimModel));
@@ -73,8 +74,8 @@ public class ModItemModelGenerators extends ItemModelGenerators  {
         String itemPath = BuiltInRegistries.ITEM.getKey(elytraItem).getPath();
         List<SelectItemModel.SwitchCase<ResourceKey<TrimMaterial>>> trims = new ArrayList<>(TRIM_MATERIAL_MODELS.size());
         for(TrimMaterialData trim : TRIM_MATERIAL_MODELS) {
-            ResourceLocation trimModelLocation = modelLocation.withSuffix("_" + trim.name() + "_trim");
-            ResourceLocation trimTextureLocation = ResourceLocation.withDefaultNamespace("trims/items/" + itemPath + suffix + "_wing_trim_" + trim.name());
+            ResourceLocation trimModelLocation = modelLocation.withSuffix("_" + trim.assets().base().suffix() + "_trim");
+            ResourceLocation trimTextureLocation = ResourceLocation.withDefaultNamespace("trims/items/" + itemPath + suffix + "_wing_trim_" + trim.assets().assetId(EquipmentAssets.ELYTRA).suffix());
             this.generateLayeredItem(trimModelLocation, itemTexture, trimTextureLocation);
             ItemModel.Unbaked trimModel = ItemModelUtils.tintedModel(trimModelLocation, new CustomizableElytraDyeItemTintSource(rightWing));
             trims.add(ItemModelUtils.when(trim.materialKey(), trimModel));
