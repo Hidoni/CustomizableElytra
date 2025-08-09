@@ -8,8 +8,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.eventbus.api.bus.BusGroup;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.Nullable;
@@ -17,16 +16,16 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Supplier;
 
 public class ForgeRegistryHelper implements IRegistryHelper {
-    private static IEventBus eventBus;
+    private static BusGroup busGroup;
 
-    public static void setEventBus(IEventBus eventBus) {
-        ForgeRegistryHelper.eventBus = eventBus;
+    public static void setBusGroup(BusGroup busGroup) {
+        ForgeRegistryHelper.busGroup = busGroup;
     }
 
     @Override
     public <T> RegistryProvider<T> getRegistry(ResourceKey<? extends Registry<T>> resourceKey) {
         DeferredRegister<T> deferredRegister = DeferredRegister.create(resourceKey, Constants.MOD_ID);
-        deferredRegister.register(eventBus);
+        deferredRegister.register(busGroup);
         return new RegistryProvider<>() {
             @Override
             public <I extends T> RegistryEntry<T, I> register(ResourceLocation location, Supplier<? extends I> entrySupplier) {

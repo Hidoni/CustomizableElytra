@@ -3,17 +3,16 @@ package com.hidoni.customizableelytra.platform;
 import com.hidoni.customizableelytra.platform.services.IEventHelper;
 import net.minecraft.client.color.item.ItemTintSources;
 import net.minecraft.client.renderer.item.properties.select.SelectItemModelProperties;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.eventbus.api.bus.BusGroup;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 import java.util.function.Consumer;
 
 public class ForgeEventHelper implements IEventHelper {
-    private static IEventBus eventBus;
+    private static BusGroup busGroup;
 
-    public static void setEventBus(IEventBus eventBus) {
-        ForgeEventHelper.eventBus = eventBus;
+    public static void setBusGroup(BusGroup busGroup) {
+        ForgeEventHelper.busGroup = busGroup;
     }
 
     @Override
@@ -23,7 +22,7 @@ public class ForgeEventHelper implements IEventHelper {
 
     @Override
     public void registerCauldronBehaviorEventHandler(Runnable handler) {
-        eventBus.addListener((Consumer<FMLCommonSetupEvent>) fmlCommonSetupEvent -> handler.run());
+        FMLCommonSetupEvent.getBus(busGroup).addListener(fmlCommonSetupEvent -> handler.run());
     }
 
     @Override
