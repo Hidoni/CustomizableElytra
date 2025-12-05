@@ -23,7 +23,7 @@ public class CustomizableElytra {
                 if (!stack.has(ModDataComponents.ELYTRA_CUSTOMIZATION.get())) {
                     return InteractionResult.TRY_WITH_EMPTY_HAND;
                 }
-                if (!world.isClientSide) {
+                if (!world.isClientSide()) {
                     stack.remove(ModDataComponents.ELYTRA_CUSTOMIZATION.get());
                     player.awardStat(Stats.CLEAN_ARMOR);
                     LayeredCauldronBlock.lowerFillLevel(state, world, pos);
@@ -37,7 +37,7 @@ public class CustomizableElytra {
                 if (Arrays.stream(elytraWingComponentTypes).noneMatch(stack::has)) {
                     return InteractionResult.TRY_WITH_EMPTY_HAND;
                 }
-                if (!world.isClientSide) {
+                if (!world.isClientSide()) {
                     Arrays.stream(elytraWingComponentTypes).forEach(stack::remove);
                     player.awardStat(Stats.CLEAN_ARMOR);
                     LayeredCauldronBlock.lowerFillLevel(state, world, pos);

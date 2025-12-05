@@ -13,7 +13,7 @@ public class CustomizableElytraNeoForge {
         NeoForgeEventHelper.setEventBus(eventBus);
         NeoForgeRegistryHelper.setEventBus(eventBus);
         CustomizableElytra.init();
-        if (FMLEnvironment.dist == Dist.CLIENT) {
+        if (FMLEnvironment.getDist().isClient()) {
             CustomizableElytraNeoForgeClient.init();
         }
     }

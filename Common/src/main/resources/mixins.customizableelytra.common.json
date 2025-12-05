@@ -10,8 +10,8 @@
     "SmithingTrimRecipeMixin"
   ],
   "client": [
+    "AtlasManagerMixin",
     "ElytraModelAccessor",
-    "ModelManagerMixin",
     "SmithingScreenMixin",
     "TextureAtlasAccessor",
     "WingsLayerMixin"
