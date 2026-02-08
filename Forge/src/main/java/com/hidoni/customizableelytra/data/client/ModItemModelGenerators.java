@@ -14,7 +14,7 @@ import net.minecraft.client.renderer.item.properties.select.TrimMaterialProperty
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.equipment.EquipmentAssets;
@@ -25,19 +25,19 @@ import java.util.List;
 import java.util.function.BiConsumer;
 
 public class ModItemModelGenerators extends ItemModelGenerators  {
-    public ModItemModelGenerators(ItemModelOutput itemModelOutput, BiConsumer<ResourceLocation, ModelInstance> modelOutput) {
+    public ModItemModelGenerators(ItemModelOutput itemModelOutput, BiConsumer<Identifier, ModelInstance> modelOutput) {
         super(itemModelOutput, modelOutput);
     }
 
     private void generateNonArmorTrimmableItem(Item item) {
-        ResourceLocation modelLocation = ModelLocationUtils.getModelLocation(item);
-        ResourceLocation itemTexture = TextureMapping.getItemTexture(item);
+        Identifier modelLocation = ModelLocationUtils.getModelLocation(item);
+        Identifier itemTexture = TextureMapping.getItemTexture(item);
         String itemPath = BuiltInRegistries.ITEM.getKey(item).getPath();
         List<SelectItemModel.SwitchCase<ResourceKey<TrimMaterial>>> trims = new ArrayList<>(TRIM_MATERIAL_MODELS.size());
 
         for(TrimMaterialData trim : TRIM_MATERIAL_MODELS) {
-            ResourceLocation trimModelLocation = modelLocation.withSuffix("_" + trim.assets().base().suffix() + "_trim");
-            ResourceLocation trimItemTexture = ResourceLocation.withDefaultNamespace("trims/items/" + itemPath + "_trim_" + trim.assets().assetId(EquipmentAssets.ELYTRA).suffix());
+            Identifier trimModelLocation = modelLocation.withSuffix("_" + trim.assets().base().suffix() + "_trim");
+            Identifier trimItemTexture = Identifier.withDefaultNamespace("trims/items/" + itemPath + "_trim_" + trim.assets().assetId(EquipmentAssets.ELYTRA).suffix());
             this.generateLayeredItem(trimModelLocation, itemTexture, trimItemTexture);
             ItemModel.Unbaked trimModel = ItemModelUtils.tintedModel(trimModelLocation, new Dye(0xFFFFFFFF));
             trims.add(ItemModelUtils.when(trim.materialKey(), trimModel));
@@ -48,34 +48,34 @@ public class ModItemModelGenerators extends ItemModelGenerators  {
         this.itemModelOutput.accept(item, ItemModelUtils.select(new TrimMaterialProperty(), defaultModel, trims));
     }
 
-    private static ResourceLocation getModelLocationWithPrefix(Item elytraItem, String prefix) {
-        ResourceLocation key = BuiltInRegistries.ITEM.getKey(elytraItem);
+    private static Identifier getModelLocationWithPrefix(Item elytraItem, String prefix) {
+        Identifier key = BuiltInRegistries.ITEM.getKey(elytraItem);
         return key.withPrefix("item/" + prefix);
     }
 
-    private static ResourceLocation getModelLocationWithPrefixAndSuffix(Item elytraItem, String prefix, String suffix) {
+    private static Identifier getModelLocationWithPrefixAndSuffix(Item elytraItem, String prefix, String suffix) {
         return getModelLocationWithPrefix(elytraItem, prefix).withSuffix(suffix);
     }
 
-    private static ResourceLocation getItemTextureWithPrefix(Item elytraItem, String prefix) {
-        ResourceLocation key = BuiltInRegistries.ITEM.getKey(elytraItem);
+    private static Identifier getItemTextureWithPrefix(Item elytraItem, String prefix) {
+        Identifier key = BuiltInRegistries.ITEM.getKey(elytraItem);
         return key.withPrefix("item/" + prefix);
     }
 
-    private static ResourceLocation getItemTextureWithPrefixAndSuffix(Item elytraItem, String prefix, String suffix) {
+    private static Identifier getItemTextureWithPrefixAndSuffix(Item elytraItem, String prefix, String suffix) {
         return getItemTextureWithPrefix(elytraItem, prefix).withSuffix(suffix);
     }
 
     private ItemModel.Unbaked generateElytraWingModel(Item elytraItem, boolean broken, boolean rightWing) {
         String prefix = broken ? "broken_" : "";
         String suffix = rightWing ? "_right" : "_left";
-        ResourceLocation modelLocation = getModelLocationWithPrefixAndSuffix(elytraItem, prefix, suffix);
-        ResourceLocation itemTexture = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, getItemTextureWithPrefixAndSuffix(elytraItem, prefix, suffix).getPath());
+        Identifier modelLocation = getModelLocationWithPrefixAndSuffix(elytraItem, prefix, suffix);
+        Identifier itemTexture = Identifier.fromNamespaceAndPath(Constants.MOD_ID, getItemTextureWithPrefixAndSuffix(elytraItem, prefix, suffix).getPath());
         String itemPath = BuiltInRegistries.ITEM.getKey(elytraItem).getPath();
         List<SelectItemModel.SwitchCase<ResourceKey<TrimMaterial>>> trims = new ArrayList<>(TRIM_MATERIAL_MODELS.size());
         for(TrimMaterialData trim : TRIM_MATERIAL_MODELS) {
-            ResourceLocation trimModelLocation = modelLocation.withSuffix("_" + trim.assets().base().suffix() + "_trim");
-            ResourceLocation trimTextureLocation = ResourceLocation.withDefaultNamespace("trims/items/" + itemPath + suffix + "_wing_trim_" + trim.assets().assetId(EquipmentAssets.ELYTRA).suffix());
+            Identifier trimModelLocation = modelLocation.withSuffix("_" + trim.assets().base().suffix() + "_trim");
+            Identifier trimTextureLocation = Identifier.withDefaultNamespace("trims/items/" + itemPath + suffix + "_wing_trim_" + trim.assets().assetId(EquipmentAssets.ELYTRA).suffix());
             this.generateLayeredItem(trimModelLocation, itemTexture, trimTextureLocation);
             ItemModel.Unbaked trimModel = ItemModelUtils.tintedModel(trimModelLocation, new CustomizableElytraDyeItemTintSource(rightWing));
             trims.add(ItemModelUtils.when(trim.materialKey(), trimModel));

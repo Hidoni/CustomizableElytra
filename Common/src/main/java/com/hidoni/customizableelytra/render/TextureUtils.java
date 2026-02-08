@@ -6,14 +6,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.SimpleTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class TextureUtils {
-    private static final Map<ResourceLocation, ResourceLocation> TEXTURE_CACHE = new HashMap<>();
+    private static final Map<Identifier, Identifier> TEXTURE_CACHE = new HashMap<>();
 
     private static void convertTextureToGrayscale(NativeImage nativeImage) {
         for (int x = 0; x < nativeImage.getWidth(); x++) {
@@ -33,8 +33,8 @@ public class TextureUtils {
         return returnTexture;
     }
 
-    private static NativeImage getNativeImageFromTexture(ResourceLocation locationIn) {
-        AbstractTexture texture = Minecraft.getInstance().getTextureManager().getTexture(locationIn);
+    private static NativeImage getNativeImageFromTexture(Identifier identifier) {
+        AbstractTexture texture = Minecraft.getInstance().getTextureManager().getTexture(identifier);
         if (texture instanceof DynamicTexture dynamicTexture) {
             NativeImage dynamicTextureData = dynamicTexture.getPixels();
             if (dynamicTextureData != null) {
@@ -50,19 +50,19 @@ public class TextureUtils {
         return null;
     }
 
-    private static ResourceLocation createGrayscaleTexture(ResourceLocation locationIn) {
-        Constants.LOG.debug("Creating grayscale texture for: " + locationIn);
-        NativeImage texture = getNativeImageFromTexture(locationIn);
+    private static Identifier createGrayscaleTexture(Identifier identifier) {
+        Constants.LOG.debug("Creating grayscale texture for: " + identifier);
+        NativeImage texture = getNativeImageFromTexture(identifier);
         if (texture == null) {
-            return locationIn;
+            return identifier;
         }
         convertTextureToGrayscale(texture);
-        ResourceLocation locationOut = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "grayscale_" + locationIn.getPath());
-        Minecraft.getInstance().getTextureManager().register(locationOut, new DynamicTexture(locationOut::toString, texture));
-        return locationOut;
+        Identifier grayscaleIdentifier = Identifier.fromNamespaceAndPath(Constants.MOD_ID, "grayscale_" + identifier.getPath());
+        Minecraft.getInstance().getTextureManager().register(grayscaleIdentifier, new DynamicTexture(grayscaleIdentifier::toString, texture));
+        return grayscaleIdentifier;
     }
 
-    public static ResourceLocation getGrayscale(ResourceLocation locationIn) {
-        return TEXTURE_CACHE.computeIfAbsent(locationIn, TextureUtils::createGrayscaleTexture);
+    public static Identifier getGrayscale(Identifier identifier) {
+        return TEXTURE_CACHE.computeIfAbsent(identifier, TextureUtils::createGrayscaleTexture);
     }
 }

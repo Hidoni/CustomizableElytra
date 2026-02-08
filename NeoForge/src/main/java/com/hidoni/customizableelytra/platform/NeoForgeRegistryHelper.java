@@ -7,7 +7,7 @@ import com.hidoni.customizableelytra.registry.RegistryProvider;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -28,11 +28,11 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
         deferredRegister.register(eventBus);
         return new RegistryProvider<>() {
             @Override
-            public <I extends T> RegistryEntry<T, I> register(ResourceLocation location, Supplier<? extends I> entrySupplier) {
-                DeferredHolder<T, ? extends I> registered = deferredRegister.register(location.getPath(), entrySupplier);
+            public <I extends T> RegistryEntry<T, I> register(Identifier identifier, Supplier<? extends I> entrySupplier) {
+                DeferredHolder<T, ? extends I> registered = deferredRegister.register(identifier.getPath(), entrySupplier);
                 return new RegistryEntry<>() {
                     @Override
-                    public ResourceLocation getResourceLocation() {
+                    public Identifier getIdentifier() {
                         return registered.getId();
                     }
 

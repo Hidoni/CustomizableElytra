@@ -21,7 +21,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add(TranslationKeys.HIDDEN_CAPE_TRANSLATION_KEY, "Cape Pattern Hidden");
         add(TranslationKeys.GLOWING_WING_TRANSLATION_KEY, "Glowing");
         for (DyeColor dye : DyeColor.values()) {
-            add("block.minecraft.banner." + BannerPatterns.BASE.location().getPath() + '.' + dye.getName(), I18n.get("item.minecraft.firework_star." + dye.getName()) + " Base");
+            add("block.minecraft.banner." + BannerPatterns.BASE.identifier().getPath() + '.' + dye.getName(), I18n.get("item.minecraft.firework_star." + dye.getName()) + " Base");
         }
         add(TranslationKeys.CREATIVE_TAB_TRANSLATION_KEY, "Customizable Elytra");
     }

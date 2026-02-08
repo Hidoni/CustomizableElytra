@@ -7,7 +7,7 @@ import com.hidoni.customizableelytra.registry.RegistryEntry;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraftforge.eventbus.api.bus.BusGroup;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
@@ -28,11 +28,11 @@ public class ForgeRegistryHelper implements IRegistryHelper {
         deferredRegister.register(busGroup);
         return new RegistryProvider<>() {
             @Override
-            public <I extends T> RegistryEntry<T, I> register(ResourceLocation location, Supplier<? extends I> entrySupplier) {
-                RegistryObject<I> registered = deferredRegister.register(location.getPath(), entrySupplier);
+            public <I extends T> RegistryEntry<T, I> register(Identifier identifier, Supplier<? extends I> entrySupplier) {
+                RegistryObject<I> registered = deferredRegister.register(identifier.getPath(), entrySupplier);
                 return new RegistryEntry<>() {
                     @Override
-                    public ResourceLocation getResourceLocation() {
+                    public Identifier getIdentifier() {
                         return registered.getId();
                     }
 
@@ -43,7 +43,7 @@ public class ForgeRegistryHelper implements IRegistryHelper {
 
                     @Override
                     public Holder<T> getHolder() {
-                        return (Holder<T>) registered.getHolder().orElseThrow(() -> new RuntimeException("No holder present for " + this.getResourceLocation()));
+                        return (Holder<T>) registered.getHolder().orElseThrow(() -> new RuntimeException("No holder present for " + this.getIdentifier()));
                     }
 
                     @Override

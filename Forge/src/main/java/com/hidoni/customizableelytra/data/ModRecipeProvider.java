@@ -19,11 +19,11 @@ public class ModRecipeProvider extends RecipeProvider {
 
     @Override
     protected void buildRecipes() {
-        SpecialRecipeBuilder.special(ElytraMiscellaneousCustomizationRecipe::new).save(output, ModRecipes.ELYTRA_MISCELLANEOUS_CUSTOMIZATION_RECIPE.getResourceLocation().getPath());
-        SpecialRecipeBuilder.special(SplitToWingsRecipe::new).save(output, ModRecipes.SPLIT_TO_WINGS_RECIPE.getResourceLocation().getPath());
-        SpecialRecipeBuilder.special(CombineWingsRecipe::new).save(output, ModRecipes.COMBINE_WINGS_RECIPE.getResourceLocation().getPath());
-        SpecialRecipeBuilder.special(ElytraBannerRecipe::new).save(output, ModRecipes.ELYTRA_BANNER_RECIPE.getResourceLocation().getPath());
-        SpecialRecipeBuilder.special(ElytraDyeRecipe::new).save(output, ModRecipes.ELYTRA_DYE_RECIPE.getResourceLocation().getPath());
+        SpecialRecipeBuilder.special(ElytraMiscellaneousCustomizationRecipe::new).save(output, ModRecipes.ELYTRA_MISCELLANEOUS_CUSTOMIZATION_RECIPE.getIdentifier().getPath());
+        SpecialRecipeBuilder.special(SplitToWingsRecipe::new).save(output, ModRecipes.SPLIT_TO_WINGS_RECIPE.getIdentifier().getPath());
+        SpecialRecipeBuilder.special(CombineWingsRecipe::new).save(output, ModRecipes.COMBINE_WINGS_RECIPE.getIdentifier().getPath());
+        SpecialRecipeBuilder.special(ElytraBannerRecipe::new).save(output, ModRecipes.ELYTRA_BANNER_RECIPE.getIdentifier().getPath());
+        SpecialRecipeBuilder.special(ElytraDyeRecipe::new).save(output, ModRecipes.ELYTRA_DYE_RECIPE.getIdentifier().getPath());
     }
 
     public static class Runner extends RecipeProvider.Runner {

@@ -3,7 +3,7 @@ package com.hidoni.customizableelytra.platform.services;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.client.color.item.ItemTintSource;
 import net.minecraft.client.renderer.item.properties.select.SelectItemModelProperty;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.function.Consumer;
 
@@ -15,10 +15,10 @@ public interface IEventHelper {
     void registerSelectItemModelPropertiesEventHandler(Consumer<SelectItemModelPropertiesRegistrar> handler);
 
     interface ItemTintSourceRegistrar {
-        void register(ResourceLocation resourceLocation, MapCodec<? extends ItemTintSource> itemTintSource);
+        void register(Identifier identifier, MapCodec<? extends ItemTintSource> itemTintSource);
     }
 
     interface SelectItemModelPropertiesRegistrar {
-        void register(ResourceLocation resourceLocation, SelectItemModelProperty.Type<?, ?> type);
+        void register(Identifier identifier, SelectItemModelProperty.Type<?, ?> type);
     }
 }

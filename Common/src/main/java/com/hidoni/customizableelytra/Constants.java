@@ -1,6 +1,6 @@
 package com.hidoni.customizableelytra;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,6 +10,6 @@ public class Constants {
 
     public static final Logger LOG = LoggerFactory.getLogger(MOD_NAME);
 
-    public static final ResourceLocation ELYTRA_BANNER_SHEET = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "textures/atlas/elytra_patterns.png");
-    public static final ResourceLocation ELYTRA_BANNER_ATLAS = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "elytra_patterns");
+    public static final Identifier ELYTRA_BANNER_SHEET = Identifier.fromNamespaceAndPath(Constants.MOD_ID, "textures/atlas/elytra_patterns.png");
+    public static final Identifier ELYTRA_BANNER_ATLAS = Identifier.fromNamespaceAndPath(Constants.MOD_ID, "elytra_patterns");
 }
