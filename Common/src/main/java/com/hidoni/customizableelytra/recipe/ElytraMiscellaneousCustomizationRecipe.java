@@ -5,8 +5,9 @@ import com.hidoni.customizableelytra.customization.CustomizationUtils;
 import com.hidoni.customizableelytra.item.components.ElytraCustomization;
 import com.hidoni.customizableelytra.item.CustomizableElytraItem;
 import com.hidoni.customizableelytra.registry.ModDataComponents;
-import com.hidoni.customizableelytra.registry.ModRecipes;
-import net.minecraft.core.HolderLookup;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
@@ -14,11 +15,11 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 public class ElytraMiscellaneousCustomizationRecipe extends CustomRecipe {
+    public static final ElytraMiscellaneousCustomizationRecipe INSTANCE = new ElytraMiscellaneousCustomizationRecipe();
+    public static final MapCodec<ElytraMiscellaneousCustomizationRecipe> MAP_CODEC = MapCodec.unit(INSTANCE);
+    public static final StreamCodec<RegistryFriendlyByteBuf, ElytraMiscellaneousCustomizationRecipe> STREAM_CODEC = StreamCodec.unit(INSTANCE);
+    public static final RecipeSerializer<ElytraMiscellaneousCustomizationRecipe> SERIALIZER = new RecipeSerializer<>(MAP_CODEC, STREAM_CODEC);
     private static final Ingredient CUSTOMIZATION_INGREDIENT = Ingredient.of(Items.GLOW_INK_SAC, Items.PAPER);
-
-    public ElytraMiscellaneousCustomizationRecipe(CraftingBookCategory category) {
-        super(category);
-    }
 
     @Override
     public boolean matches(@NotNull CraftingInput inv, @NotNull Level level) {
@@ -56,7 +57,7 @@ public class ElytraMiscellaneousCustomizationRecipe extends CustomRecipe {
     }
 
     @Override
-    public @NotNull ItemStack assemble(@NotNull CraftingInput inv, @NotNull HolderLookup.Provider provider) {
+    public @NotNull ItemStack assemble(@NotNull CraftingInput inv) {
         ItemStack customizableStack = ItemStack.EMPTY;
         ItemStack modifierStack = ItemStack.EMPTY;
         for (int i = 0; i < inv.size(); i++) {
@@ -118,6 +119,6 @@ public class ElytraMiscellaneousCustomizationRecipe extends CustomRecipe {
 
     @Override
     public @NotNull RecipeSerializer<? extends CustomRecipe> getSerializer() {
-        return ModRecipes.ELYTRA_MISCELLANEOUS_CUSTOMIZATION_RECIPE.get();
+        return SERIALIZER;
     }
 }

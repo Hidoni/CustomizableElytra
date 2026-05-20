@@ -4,11 +4,12 @@ import com.hidoni.customizableelytra.item.components.ElytraCustomization;
 import com.hidoni.customizableelytra.item.ElytraWingItem;
 import com.hidoni.customizableelytra.registry.ModDataComponents;
 import com.hidoni.customizableelytra.registry.ModRecipes;
-import net.minecraft.core.HolderLookup;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -17,9 +18,10 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 public class CombineWingsRecipe extends CustomRecipe {
-    public CombineWingsRecipe(CraftingBookCategory category) {
-        super(category);
-    }
+    public static final CombineWingsRecipe INSTANCE = new CombineWingsRecipe();
+    public static final MapCodec<CombineWingsRecipe> MAP_CODEC = MapCodec.unit(INSTANCE);
+    public static final StreamCodec<RegistryFriendlyByteBuf, CombineWingsRecipe> STREAM_CODEC = StreamCodec.unit(INSTANCE);
+    public static final RecipeSerializer<CombineWingsRecipe> SERIALIZER = new RecipeSerializer<>(MAP_CODEC, STREAM_CODEC);
 
     private static void copyWingAttributesToElytra(ItemStack leftWing, ItemStack rightWing, ItemStack elytra) {
         elytra.setDamageValue((leftWing.getDamageValue() + rightWing.getDamageValue()) / 2);
@@ -64,7 +66,7 @@ public class CombineWingsRecipe extends CustomRecipe {
     }
 
     @Override
-    public @NotNull ItemStack assemble(@NotNull CraftingInput inv, HolderLookup.@NotNull Provider provider) {
+    public @NotNull ItemStack assemble(@NotNull CraftingInput inv) {
         ItemStack leftWing = ItemStack.EMPTY;
         ItemStack rightWing = ItemStack.EMPTY;
         for (int i = 0; i < inv.size(); i++) {

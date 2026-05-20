@@ -1,97 +1,64 @@
 plugins {
     id 'multiloader-loader'
-    id "com.matthewprenger.cursegradle" version "1.4.+"
+    id "de.maxhenkel.cursegradle" version "1.5.+"
     id "com.modrinth.minotaur" version "2.+"
-    id 'net.minecraftforge.gradle' version '[6.0.40,6.2)'
-    id 'org.spongepowered.mixin' version '0.7-SNAPSHOT'
+    id 'net.minecraftforge.gradle' version '[7.0.17,8)'
+    id 'net.minecraftforge.jarjar' version '0.2.3'
+}
+
+repositories {
+    minecraft.mavenizer(it)
+    maven fg.forgeMaven
+    maven fg.minecraftLibsMaven
 }
 
 minecraft {
-    mappings channel: 'official', version: minecraft_version
-
-    copyIdeResources = true
-
-    reobf false
-
-    def at = file('src/main/resources/META-INF/accesstransformer.cfg')
-    if (at.exists()) {
-        accessTransformer = at
+    def ats = [file('src/main/resources/META-INF/accesstransformer.cfg'), project(":Common").file("src/main/resources/META-INF/common_accesstransformer.cfg")].findAll {it.exists()}
+    if (!ats.isEmpty()) {
+        accessTransformers = files(ats.toArray(new File[0]))
     }
 
     runs {
-        client {
-            workingDirectory file('runs/client')
-            ideaModule "${rootProject.name}.${project.name}.main"
-            taskName 'Client'
-            arg "-mixin.config=mixins.${mod_id}.common.json"
-            arg "-mixin.config=mixins.${mod_id}.forge.json"
-            mods {
-                modClientRun {
-                    source sourceSets.main
-                    source project(":Common").sourceSets.main
-                }
-            }
+        configureEach {
+            args "-mixin.config=mixins.${mod_id}.common.json"
+            args "-mixin.config=mixins.${mod_id}.forge.json"
         }
 
-        server {
-            workingDirectory file('runs/server')
-            ideaModule "${rootProject.name}.${project.name}.main"
-            taskName 'Server'
-            arg "-mixin.config=mixins.${mod_id}.common.json"
-            arg "-mixin.config=mixins.${mod_id}.forge.json"
-            mods {
-                modServerRun {
-                    source sourceSets.main
-                    source project(":Common").sourceSets.main
-                }
-            }
+        register('client') {
+            workingDir = layout.projectDirectory.dir('runs/client')
         }
 
-        data {
-            workingDirectory file('runs/data')
-            ideaModule "${rootProject.name}.${project.name}.main"
+        register('server') {
+            workingDir = layout.projectDirectory.dir('runs/server')
+        }
+
+        register('clientData') {
+            workingDir = layout.projectDirectory.dir('runs/data')
             args '--mod', mod_id, '--client', '--output', file('../Common/src/generated/resources/'), '--existing', file('src/main/resources/'), '--existing', file('/../Common/src/main/resources')
-            taskName 'Data'
-            mods {
-                modDataRun {
-                    source sourceSets.main
-                }
-            }
         }
     }
 }
 
-dependencies {
-    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-
-    annotationProcessor 'net.minecraftforge:eventbus-validator:7.0-beta.7'
-
-    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:${mixinextras_version}"))
-    implementation(jarJar("io.github.llamalad7:mixinextras-forge:${mixinextras_version}")) {
-        jarJar.ranged(it, "[${mixinextras_version},)")
-    }
-}
-
-mixin {
-    config 'mixins.customizableelytra.common.json'
-    config 'mixins.customizableelytra.forge.json'
-}
-jar {
+jarJar.register()
+tasks.named('jar') {
+    archiveClassifier = 'slim'
     manifest {
         attributes([
                 "MixinConfigs": "mixins.customizableelytra.common.json,mixins.customizableelytra.forge.json"
         ])
     }
-    finalizedBy(tasks.jarJar)
+}
+tasks.named('jarJar') {
+    archiveClassifier = null
 }
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            fg.component(it)
-        }
-    }
+dependencies {
+    implementation minecraft.dependency("net.minecraftforge:forge:${minecraft_version}-${forge_version}")
+
+    annotationProcessor 'net.minecraftforge:eventbus-validator:7.0-beta.7'
+
+    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:${mixinextras_version}"))
+    jarJar("io.github.llamalad7:mixinextras-forge:${mixinextras_version}")
 }
 
 sourceSets.each {
@@ -116,7 +83,7 @@ curseforge {
             addGameVersion "${it}"
         }
         addGameVersion "Forge"
-        addGameVersion "Java 21"
+        addGameVersion "Java ${java_version}"
 
         mainArtifact(tasks.jarJar) {
             displayName = "[Forge] $project.mod_name $project.mod_version+$project.minecraft_version"

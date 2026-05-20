@@ -6,16 +6,13 @@ import com.hidoni.customizableelytra.item.ElytraWingItem;
 import com.hidoni.customizableelytra.registry.ModDataComponents;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.ItemCombinerScreen;
 import net.minecraft.client.gui.screens.inventory.SmithingScreen;
 import net.minecraft.client.renderer.entity.state.ArmorStandRenderState;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.entity.ElytraAnimationState;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.SmithingMenu;
 import net.minecraft.world.item.ItemStack;
@@ -61,8 +58,8 @@ public abstract class SmithingScreenMixin extends ItemCombinerScreen<SmithingMen
         }
     }
 
-    @WrapOperation(method = "renderBg", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;submitEntityRenderState(Lnet/minecraft/client/renderer/entity/state/EntityRenderState;FLorg/joml/Vector3f;Lorg/joml/Quaternionf;Lorg/joml/Quaternionf;IIII)V"))
-    private void overrideRenderAngleForElytra(GuiGraphics instance, EntityRenderState entityRenderState, float scale, Vector3f translation, Quaternionf angle, Quaternionf overrideCameraAngle, int x0, int y0, int x1, int y1, Operation<Void> original) {
+    @WrapOperation(method = "extractBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;entity(Lnet/minecraft/client/renderer/entity/state/EntityRenderState;FLorg/joml/Vector3f;Lorg/joml/Quaternionf;Lorg/joml/Quaternionf;IIII)V"))
+    private void overrideRenderAngleForElytra(GuiGraphicsExtractor instance, EntityRenderState entityRenderState, float scale, Vector3f translation, Quaternionf angle, Quaternionf overrideCameraAngle, int x0, int y0, int x1, int y1, Operation<Void> original) {
         if (ElytraUtils.isElytra(armorStandPreview.chestEquipment)) {
             angle = new Quaternionf(angle).rotateY(ELYTRA_ROTATION_ANGLE);
             this.armorStandPreview.elytraRotX = ELYTRA_STATIC_ROT;

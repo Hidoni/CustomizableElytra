@@ -6,11 +6,12 @@ import com.hidoni.customizableelytra.item.components.ElytraCustomization;
 import com.hidoni.customizableelytra.item.CustomizableElytraItem;
 import com.hidoni.customizableelytra.registry.ModDataComponents;
 import com.hidoni.customizableelytra.registry.ModRecipes;
-import net.minecraft.core.HolderLookup;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -19,9 +20,10 @@ import net.minecraft.world.level.block.entity.BannerPatternLayers;
 import org.jetbrains.annotations.NotNull;
 
 public class ElytraBannerRecipe extends CustomRecipe {
-    public ElytraBannerRecipe(CraftingBookCategory category) {
-        super(category);
-    }
+    public static final ElytraBannerRecipe INSTANCE = new ElytraBannerRecipe();
+    public static final MapCodec<ElytraBannerRecipe> MAP_CODEC = MapCodec.unit(INSTANCE);
+    public static final StreamCodec<RegistryFriendlyByteBuf, ElytraBannerRecipe> STREAM_CODEC = StreamCodec.unit(INSTANCE);
+    public static final RecipeSerializer<ElytraBannerRecipe> SERIALIZER = new RecipeSerializer<>(MAP_CODEC, STREAM_CODEC);
 
     @Override
     public boolean matches(@NotNull CraftingInput inv, @NotNull Level level) {
@@ -63,7 +65,7 @@ public class ElytraBannerRecipe extends CustomRecipe {
     }
 
     @Override
-    public @NotNull ItemStack assemble(@NotNull CraftingInput inv, @NotNull HolderLookup.Provider provider) {
+    public @NotNull ItemStack assemble(@NotNull CraftingInput inv) {
         ItemStack customizableStack = ItemStack.EMPTY;
         ItemStack bannerStack = ItemStack.EMPTY;
         for (int i = 0; i < inv.size(); i++) {

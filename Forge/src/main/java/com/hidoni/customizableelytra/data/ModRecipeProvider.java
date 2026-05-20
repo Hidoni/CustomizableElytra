@@ -2,6 +2,7 @@ package com.hidoni.customizableelytra.data;
 
 import com.hidoni.customizableelytra.Constants;
 import com.hidoni.customizableelytra.recipe.*;
+import com.hidoni.customizableelytra.registry.ModItems;
 import com.hidoni.customizableelytra.registry.ModRecipes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
@@ -19,6 +20,7 @@ public class ModRecipeProvider extends RecipeProvider {
 
     @Override
     protected void buildRecipes() {
+        dyedItem(ModItems.ELYTRA_WING.get(), "dyed_armor");
         SpecialRecipeBuilder.special(ElytraMiscellaneousCustomizationRecipe::new).save(output, ModRecipes.ELYTRA_MISCELLANEOUS_CUSTOMIZATION_RECIPE.getIdentifier().getPath());
         SpecialRecipeBuilder.special(SplitToWingsRecipe::new).save(output, ModRecipes.SPLIT_TO_WINGS_RECIPE.getIdentifier().getPath());
         SpecialRecipeBuilder.special(CombineWingsRecipe::new).save(output, ModRecipes.COMBINE_WINGS_RECIPE.getIdentifier().getPath());

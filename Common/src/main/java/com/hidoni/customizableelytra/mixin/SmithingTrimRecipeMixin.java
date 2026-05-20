@@ -5,7 +5,6 @@ import com.hidoni.customizableelytra.customization.CustomizationUtils;
 import com.hidoni.customizableelytra.item.components.ElytraCustomization;
 import com.hidoni.customizableelytra.registry.ModDataComponents;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.SmithingRecipeInput;
@@ -19,27 +18,26 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Objects;
-import java.util.Optional;
 
 @Mixin(SmithingTrimRecipe.class)
 public class SmithingTrimRecipeMixin {
     @Shadow @Final
     Holder<TrimPattern> pattern;
 
-    @Inject(method = "assemble(Lnet/minecraft/world/item/crafting/SmithingRecipeInput;Lnet/minecraft/core/HolderLookup$Provider;)Lnet/minecraft/world/item/ItemStack;", at = @At("RETURN"), cancellable = true)
-    private void replaceTrimComponentOnElytra(SmithingRecipeInput inv, HolderLookup.Provider lookupProvider, CallbackInfoReturnable<ItemStack> cir) {
+    @Inject(method = "assemble(Lnet/minecraft/world/item/crafting/SmithingRecipeInput;)Lnet/minecraft/world/item/ItemStack;", at = @At("RETURN"), cancellable = true)
+    private void replaceTrimComponentOnElytra(SmithingRecipeInput inv, CallbackInfoReturnable<ItemStack> cir) {
         ItemStack returnStack = cir.getReturnValue();
         if (returnStack.isEmpty() || !ElytraUtils.isElytra(returnStack) || !returnStack.has(DataComponents.TRIM)) {
             return;
         }
-        Optional<Holder<TrimMaterial>> trimMaterial = TrimMaterials.getFromIngredient(lookupProvider, inv.addition());
-        if (trimMaterial.isEmpty()) {
+        Holder<TrimMaterial> trimMaterial = inv.addition().get(DataComponents.PROVIDES_TRIM_MATERIAL);
+        if (trimMaterial == null) {
             return;
         }
         ArmorTrim trim = returnStack.remove(DataComponents.TRIM);
         ElytraCustomization elytraCustomization = CustomizationUtils.getElytraCustomization(returnStack);
         if (elytraCustomization.leftWing().has(DataComponents.TRIM) && elytraCustomization.rightWing().has(DataComponents.TRIM)) {
-            ArmorTrim newTrim = new ArmorTrim(trimMaterial.get(), pattern);
+            ArmorTrim newTrim = new ArmorTrim(trimMaterial, pattern);
             if (Objects.requireNonNull(elytraCustomization.leftWing().get(DataComponents.TRIM)).equals(newTrim) && Objects.requireNonNull(elytraCustomization.rightWing().get(DataComponents.TRIM)).equals(newTrim)) {
                 cir.setReturnValue(ItemStack.EMPTY);
                 return;

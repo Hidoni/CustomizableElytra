@@ -25,7 +25,7 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 public record ElytraCustomization(ItemStack leftWing, ItemStack rightWing) implements TooltipProvider {
-    public static final Codec<ElytraCustomization> CODEC = RecordCodecBuilder.create(instance -> instance.group(ItemStack.SINGLE_ITEM_CODEC.fieldOf("leftWing").forGetter(ElytraCustomization::leftWing), ItemStack.SINGLE_ITEM_CODEC.fieldOf("rightWing").forGetter(ElytraCustomization::rightWing)).apply(instance, ElytraCustomization::new));
+    public static final Codec<ElytraCustomization> CODEC = RecordCodecBuilder.create(instance -> instance.group(ItemStack.CODEC.fieldOf("leftWing").forGetter(ElytraCustomization::leftWing), ItemStack.CODEC.fieldOf("rightWing").forGetter(ElytraCustomization::rightWing)).apply(instance, ElytraCustomization::new));
     public static final StreamCodec<RegistryFriendlyByteBuf, ElytraCustomization> STREAM_CODEC = StreamCodec.composite(ItemStack.OPTIONAL_STREAM_CODEC, ElytraCustomization::leftWing, ItemStack.OPTIONAL_STREAM_CODEC, ElytraCustomization::rightWing, ElytraCustomization::new);
 
     public boolean isCustomized() {

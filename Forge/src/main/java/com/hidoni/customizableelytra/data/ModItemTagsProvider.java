@@ -20,6 +20,5 @@ public class ModItemTagsProvider extends VanillaItemTagsProvider {
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
         tag(ItemTags.TRIMMABLE_ARMOR).add(Items.ELYTRA, ModItems.ELYTRA_WING.get());
-        tag(ItemTags.DYEABLE).add(ModItems.ELYTRA_WING.get());
     }
 }

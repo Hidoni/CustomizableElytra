@@ -11,8 +11,6 @@ pluginManagement {
             }
             filter {
                 includeGroupAndSubgroups('net.fabricmc')
-                includeGroup('net.fabricmc.unpick')
-                includeGroup('fabric-loom')
             }
         }
         exclusiveContent {
@@ -35,6 +33,17 @@ pluginManagement {
             }
             filter {
                 includeGroupAndSubgroups('net.minecraftforge')
+            }
+        }
+        exclusiveContent {
+            forRepository {
+                maven {
+                    name "henkelmax"
+                    url "https://maven.maxhenkel.de/releases"
+                }
+            }
+            filter {
+                includeGroupAndSubgroups("de.maxhenkel")
             }
         }
     }

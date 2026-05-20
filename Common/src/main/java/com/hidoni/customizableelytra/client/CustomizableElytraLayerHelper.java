@@ -20,7 +20,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.EquipmentClientInfo;
-import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.resources.model.sprite.SpriteId;
 import net.minecraft.data.AtlasIds;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
@@ -90,7 +90,7 @@ public class CustomizableElytraLayerHelper {
             BannerPatternLayers.Layer bannerAndColor = bannerPatterns.layers().get(i);
             Optional<ResourceKey<BannerPattern>> resourceKey = bannerAndColor.pattern().unwrapKey();
             if (resourceKey.isPresent()) {
-                Material bannerMaterial = new Material(Constants.ELYTRA_BANNER_SHEET, getTextureIdentifier(resourceKey.get()));
+                SpriteId bannerMaterial = new SpriteId(Constants.ELYTRA_BANNER_SHEET, getTextureIdentifier(resourceKey.get()));
                 Map<Identifier, TextureAtlasSprite> texturesByName = ((TextureAtlasAccessor) bannerPatternAtlas).getTexturesByName();
                 if (texturesByName.get(bannerMaterial.texture()) != null) // Don't render this banner pattern if it's missing, silently hide the pattern
                 {

@@ -4,11 +4,12 @@ import com.hidoni.customizableelytra.ElytraUtils;
 import com.hidoni.customizableelytra.customization.CustomizationUtils;
 import com.hidoni.customizableelytra.item.components.ElytraCustomization;
 import com.hidoni.customizableelytra.registry.ModRecipes;
-import net.minecraft.core.HolderLookup;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -17,9 +18,10 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 public class SplitToWingsRecipe extends CustomRecipe {
-    public SplitToWingsRecipe(CraftingBookCategory category) {
-        super(category);
-    }
+    public static final SplitToWingsRecipe INSTANCE = new SplitToWingsRecipe();
+    public static final MapCodec<SplitToWingsRecipe> MAP_CODEC = MapCodec.unit(INSTANCE);
+    public static final StreamCodec<RegistryFriendlyByteBuf, SplitToWingsRecipe> STREAM_CODEC = StreamCodec.unit(INSTANCE);
+    public static final RecipeSerializer<SplitToWingsRecipe> SERIALIZER = new RecipeSerializer<>(MAP_CODEC, STREAM_CODEC);
 
     private ItemStack getElytraItem(@NotNull CraftingInput inv) {
         ItemStack elytraItem = ItemStack.EMPTY;
@@ -50,7 +52,7 @@ public class SplitToWingsRecipe extends CustomRecipe {
     }
 
     @Override
-    public @NotNull ItemStack assemble(@NotNull CraftingInput inv, @NotNull HolderLookup.Provider provider) {
+    public @NotNull ItemStack assemble(@NotNull CraftingInput inv) {
         ItemStack elytraItem = getElytraItem(inv);
         if (elytraItem.isEmpty()) {
             return ItemStack.EMPTY;

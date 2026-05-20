@@ -6,11 +6,15 @@ import com.hidoni.customizableelytra.item.components.ElytraCustomization;
 import com.hidoni.customizableelytra.item.CustomizableElytraItem;
 import com.hidoni.customizableelytra.registry.ModDataComponents;
 import com.hidoni.customizableelytra.registry.ModRecipes;
-import net.minecraft.core.HolderLookup;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.DyedItemColor;
-import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -21,9 +25,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ElytraDyeRecipe extends CustomRecipe {
-    public ElytraDyeRecipe(CraftingBookCategory category) {
-        super(category);
-    }
+    public static final ElytraDyeRecipe INSTANCE = new ElytraDyeRecipe();
+    public static final MapCodec<ElytraDyeRecipe> MAP_CODEC = MapCodec.unit(INSTANCE);
+    public static final StreamCodec<RegistryFriendlyByteBuf, ElytraDyeRecipe> STREAM_CODEC = StreamCodec.unit(INSTANCE);
+    public static final RecipeSerializer<ElytraDyeRecipe> SERIALIZER = new RecipeSerializer<>(MAP_CODEC, STREAM_CODEC);
 
     @Override
     public boolean matches(@NotNull CraftingInput inv, @NotNull Level level) {
@@ -55,9 +60,9 @@ public class ElytraDyeRecipe extends CustomRecipe {
     }
 
     @Override
-    public @NotNull ItemStack assemble(@NotNull CraftingInput inv, @NotNull HolderLookup.Provider provider) {
+    public @NotNull ItemStack assemble(@NotNull CraftingInput inv) {
         ItemStack customizableStack = ItemStack.EMPTY;
-        List<DyeItem> dyes = new ArrayList<>();
+        List<DyeColor> dyes = new ArrayList<>();
         for (int i = 0; i < inv.size(); i++) {
             ItemStack stack = inv.getItem(i);
             if (stack.isEmpty()) {
@@ -68,8 +73,8 @@ public class ElytraDyeRecipe extends CustomRecipe {
                     return ItemStack.EMPTY;
                 }
                 customizableStack = stack.copy();
-            } else if (stack.getItem() instanceof DyeItem dyeItem) {
-                dyes.add(dyeItem);
+            } else if (stack.is(ItemTags.DYES)) {
+                dyes.add(stack.getOrDefault(DataComponents.DYE, DyeColor.WHITE));
             }
         }
         if (customizableStack.isEmpty() || dyes.isEmpty()) {
@@ -87,7 +92,7 @@ public class ElytraDyeRecipe extends CustomRecipe {
         return customizableStack;
     }
 
-    private static ItemStack modifyWing(ItemStack wingStack, List<DyeItem> modifiers) {
+    private static ItemStack modifyWing(ItemStack wingStack, List<DyeColor> modifiers) {
         return DyedItemColor.applyDyes(wingStack, modifiers);
     }
 

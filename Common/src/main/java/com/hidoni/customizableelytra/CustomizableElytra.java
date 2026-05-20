@@ -5,6 +5,7 @@ import com.hidoni.customizableelytra.registry.ModDataComponents;
 import com.hidoni.customizableelytra.registry.ModItems;
 import com.hidoni.customizableelytra.registry.ModRegistries;
 import net.minecraft.core.cauldron.CauldronInteraction;
+import net.minecraft.core.cauldron.CauldronInteractions;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.stats.Stats;
@@ -30,7 +31,7 @@ public class CustomizableElytra {
                 }
                 return InteractionResult.SUCCESS;
             };
-            CauldronInteraction.WATER.map().put(Items.ELYTRA, clearElytraCustomization);
+            CauldronInteractions.WATER.put(Items.ELYTRA, clearElytraCustomization);
 
             CauldronInteraction clearElytraWingCustomization = (state, world, pos, player, hand, stack) -> {
                 final DataComponentType<?>[] elytraWingComponentTypes = {DataComponents.DYED_COLOR, DataComponents.BASE_COLOR, DataComponents.BANNER_PATTERNS, DataComponents.TRIM, ModDataComponents.GLOWING.get(), ModDataComponents.CAPE_HIDDEN.get()};
@@ -44,7 +45,7 @@ public class CustomizableElytra {
                 }
                 return InteractionResult.SUCCESS;
             };
-            CauldronInteraction.WATER.map().put(ModItems.ELYTRA_WING.get(), clearElytraWingCustomization);
+            CauldronInteractions.WATER.put(ModItems.ELYTRA_WING.get(), clearElytraWingCustomization);
         });
     }
 }

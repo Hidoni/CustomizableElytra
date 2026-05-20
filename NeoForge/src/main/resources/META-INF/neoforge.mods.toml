@@ -52,3 +52,6 @@ config="mixins.customizableelytra.neoforge.json"
     versionRange="${minecraft_version_range}"
     ordering="NONE"
     side="BOTH"
+
+[[accessTransformers]]
+file="META-INF/common_accesstransformer.cfg"
