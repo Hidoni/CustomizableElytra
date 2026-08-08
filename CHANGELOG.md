@@ -1,2 +1,3 @@
-# 2.2.8+26.1 21/05/2026
-- Initial 26.1 Port
+# 2.2.9+26.2 - 08/08/2026
+- Initial 26.2 port
+  - Fixed banner base color tooltip not being shown

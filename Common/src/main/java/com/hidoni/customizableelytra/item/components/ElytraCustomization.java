@@ -12,15 +12,18 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.component.TooltipProvider;
+import net.minecraft.world.level.block.entity.BannerPatternLayers;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -79,22 +82,35 @@ public record ElytraCustomization(ItemStack leftWing, ItemStack rightWing) imple
 
     public record ElytraTooltipLines(List<Component> common, List<Component> leftWing,
                                      List<Component> rightWing) {
+        @FunctionalInterface
+        private interface ElytraTooltipProvider {
+            void accept(ItemStack stack,
+                        Item.TooltipContext context, TooltipDisplay display,
+                        Consumer<Component> consumer, TooltipFlag flag);
+        }
+
+        private static final Map<DataComponentType<? extends TooltipProvider>, ElytraTooltipProvider> CUSTOM_HANDLERS = Map.of(DataComponents.BANNER_PATTERNS, ElytraTooltipLines::addBannerPatternLinesToTooltip);
+
         public static <T extends TooltipProvider> ElytraTooltipLines fromDataComponent(ElytraCustomization customization, DataComponentType<T> component, Item.TooltipContext context, TooltipDisplay tooltipDisplay, TooltipFlag tooltipFlag) {
-            ItemStack leftWingItem = customization.leftWing();
-            ItemStack rightWingItem = customization.rightWing();
-            List<Component> leftWingLines = List.of(), rightWingLines = List.of();
-            if (leftWingItem.has(component)) {
-                leftWingLines = new ArrayList<>();
-                leftWingItem.addToTooltip(component, context, tooltipDisplay, leftWingLines::add, tooltipFlag);
-            }
-            if (rightWingItem.has(component)) {
-                rightWingLines = new ArrayList<>();
-                rightWingItem.addToTooltip(component, context, tooltipDisplay, rightWingLines::add, tooltipFlag);
-            }
+            List<Component> leftWingLines = getTooltipLinesForWing(customization.leftWing(), component, context, tooltipDisplay, tooltipFlag);
+            List<Component> rightWingLines = getTooltipLinesForWing(customization.rightWing(), component, context, tooltipDisplay, tooltipFlag);
             if (leftWingLines.equals(rightWingLines)) {
                 return new ElytraTooltipLines(leftWingLines, List.of(), List.of());
             }
             return new ElytraTooltipLines(List.of(), leftWingLines, rightWingLines);
+        }
+
+        private static <T extends TooltipProvider> List<Component> getTooltipLinesForWing(ItemStack wing, DataComponentType<T> component, Item.TooltipContext context, TooltipDisplay tooltipDisplay, TooltipFlag tooltipFlag) {
+            if (!wing.has(component)) {
+                return List.of();
+            }
+            ArrayList<Component> wingLines = new ArrayList<>();
+            if (CUSTOM_HANDLERS.containsKey(component)) {
+                CUSTOM_HANDLERS.get(component).accept(wing, context, tooltipDisplay, wingLines::add, tooltipFlag);
+            } else {
+                wing.addToTooltip(component, context, tooltipDisplay, wingLines::add, tooltipFlag);
+            }
+            return wingLines;
         }
 
         public static ElytraTooltipLines merge(ElytraTooltipLines... tooltipLinesToMerge) {
@@ -107,6 +123,20 @@ public record ElytraCustomization(ItemStack leftWing, ItemStack rightWing) imple
                 rightWing.addAll(tooltipLines.rightWing);
             }
             return new ElytraTooltipLines(common, leftWing, rightWing);
+        }
+
+        private static void addBannerPatternLinesToTooltip(ItemStack stack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> consumer, TooltipFlag flag) {
+            DyeColor baseColorComponent = stack.get(DataComponents.BASE_COLOR);
+            BannerPatternLayers bannerPatternLayersComponent = stack.get(DataComponents.BANNER_PATTERNS);
+            if (baseColorComponent == null || bannerPatternLayersComponent == null || !display.shows(DataComponents.BASE_COLOR) || !display.shows(DataComponents.BANNER_PATTERNS)) {
+                return;
+            }
+
+            consumer.accept(Component.translatable("block.minecraft.banner.base." + baseColorComponent.getName()).withStyle(ChatFormatting.GRAY));
+            List<BannerPatternLayers.Layer> layers = Objects.requireNonNull(bannerPatternLayersComponent).layers();
+            for (int i = 0; i < layers.size(); i++) {
+                consumer.accept(bannerPatternLayersComponent.layers().get(i).description().withStyle(ChatFormatting.GRAY));
+            }
         }
     }
 }

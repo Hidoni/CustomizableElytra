@@ -61,6 +61,8 @@ curseforge {
         }
         addGameVersion "Fabric"
         addGameVersion "Java ${java_version}"
+        addGameVersion "Client"
+        addGameVersion "Server"
 
         mainArtifact(jar) {
             displayName = "[Fabric] $project.mod_name $project.mod_version+$project.minecraft_version"

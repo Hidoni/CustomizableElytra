@@ -4,12 +4,14 @@ import com.hidoni.customizableelytra.registry.ModItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.VanillaItemTagsProvider;
+import net.minecraft.references.ItemIds;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 public class ModItemTagsProvider extends VanillaItemTagsProvider {
@@ -19,6 +21,6 @@ public class ModItemTagsProvider extends VanillaItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
-        tag(ItemTags.TRIMMABLE_ARMOR).add(Items.ELYTRA, ModItems.ELYTRA_WING.get());
+        tag(ItemTags.TRIMMABLE_ARMOR).add(ItemIds.ELYTRA, Objects.requireNonNull(ModItems.ELYTRA_WING.getResourceKey()));
     }
 }

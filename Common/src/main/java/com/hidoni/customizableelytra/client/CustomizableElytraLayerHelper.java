@@ -66,14 +66,14 @@ public class CustomizableElytraLayerHelper {
             key = renderBasicWing(wingModel, poseStack, nodeCollector, packedLight, playerTexture, hasFoil, outlineColor, key);
         }
         if (wingItem.hasArmorTrim(wingStack)) {
-            renderWingTrim(wingModel, wingStack, poseStack, nodeCollector, packedLight, wingItem, hasFoil, outlineColor, key);
+            renderWingTrim(wingModel, wingStack, poseStack, nodeCollector, packedLight, wingItem, outlineColor, key);
         }
     }
 
     private static int renderDyedWing(ModelPart wingModel, ItemStack wingStack, PoseStack poseStack, SubmitNodeCollector nodeCollector, int packedLight, CustomizableElytraItem wingItem, Identifier elytraTexture, boolean hasFoil, int outlineColor, int key) {
-        nodeCollector.order(key++).submitModelPart(wingModel, poseStack, RenderTypes.armorCutoutNoCull(elytraTexture), packedLight, OverlayTexture.NO_OVERLAY, null, false, hasFoil, wingItem.getColor(wingStack), null, outlineColor);
+        nodeCollector.order(key++).submitModelPart(wingModel, poseStack, RenderTypes.armorCutoutNoCull(elytraTexture), packedLight, OverlayTexture.NO_OVERLAY, null, wingItem.getColor(wingStack), null, outlineColor);
         if (hasFoil) {
-            nodeCollector.order(key++).submitModelPart(wingModel, poseStack, RenderTypes.armorEntityGlint(), packedLight, OverlayTexture.NO_OVERLAY, null, false, true, wingItem.getColor(wingStack), null, outlineColor);
+            nodeCollector.order(key++).submitModelPart(wingModel, poseStack, RenderTypes.armorEntityGlint(), packedLight, OverlayTexture.NO_OVERLAY, null, wingItem.getColor(wingStack), null, outlineColor);
         }
         return key;
     }
@@ -82,10 +82,10 @@ public class CustomizableElytraLayerHelper {
         BannerPatternLayers bannerPatterns = wingItem.getBannerPatterns(wingStack);
         // First render: Enchantment Glint
         if (hasFoil) {
-            nodeCollector.order(key++).submitModelPart(wingModel, poseStack, RenderTypes.armorEntityGlint(), packedLight, OverlayTexture.NO_OVERLAY, null, false, true, -1, null, outlineColor);
+            nodeCollector.order(key++).submitModelPart(wingModel, poseStack, RenderTypes.armorEntityGlint(), packedLight, OverlayTexture.NO_OVERLAY, null, -1, null, outlineColor);
         }
         // Second render: Base Layer
-        nodeCollector.order(key++).submitModelPart(wingModel, poseStack, RenderTypes.armorTranslucent(elytraTexture), packedLight, OverlayTexture.NO_OVERLAY, null, false, hasFoil, wingItem.getBaseColor(wingStack).getTextureDiffuseColor(), null, outlineColor);
+        nodeCollector.order(key++).submitModelPart(wingModel, poseStack, RenderTypes.armorCutoutNoCull(elytraTexture), packedLight, OverlayTexture.NO_OVERLAY, null, wingItem.getBaseColor(wingStack).getTextureDiffuseColor(), null, outlineColor);
         for (int i = 0; i < bannerPatterns.layers().size(); i++) {
             BannerPatternLayers.Layer bannerAndColor = bannerPatterns.layers().get(i);
             Optional<ResourceKey<BannerPattern>> resourceKey = bannerAndColor.pattern().unwrapKey();
@@ -95,7 +95,7 @@ public class CustomizableElytraLayerHelper {
                 if (texturesByName.get(bannerMaterial.texture()) != null) // Don't render this banner pattern if it's missing, silently hide the pattern
                 {
                     // Final renders: Pattern Layers
-                    nodeCollector.order(key++).submitModelPart(wingModel, poseStack, bannerMaterial.renderType(RenderTypes::armorTranslucent), packedLight, OverlayTexture.NO_OVERLAY, bannerPatternAtlas.getSprite(bannerMaterial.texture()), false, hasFoil, bannerAndColor.color().getTextureDiffuseColor(), null, outlineColor);
+                    nodeCollector.order(key++).submitModelPart(wingModel, poseStack, bannerMaterial.renderType(RenderTypes::armorCutoutNoCull), packedLight, OverlayTexture.NO_OVERLAY, bannerPatternAtlas.getSprite(bannerMaterial.texture()), bannerAndColor.color().getTextureDiffuseColor(), null, outlineColor);
                 }
             }
         }
@@ -104,9 +104,9 @@ public class CustomizableElytraLayerHelper {
 
     private static int renderBasicWing(ModelPart wingModel, PoseStack poseStack, SubmitNodeCollector nodeCollector, int packedLight, @Nullable Identifier playerTexture, boolean hasFoil, int outlineColor, int key) {
         Identifier elytraTexture = playerTexture == null ? VANILLA_WINGS_LOCATION : playerTexture;
-        nodeCollector.order(key++).submitModelPart(wingModel, poseStack, RenderTypes.armorCutoutNoCull(elytraTexture), packedLight, OverlayTexture.NO_OVERLAY, null, false, hasFoil, -1, null, outlineColor);
+        nodeCollector.order(key++).submitModelPart(wingModel, poseStack, RenderTypes.armorCutoutNoCull(elytraTexture), packedLight, OverlayTexture.NO_OVERLAY, null, -1, null, outlineColor);
         if (hasFoil) {
-            nodeCollector.order(key++).submitModelPart(wingModel, poseStack, RenderTypes.armorEntityGlint(), packedLight, OverlayTexture.NO_OVERLAY, null, false, true, -1, null, outlineColor);
+            nodeCollector.order(key++).submitModelPart(wingModel, poseStack, RenderTypes.armorEntityGlint(), packedLight, OverlayTexture.NO_OVERLAY, null, -1, null, outlineColor);
         }
         return key;
     }
@@ -116,12 +116,12 @@ public class CustomizableElytraLayerHelper {
         return Minecraft.getInstance().getAtlasManager().getAtlasOrThrow(identifier);
     }
 
-    private static <S extends HumanoidRenderState> void renderWingTrim(ModelPart wingModel, ItemStack wingStack, PoseStack poseStack, SubmitNodeCollector nodeCollector, int packedLight, CustomizableElytraItem wingItem, boolean hasFoil, int outlineColor, int key) {
+    private static <S extends HumanoidRenderState> void renderWingTrim(ModelPart wingModel, ItemStack wingStack, PoseStack poseStack, SubmitNodeCollector nodeCollector, int packedLight, CustomizableElytraItem wingItem, int outlineColor, int key) {
         Optional<ArmorTrim> armorTrim = wingItem.getArmorTrim(wingStack);
         armorTrim.ifPresent((trim) -> {
             TextureAtlasSprite sprite = elytraTrimLookup.apply(trim);
             RenderType renderType = Sheets.armorTrimsSheet(trim.pattern().value().decal());
-            nodeCollector.order(key).submitModelPart(wingModel, poseStack, renderType, packedLight, OverlayTexture.NO_OVERLAY, sprite, false, hasFoil, -1, null, outlineColor);
+            nodeCollector.order(key).submitModelPart(wingModel, poseStack, renderType, packedLight, OverlayTexture.NO_OVERLAY, sprite, -1, null, outlineColor);
         });
     }
 

@@ -18,7 +18,9 @@ import net.minecraft.world.inventory.SmithingMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.joml.Quaternionf;
+import org.joml.Quaternionfc;
 import org.joml.Vector3f;
+import org.joml.Vector3fc;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -58,14 +60,14 @@ public abstract class SmithingScreenMixin extends ItemCombinerScreen<SmithingMen
         }
     }
 
-    @WrapOperation(method = "extractBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;entity(Lnet/minecraft/client/renderer/entity/state/EntityRenderState;FLorg/joml/Vector3f;Lorg/joml/Quaternionf;Lorg/joml/Quaternionf;IIII)V"))
-    private void overrideRenderAngleForElytra(GuiGraphicsExtractor instance, EntityRenderState entityRenderState, float scale, Vector3f translation, Quaternionf angle, Quaternionf overrideCameraAngle, int x0, int y0, int x1, int y1, Operation<Void> original) {
+    @WrapOperation(method = "extractBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;entity(Lnet/minecraft/client/renderer/entity/state/EntityRenderState;FLorg/joml/Vector3fc;Lorg/joml/Quaternionfc;Lorg/joml/Quaternionfc;IIII)V"))
+    private void overrideRenderAngleForElytra(GuiGraphicsExtractor instance, EntityRenderState renderState, float scale, Vector3fc translation, Quaternionfc rotation, Quaternionfc overrideCameraAngle, int x0, int y0, int x1, int y1, Operation<Void> original) {
         if (ElytraUtils.isElytra(armorStandPreview.chestEquipment)) {
-            angle = new Quaternionf(angle).rotateY(ELYTRA_ROTATION_ANGLE);
+            rotation = new Quaternionf(rotation).rotateY(ELYTRA_ROTATION_ANGLE);
             this.armorStandPreview.elytraRotX = ELYTRA_STATIC_ROT;
             this.armorStandPreview.elytraRotZ = -ELYTRA_STATIC_ROT;
             this.armorStandPreview.elytraRotY = 0;
         }
-        original.call(instance, entityRenderState, scale, translation, angle, null, x0, y0, x1, y1);
+        original.call(instance, renderState, scale, translation, rotation, null, x0, y0, x1, y1);
     }
 }
